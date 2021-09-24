@@ -8,7 +8,7 @@ services:
     environment:
       TZ: "Asia/Tokyo"
     ports:
-      - "3306:3306"
+      - "3336:3306"
     volumes:
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       - ./mysql/conf.d:/etc/mysql/conf.d

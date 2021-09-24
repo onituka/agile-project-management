@@ -1,10 +1,8 @@
-DROP DATABASE IF EXISTS test_db;
-CREATE DATABASE test_db;
 USE test_db;
 
 CREATE TABLE projects
 (
-    id               INT         NOT NULL AUTO_INCREMENT,
+    id               CHAR(36)    NOT NULL,
     group_id         INT         NOT NULL,
     key_name         VARCHAR(10) NOT NULL,
     name             VARCHAR(80) NOT NULL,
