@@ -1,4 +1,4 @@
-package usecase
+package projectusecse
 
 import (
 	"errors"
@@ -7,8 +7,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/input"
-	"github.com/onituka/agile-project-management/project-management/usecase/output"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
 )
 
 type ProjectUsecase interface {

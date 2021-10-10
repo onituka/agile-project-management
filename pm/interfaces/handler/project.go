@@ -6,15 +6,15 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
-	"github.com/onituka/agile-project-management/project-management/usecase"
-	"github.com/onituka/agile-project-management/project-management/usecase/input"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 )
 
 type projectHandler struct {
-	projectUsecase usecase.ProjectUsecase
+	projectUsecase projectusecse.ProjectUsecase
 }
 
-func NewProjectHandler(projectUsecase usecase.ProjectUsecase) *projectHandler {
+func NewProjectHandler(projectUsecase projectusecse.ProjectUsecase) *projectHandler {
 	return &projectHandler{
 		projectUsecase: projectUsecase,
 	}

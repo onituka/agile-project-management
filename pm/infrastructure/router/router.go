@@ -16,7 +16,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
-	"github.com/onituka/agile-project-management/project-management/usecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
 )
 
 func Run() error {
@@ -29,7 +29,7 @@ func Run() error {
 	router := mux.NewRouter()
 
 	projectRepository := persistence.NewProjectRepository(mySQLHandler)
-	projectUsecase := usecase.NewProjectUsecase(projectRepository)
+	projectUsecase := projectusecse.NewProjectUsecase(projectRepository)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
 	router.HandleFunc("/project", projectHandler.CreateProject).Methods(http.MethodPost)
