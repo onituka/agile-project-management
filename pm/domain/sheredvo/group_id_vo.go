@@ -1,4 +1,4 @@
-package groupdm
+package sheredvo
 
 import (
 	"github.com/google/uuid"

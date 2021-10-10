@@ -3,22 +3,21 @@ package projectdm
 import (
 	"time"
 
-	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
-	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 )
 
 type Project struct {
-	id                ID
-	groupID           groupdm.GroupID
+	id                sheredvo.ID
+	groupID           sheredvo.GroupID
 	keyName           KeyName
 	name              Name
-	leaderID          userdm.UserID
-	defaultAssigneeID userdm.UserID
+	leaderID          sheredvo.UserID
+	defaultAssigneeID sheredvo.UserID
 	createdDate       time.Time
 	updatedDate       time.Time
 }
 
-func NewProjectWithoutDate(id ID, groupID groupdm.GroupID, keyName KeyName, name Name, leaderID userdm.UserID, defaultAssigneeID userdm.UserID) *Project {
+func NewProjectWithoutDate(id sheredvo.ID, groupID sheredvo.GroupID, keyName KeyName, name Name, leaderID sheredvo.UserID, defaultAssigneeID sheredvo.UserID) *Project {
 	return &Project{
 		id:                id,
 		groupID:           groupID,
@@ -29,7 +28,7 @@ func NewProjectWithoutDate(id ID, groupID groupdm.GroupID, keyName KeyName, name
 	}
 }
 
-func NewProject(id ID, groupID groupdm.GroupID, keyName KeyName, name Name, leaderID userdm.UserID, defaultAssigneeID userdm.UserID, createdDate time.Time, updatedDate time.Time) *Project {
+func NewProject(id sheredvo.ID, groupID sheredvo.GroupID, keyName KeyName, name Name, leaderID sheredvo.UserID, defaultAssigneeID sheredvo.UserID, createdDate time.Time, updatedDate time.Time) *Project {
 	return &Project{
 		id:                id,
 		groupID:           groupID,
@@ -42,11 +41,11 @@ func NewProject(id ID, groupID groupdm.GroupID, keyName KeyName, name Name, lead
 	}
 }
 
-func (p *Project) ID() ID {
+func (p *Project) ID() sheredvo.ID {
 	return p.id
 }
 
-func (p *Project) Group() groupdm.GroupID {
+func (p *Project) Group() sheredvo.GroupID {
 	return p.groupID
 }
 
@@ -58,11 +57,11 @@ func (p *Project) Name() Name {
 	return p.name
 }
 
-func (p *Project) LeaderID() userdm.UserID {
+func (p *Project) LeaderID() sheredvo.UserID {
 	return p.leaderID
 }
 
-func (p *Project) DefaultAssigneeID() userdm.UserID {
+func (p *Project) DefaultAssigneeID() sheredvo.UserID {
 	return p.defaultAssigneeID
 }
 

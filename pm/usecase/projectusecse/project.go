@@ -4,9 +4,8 @@ import (
 	"errors"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
 )
@@ -26,9 +25,9 @@ func NewProjectUsecase(projectRepository projectdm.Repository) *projectUsecase {
 }
 
 func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, error) {
-	idVo := projectdm.NewID()
+	idVo := sheredvo.NewID()
 
-	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
+	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -43,12 +42,12 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	leaderIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
+	leaderIDVo, err := sheredvo.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}
 
-	defaultAssigneeIDVo, err := userdm.NewUserID(in.LeaderID)
+	defaultAssigneeIDVo, err := sheredvo.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}

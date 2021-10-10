@@ -5,9 +5,8 @@ import (
 	"errors"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/datesource"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 )
@@ -49,7 +48,7 @@ func (r *ProjectRepository) CreateProject(project *projectdm.Project) error {
 	return nil
 }
 
-func (r *ProjectRepository) FetchProjectByID(id projectdm.ID) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -76,11 +75,11 @@ func (r *ProjectRepository) FetchProjectByID(id projectdm.ID) (*projectdm.Projec
 
 	projectDm := projectdm.NewProject(
 		id,
-		groupdm.GroupID(projectDto.GroupID),
+		sheredvo.GroupID(projectDto.GroupID),
 		projectdm.KeyName(projectDto.KeyName),
 		projectdm.Name(projectDto.Name),
-		userdm.UserID(projectDto.LeaderID),
-		userdm.UserID(projectDto.DefaultAssigneeID),
+		sheredvo.UserID(projectDto.LeaderID),
+		sheredvo.UserID(projectDto.DefaultAssigneeID),
 		projectDto.CreatedDate,
 		projectDto.UpdatedDate,
 	)
@@ -88,7 +87,7 @@ func (r *ProjectRepository) FetchProjectByID(id projectdm.ID) (*projectdm.Projec
 	return projectDm, nil
 }
 
-func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID groupdm.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -116,12 +115,12 @@ func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID groupdm.Grou
 	}
 
 	projectDm := projectdm.NewProject(
-		projectdm.ID(projectDto.ID),
+		sheredvo.ID(projectDto.ID),
 		groupID,
 		keyName,
 		projectdm.Name(projectDto.Name),
-		userdm.UserID(projectDto.LeaderID),
-		userdm.UserID(projectDto.DefaultAssigneeID),
+		sheredvo.UserID(projectDto.LeaderID),
+		sheredvo.UserID(projectDto.DefaultAssigneeID),
 		projectDto.CreatedDate,
 		projectDto.UpdatedDate,
 	)
@@ -129,7 +128,7 @@ func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID groupdm.Grou
 	return projectDm, nil
 }
 
-func (r *ProjectRepository) FetchProjectByGroupIDAndName(groupID groupdm.GroupID, name projectdm.Name) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -157,12 +156,12 @@ func (r *ProjectRepository) FetchProjectByGroupIDAndName(groupID groupdm.GroupID
 	}
 
 	projectDm := projectdm.NewProject(
-		projectdm.ID(projectDto.ID),
+		sheredvo.ID(projectDto.ID),
 		groupID,
 		projectdm.KeyName(projectDto.KeyName),
 		name,
-		userdm.UserID(projectDto.LeaderID),
-		userdm.UserID(projectDto.DefaultAssigneeID),
+		sheredvo.UserID(projectDto.LeaderID),
+		sheredvo.UserID(projectDto.DefaultAssigneeID),
 		projectDto.CreatedDate,
 		projectDto.UpdatedDate,
 	)

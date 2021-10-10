@@ -1,4 +1,4 @@
-package userdm
+package sheredvo
 
 import (
 	"github.com/google/uuid"
