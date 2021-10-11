@@ -11,15 +11,15 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 )
 
-type ProjectRepository struct {
+type ProjectProjectRepository struct {
 	*rdb.MySQLHandler
 }
 
-func NewProjectRepository(mysqlHandle *rdb.MySQLHandler) *ProjectRepository {
-	return &ProjectRepository{mysqlHandle}
+func NewProjectProjectRepository(mysqlHandle *rdb.MySQLHandler) *ProjectProjectRepository {
+	return &ProjectProjectRepository{mysqlHandle}
 }
 
-func (r *ProjectRepository) CreateProject(project *projectdm.Project) error {
+func (r *ProjectProjectRepository) CreateProject(project *projectdm.Project) error {
 	query := `
        INSERT INTO projects
        (
@@ -48,7 +48,7 @@ func (r *ProjectRepository) CreateProject(project *projectdm.Project) error {
 	return nil
 }
 
-func (r *ProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.Project, error) {
+func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -87,7 +87,7 @@ func (r *ProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.Project
 	return projectDm, nil
 }
 
-func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
+func (r *ProjectProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -128,7 +128,7 @@ func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.Gro
 	return projectDm, nil
 }
 
-func (r *ProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
+func (r *ProjectProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,

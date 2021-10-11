@@ -15,12 +15,12 @@ type ProjectUsecase interface {
 }
 
 type projectUsecase struct {
-	projectRepository projectdm.Repository
+	projectProjectRepository projectdm.ProjectRepository
 }
 
-func NewProjectUsecase(projectRepository projectdm.Repository) *projectUsecase {
+func NewProjectUsecase(projectProjectRepository projectdm.ProjectRepository) *projectUsecase {
 	return &projectUsecase{
-		projectRepository: projectRepository,
+		projectProjectRepository: projectProjectRepository,
 	}
 }
 
@@ -52,7 +52,7 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByGroupIDAndKeyName(groupIDVo, keyNameVo)
+	projectDm, err := u.projectProjectRepository.FetchProjectByGroupIDAndKeyName(groupIDVo, keyNameVo)
 	if projectDm != nil {
 		return nil, apperrors.Conflict
 	}
@@ -69,7 +69,7 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		defaultAssigneeIDVo,
 	)
 
-	projectDm, err = u.projectRepository.FetchProjectByGroupIDAndName(groupIDVo, nameVo)
+	projectDm, err = u.projectProjectRepository.FetchProjectByGroupIDAndName(groupIDVo, nameVo)
 	if projectDm != nil {
 		return nil, apperrors.Conflict
 	}
@@ -86,11 +86,11 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		defaultAssigneeIDVo,
 	)
 
-	if err = u.projectRepository.CreateProject(projectDm); err != nil {
+	if err = u.projectProjectRepository.CreateProject(projectDm); err != nil {
 		return nil, err
 	}
 
-	projectDm, err = u.projectRepository.FetchProjectByID(idVo)
+	projectDm, err = u.projectProjectRepository.FetchProjectByID(idVo)
 	if err != nil {
 		return nil, err
 	}

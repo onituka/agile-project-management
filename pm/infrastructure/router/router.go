@@ -28,8 +28,8 @@ func Run() error {
 
 	router := mux.NewRouter()
 
-	projectRepository := persistence.NewProjectRepository(mySQLHandler)
-	projectUsecase := projectusecse.NewProjectUsecase(projectRepository)
+	projectProjectRepository := persistence.NewProjectProjectRepository(mySQLHandler)
+	projectUsecase := projectusecse.NewProjectUsecase(projectProjectRepository)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
 	router.HandleFunc("/project", projectHandler.CreateProject).Methods(http.MethodPost)
