@@ -25,8 +25,6 @@ func NewProjectUsecase(projectProjectRepository projectdm.ProjectRepository) *pr
 }
 
 func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, error) {
-	idVo := sheredvo.NewID()
-
 	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -52,33 +50,23 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	projectDm, err := u.projectProjectRepository.FetchProjectByGroupIDAndKeyName(groupIDVo, keyNameVo)
-	if projectDm != nil {
+	validProjectDm, err := u.projectProjectRepository.FetchProjectByGroupIDAndKeyName(groupIDVo, keyNameVo)
+	if validProjectDm != nil {
 		return nil, apperrors.Conflict
 	}
 	if errors.Is(err, apperrors.InternalServerError) {
 		return nil, err
 	}
 
-	projectDm = projectdm.NewProjectWithoutDate(
-		idVo,
-		groupIDVo,
-		keyNameVo,
-		nameVo,
-		leaderIDVo,
-		defaultAssigneeIDVo,
-	)
-
-	projectDm, err = u.projectProjectRepository.FetchProjectByGroupIDAndName(groupIDVo, nameVo)
-	if projectDm != nil {
+	validProjectDm, err = u.projectProjectRepository.FetchProjectByGroupIDAndName(groupIDVo, nameVo)
+	if validProjectDm != nil {
 		return nil, apperrors.Conflict
 	}
 	if errors.Is(err, apperrors.InternalServerError) {
 		return nil, err
 	}
 
-	projectDm = projectdm.NewProjectWithoutDate(
-		idVo,
+	projectDm := projectdm.GenProjectForCreate(
 		groupIDVo,
 		keyNameVo,
 		nameVo,
@@ -90,7 +78,7 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, err
 	}
 
-	projectDm, err = u.projectProjectRepository.FetchProjectByID(idVo)
+	projectDm, err = u.projectProjectRepository.FetchProjectByID(projectDm.ID())
 	if err != nil {
 		return nil, err
 	}

@@ -48,7 +48,7 @@ func (r *ProjectProjectRepository) CreateProject(project *projectdm.Project) err
 	return nil
 }
 
-func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.Project, error) {
+func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -73,7 +73,7 @@ func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ID) (*projectdm.
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.NewProject(
+	projectDm := projectdm.GenProjectForFetch(
 		id,
 		sheredvo.GroupID(projectDto.GroupID),
 		projectdm.KeyName(projectDto.KeyName),
@@ -114,8 +114,8 @@ func (r *ProjectProjectRepository) FetchProjectByGroupIDAndKeyName(groupID shere
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.NewProject(
-		sheredvo.ID(projectDto.ID),
+	projectDm := projectdm.GenProjectForFetch(
+		sheredvo.ProjectID(projectDto.ID),
 		groupID,
 		keyName,
 		projectdm.Name(projectDto.Name),
@@ -155,8 +155,8 @@ func (r *ProjectProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.NewProject(
-		sheredvo.ID(projectDto.ID),
+	projectDm := projectdm.GenProjectForFetch(
+		sheredvo.ProjectID(projectDto.ID),
 		groupID,
 		projectdm.KeyName(projectDto.KeyName),
 		name,

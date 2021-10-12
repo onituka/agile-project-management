@@ -7,7 +7,7 @@ import (
 )
 
 type Project struct {
-	id                sheredvo.ID
+	id                sheredvo.ProjectID
 	groupID           sheredvo.GroupID
 	keyName           KeyName
 	name              Name
@@ -17,18 +17,16 @@ type Project struct {
 	updatedDate       time.Time
 }
 
-func NewProjectWithoutDate(id sheredvo.ID, groupID sheredvo.GroupID, keyName KeyName, name Name, leaderID sheredvo.UserID, defaultAssigneeID sheredvo.UserID) *Project {
-	return &Project{
-		id:                id,
-		groupID:           groupID,
-		keyName:           keyName,
-		name:              name,
-		leaderID:          leaderID,
-		defaultAssigneeID: defaultAssigneeID,
-	}
-}
-
-func NewProject(id sheredvo.ID, groupID sheredvo.GroupID, keyName KeyName, name Name, leaderID sheredvo.UserID, defaultAssigneeID sheredvo.UserID, createdDate time.Time, updatedDate time.Time) *Project {
+func newProject(
+	id sheredvo.ProjectID,
+	groupID sheredvo.GroupID,
+	keyName KeyName,
+	name Name,
+	leaderID sheredvo.UserID,
+	defaultAssigneeID sheredvo.UserID,
+	createdDate time.Time,
+	updatedDate time.Time,
+) *Project {
 	return &Project{
 		id:                id,
 		groupID:           groupID,
@@ -41,7 +39,7 @@ func NewProject(id sheredvo.ID, groupID sheredvo.GroupID, keyName KeyName, name 
 	}
 }
 
-func (p *Project) ID() sheredvo.ID {
+func (p *Project) ID() sheredvo.ProjectID {
 	return p.id
 }
 

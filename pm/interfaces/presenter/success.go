@@ -12,6 +12,3 @@ func JSON(w http.ResponseWriter, statusCode int, data interface{}) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
-
-
-

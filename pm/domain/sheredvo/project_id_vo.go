@@ -2,12 +2,12 @@ package sheredvo
 
 import "github.com/google/uuid"
 
-type ID string
+type ProjectID string
 
-func NewID() ID {
-	return ID(uuid.New().String())
+func NewProjectID() ProjectID {
+	return ProjectID(uuid.New().String())
 }
 
-func (i ID) Value() string {
+func (i ProjectID) Value() string {
 	return string(i)
 }
