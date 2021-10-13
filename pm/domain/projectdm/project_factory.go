@@ -25,7 +25,7 @@ func GenProjectForCreate(
 	)
 }
 
-func GenProjectForFetch(
+func GenProjectReconstruct(
 	id sheredvo.ProjectID,
 	groupID sheredvo.GroupID,
 	keyName KeyName,

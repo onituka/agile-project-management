@@ -11,15 +11,15 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 )
 
-type ProjectProjectRepository struct {
+type ProjectRepository struct {
 	*rdb.MySQLHandler
 }
 
-func NewProjectProjectRepository(mysqlHandle *rdb.MySQLHandler) *ProjectProjectRepository {
-	return &ProjectProjectRepository{mysqlHandle}
+func NewProjectRepository(mysqlHandle *rdb.MySQLHandler) *ProjectRepository {
+	return &ProjectRepository{mysqlHandle}
 }
 
-func (r *ProjectProjectRepository) CreateProject(project *projectdm.Project) error {
+func (r *ProjectRepository) CreateProject(project *projectdm.Project) error {
 	query := `
        INSERT INTO projects
        (
@@ -48,7 +48,7 @@ func (r *ProjectProjectRepository) CreateProject(project *projectdm.Project) err
 	return nil
 }
 
-func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -73,7 +73,7 @@ func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ProjectID) (*pro
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.GenProjectForFetch(
+	projectDm := projectdm.GenProjectReconstruct(
 		id,
 		sheredvo.GroupID(projectDto.GroupID),
 		projectdm.KeyName(projectDto.KeyName),
@@ -87,7 +87,7 @@ func (r *ProjectProjectRepository) FetchProjectByID(id sheredvo.ProjectID) (*pro
 	return projectDm, nil
 }
 
-func (r *ProjectProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -114,7 +114,7 @@ func (r *ProjectProjectRepository) FetchProjectByGroupIDAndKeyName(groupID shere
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.GenProjectForFetch(
+	projectDm := projectdm.GenProjectReconstruct(
 		sheredvo.ProjectID(projectDto.ID),
 		groupID,
 		keyName,
@@ -128,7 +128,7 @@ func (r *ProjectProjectRepository) FetchProjectByGroupIDAndKeyName(groupID shere
 	return projectDm, nil
 }
 
-func (r *ProjectProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
+func (r *ProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
 	query := `
          SELECT 
            id,
@@ -155,7 +155,7 @@ func (r *ProjectProjectRepository) FetchProjectByGroupIDAndName(groupID sheredvo
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.GenProjectForFetch(
+	projectDm := projectdm.GenProjectReconstruct(
 		sheredvo.ProjectID(projectDto.ID),
 		groupID,
 		projectdm.KeyName(projectDto.KeyName),
