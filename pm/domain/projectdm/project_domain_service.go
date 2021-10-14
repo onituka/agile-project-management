@@ -14,7 +14,7 @@ func NewProjectDomainService(projectRepository ProjectRepository) *projectDomain
 	}
 }
 
-func (s *projectDomainService) ExistsProjectKeyByUnique(groupID sheredvo.GroupID, keyName KeyName) (bool, error) {
+func (s *projectDomainService) ExistsUniqueProjectKeyName(groupID sheredvo.GroupID, keyName KeyName) (bool, error) {
 	projectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(groupID, keyName)
 	if projectDm != nil {
 		return true, nil
@@ -23,7 +23,7 @@ func (s *projectDomainService) ExistsProjectKeyByUnique(groupID sheredvo.GroupID
 	return false, err
 }
 
-func (s *projectDomainService) ExistsProjectNameByUnique(groupID sheredvo.GroupID, name Name) (bool, error) {
+func (s *projectDomainService) ExistsUniqueProjectName(groupID sheredvo.GroupID, name Name) (bool, error) {
 	projectDm, err := s.projectRepository.FetchProjectByGroupIDAndName(groupID, name)
 	if projectDm != nil {
 		return true, nil
