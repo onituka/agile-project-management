@@ -52,14 +52,14 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 
 	projectDomainService := projectdm.NewProjectDomainService(u.ProjectRepository)
 
-	exist, err := projectDomainService.ExistsProjectKeyByUnique(groupIDVo, keyNameVo)
+	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
 	if exist {
 		return nil, apperrors.Conflict
 	} else if !errors.Is(err, apperrors.NotFound) {
 		return nil, err
 	}
 
-	exist, err = projectDomainService.ExistsProjectNameByUnique(groupIDVo, nameVo)
+	exist, err = projectDomainService.ExistsUniqueProjectName(groupIDVo, nameVo)
 	if exist {
 		return nil, apperrors.Conflict
 	} else if !errors.Is(err, apperrors.NotFound) {
