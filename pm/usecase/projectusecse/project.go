@@ -50,19 +50,19 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	validProjectDm, err := u.ProjectRepository.FetchProjectByGroupIDAndKeyName(groupIDVo, keyNameVo)
-	if validProjectDm != nil {
+	projectDomainService := projectdm.NewProjectDomainService(u.ProjectRepository)
+
+	exist, err := projectDomainService.ExistsProjectKeyByUnique(groupIDVo, keyNameVo)
+	if exist {
 		return nil, apperrors.Conflict
-	}
-	if errors.Is(err, apperrors.InternalServerError) {
+	} else if !errors.Is(err, apperrors.NotFound) {
 		return nil, err
 	}
 
-	validProjectDm, err = u.ProjectRepository.FetchProjectByGroupIDAndName(groupIDVo, nameVo)
-	if validProjectDm != nil {
+	exist, err = projectDomainService.ExistsProjectNameByUnique(groupIDVo, nameVo)
+	if exist {
 		return nil, apperrors.Conflict
-	}
-	if errors.Is(err, apperrors.InternalServerError) {
+	} else if !errors.Is(err, apperrors.NotFound) {
 		return nil, err
 	}
 

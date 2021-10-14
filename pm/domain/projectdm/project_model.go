@@ -39,6 +39,28 @@ func newProject(
 	}
 }
 
+func Reconstruct(
+	id string,
+	groupID string,
+	keyName string,
+	name string,
+	leaderID string,
+	defaultAssigneeID string,
+	createdDate time.Time,
+	updatedDate time.Time,
+) *Project {
+	return newProject(
+		sheredvo.ProjectID(id),
+		sheredvo.GroupID(groupID),
+		KeyName(keyName),
+		Name(name),
+		sheredvo.UserID(leaderID),
+		sheredvo.UserID(defaultAssigneeID),
+		createdDate,
+		updatedDate,
+	)
+}
+
 func (p *Project) ID() sheredvo.ProjectID {
 	return p.id
 }
