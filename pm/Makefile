@@ -4,8 +4,8 @@ setup:
 
 .PHONY: build
 build:
-	go build -ldflags="-w -s" -o ./bin/main ./cmd/project-management/main.go
+	go build -ldflags="-w -s" -o ./bin/main ./cmd/pm/main.go
 
 .PHONY: run
 run:
-	GO_ENV="local" LOCAL_SERVER_PORT=8080 LOCAL_MYSQL_DSN="root:root@tcp(127.0.0.1:3336)/test_db?parseTime=true" go run cmd/project-management/main.go
+	GO_ENV="local" LOCAL_SERVER_PORT=8080 LOCAL_MYSQL_DSN="root:root@tcp(127.0.0.1:3336)/test_db?parseTime=true" go run cmd/pm/main.go
