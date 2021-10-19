@@ -1,6 +1,9 @@
 package projectdm
 
 import (
+	"errors"
+
+	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 )
 
@@ -30,4 +33,48 @@ func (s *projectDomainService) ExistsUniqueProjectName(groupID sheredvo.GroupID,
 	}
 
 	return false, err
+}
+
+func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (bool, error) {
+	oldProjectDm, err := s.projectRepository.FetchProjectByID(projectDm.ID())
+	if err != nil {
+		return false, apperrors.InternalServerError
+	}
+
+	if oldProjectDm.KeyName() == projectDm.KeyName() && oldProjectDm.Name() == projectDm.Name() {
+		return false, nil
+	}
+
+	pByKeyName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.Group(), projectDm.KeyName())
+	pByName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
+
+	if errByKeyName != nil && !errors.Is(errByKeyName, apperrors.NotFound) {
+		return false, errByKeyName
+	}
+
+	if errByName != nil && !errors.Is(errByName, apperrors.NotFound) {
+		return false, errByName
+	}
+
+	if errors.Is(errByKeyName, apperrors.NotFound) && errors.Is(errByName, apperrors.NotFound) {
+		return false, apperrors.NotFound
+	}
+
+	if pByKeyName != nil {
+		if projectDm.EqualKeyName(pByKeyName.KeyName()) && errors.Is(errByName, apperrors.NotFound) {
+			return false, apperrors.NotFound
+		}
+
+		return true, nil
+	}
+
+	if pByName != nil {
+		if projectDm.EqualName(pByName.Name()) && errors.Is(errByKeyName, apperrors.NotFound) {
+			return false, apperrors.NotFound
+		}
+
+		return true, nil
+	}
+
+	return false, apperrors.NotFound
 }

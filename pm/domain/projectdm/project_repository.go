@@ -9,4 +9,5 @@ type ProjectRepository interface {
 	FetchProjectByID(id sheredvo.ProjectID) (*Project, error)
 	FetchProjectByGroupIDAndKeyName(groupID sheredvo.GroupID, keyName KeyName) (*Project, error)
 	FetchProjectByGroupIDAndName(groupID sheredvo.GroupID, name Name) (*Project, error)
+	UpdateProject(project *Project) error
 }

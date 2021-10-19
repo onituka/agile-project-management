@@ -32,7 +32,8 @@ func Run() error {
 	projectUsecase := projectusecse.NewProjectUsecase(projectRepository)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
-	router.HandleFunc("/project", projectHandler.CreateProject).Methods(http.MethodPost)
+	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
+	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),

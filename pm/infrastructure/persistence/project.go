@@ -48,6 +48,32 @@ func (r *projectRepository) CreateProject(project *projectdm.Project) error {
 	return nil
 }
 
+func (r *projectRepository) UpdateProject(project *projectdm.Project) error {
+	query := `
+        UPDATE 
+          projects
+        SET 
+          key_name = ?,
+          name = ?,
+          leader_id = ?,
+          default_assignee_id = ?
+        WHERE
+          id = ?`
+
+	if _, err := r.Conn.Exec(
+		query,
+		project.KeyName().Value(),
+		project.Name().Value(),
+		project.LeaderID().Value(),
+		project.DefaultAssigneeID().Value(),
+		project.ID().Value(),
+	); err != nil {
+		return apperrors.InternalServerError
+	}
+
+	return nil
+}
+
 func (r *projectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.Project, error) {
 	query := `
          SELECT 

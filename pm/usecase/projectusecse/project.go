@@ -11,20 +11,21 @@ import (
 )
 
 type ProjectUsecase interface {
-	CreateProject(in *input.Project) (*output.Project, error)
+	CreateProject(in *input.CreateProject) (*output.CreateProject, error)
+	UpdateProject(in *input.UpdateProject) (*output.UpdateProject, error)
 }
 
 type projectUsecase struct {
-	ProjectRepository projectdm.ProjectRepository
+	projectRepository projectdm.ProjectRepository
 }
 
 func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository) *projectUsecase {
 	return &projectUsecase{
-		ProjectRepository: ProjectRepository,
+		projectRepository: ProjectRepository,
 	}
 }
 
-func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, error) {
+func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateProject, error) {
 	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -50,7 +51,7 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	projectDomainService := projectdm.NewProjectDomainService(u.ProjectRepository)
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
 	if exist {
@@ -74,16 +75,16 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		defaultAssigneeIDVo,
 	)
 
-	if err = u.ProjectRepository.CreateProject(projectDm); err != nil {
+	if err = u.projectRepository.CreateProject(projectDm); err != nil {
 		return nil, err
 	}
 
-	projectDm, err = u.ProjectRepository.FetchProjectByID(projectDm.ID())
+	projectDm, err = u.projectRepository.FetchProjectByID(projectDm.ID())
 	if err != nil {
 		return nil, err
 	}
 
-	return &output.Project{
+	return &output.CreateProject{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.Group().Value(),
 		KeyName:           projectDm.KeyName().Value(),
@@ -94,4 +95,78 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		UpdatedDate:       projectDm.UpdatedDate(),
 	}, nil
 
+}
+
+func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateProject, error) {
+	projectIDVo, err := sheredvo.NewProjectID(in.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = u.projectRepository.FetchProjectByID(projectIDVo); err != nil {
+		return nil, err
+	}
+
+	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
+	if err != nil {
+		return nil, err
+	}
+
+	keyNameVo, err := projectdm.NewKeyName(in.KeyName)
+	if err != nil {
+		return nil, err
+	}
+
+	nameVo, err := projectdm.NewName(in.Name)
+	if err != nil {
+		return nil, apperrors.InvalidParameter
+	}
+
+	leaderIDVo, err := sheredvo.NewUserID(in.DefaultAssigneeID)
+	if err != nil {
+		return nil, apperrors.InvalidParameter
+	}
+
+	defaultAssigneeIDVo, err := sheredvo.NewUserID(in.LeaderID)
+	if err != nil {
+		return nil, apperrors.InvalidParameter
+	}
+
+	projectDm := projectdm.GenProjectForUpdate(
+		projectIDVo,
+		groupIDVo,
+		keyNameVo,
+		nameVo,
+		leaderIDVo,
+		defaultAssigneeIDVo,
+	)
+
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	exist, err := projectDomainService.ExistUniqueProjectForUpdate(projectDm)
+	if exist {
+		return nil, apperrors.Conflict
+	} else if err != nil && !errors.Is(err, apperrors.NotFound) {
+		return nil, err
+	}
+
+	if err = u.projectRepository.UpdateProject(projectDm); err != nil {
+		return nil, err
+	}
+
+	projectDm, err = u.projectRepository.FetchProjectByID(projectDm.ID())
+	if err != nil {
+		return nil, err
+	}
+
+	return &output.UpdateProject{
+		ID:                projectDm.ID().Value(),
+		GroupID:           projectDm.Group().Value(),
+		KeyName:           projectDm.KeyName().Value(),
+		Name:              projectDm.Name().Value(),
+		LeaderID:          projectDm.LeaderID().Value(),
+		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		CreatedDate:       projectDm.CreatedDate(),
+		UpdatedDate:       projectDm.UpdatedDate(),
+	}, nil
 }
