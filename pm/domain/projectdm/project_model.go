@@ -61,14 +61,6 @@ func Reconstruct(
 	)
 }
 
-func (p *Project) EqualKeyName(keyName KeyName) bool {
-	return p.KeyName() == keyName
-}
-
-func (p *Project) EqualName(name Name) bool {
-	return p.Name() == name
-}
-
 func (p *Project) ID() sheredvo.ProjectID {
 	return p.id
 }

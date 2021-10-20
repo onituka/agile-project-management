@@ -15,3 +15,7 @@ func NewName(name string) (Name, error) {
 func (n Name) Value() string {
 	return string(n)
 }
+
+func (p *Project) EqualName(name Name) bool {
+	return p.Name() == name
+}
