@@ -45,8 +45,8 @@ func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (
 		return false, nil
 	}
 
-	pByKeyName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.Group(), projectDm.KeyName())
-	pByName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
+	projectDmByName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.Group(), projectDm.KeyName())
+	projectDmByKeyName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
 
 	if errByKeyName != nil && !errors.Is(errByKeyName, apperrors.NotFound) {
 		return false, errByKeyName
@@ -60,16 +60,16 @@ func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (
 		return false, apperrors.NotFound
 	}
 
-	if pByKeyName != nil {
-		if projectDm.EqualKeyName(pByKeyName.KeyName()) && errors.Is(errByName, apperrors.NotFound) {
+	if projectDmByName != nil {
+		if projectDm.EqualKeyName(projectDmByName.KeyName()) && errors.Is(errByName, apperrors.NotFound) {
 			return false, apperrors.NotFound
 		}
 
 		return true, nil
 	}
 
-	if pByName != nil {
-		if projectDm.EqualName(pByName.Name()) && errors.Is(errByKeyName, apperrors.NotFound) {
+	if projectDmByKeyName != nil {
+		if projectDm.EqualName(projectDmByKeyName.Name()) && errors.Is(errByKeyName, apperrors.NotFound) {
 			return false, apperrors.NotFound
 		}
 
