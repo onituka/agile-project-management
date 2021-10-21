@@ -46,12 +46,11 @@ func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (
 	}
 
 	projectDmByName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.Group(), projectDm.KeyName())
-	projectDmByKeyName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
-
 	if errByKeyName != nil && !errors.Is(errByKeyName, apperrors.NotFound) {
 		return false, errByKeyName
 	}
 
+	projectDmByKeyName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
 	if errByName != nil && !errors.Is(errByName, apperrors.NotFound) {
 		return false, errByName
 	}
