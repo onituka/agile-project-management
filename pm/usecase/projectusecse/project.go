@@ -54,17 +54,17 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
-	if exist {
-		return nil, apperrors.Conflict
-	} else if !errors.Is(err, apperrors.NotFound) {
+	if !errors.Is(err, apperrors.NotFound) {
 		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
 	}
 
 	exist, err = projectDomainService.ExistsUniqueProjectName(groupIDVo, nameVo)
-	if exist {
-		return nil, apperrors.Conflict
-	} else if !errors.Is(err, apperrors.NotFound) {
+	if !errors.Is(err, apperrors.NotFound) {
 		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
 	}
 
 	projectDm := projectdm.GenProjectForCreate(
@@ -144,10 +144,10 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistUniqueProjectForUpdate(projectDm)
-	if exist {
-		return nil, apperrors.Conflict
-	} else if err != nil && !errors.Is(err, apperrors.NotFound) {
+	if err != nil && !errors.Is(err, apperrors.NotFound) {
 		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
 	}
 
 	if err = u.projectRepository.UpdateProject(projectDm); err != nil {
