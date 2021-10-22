@@ -1,8 +1,6 @@
 package projectusecse
 
 import (
-	"errors"
-
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
@@ -54,14 +52,14 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
-	if !errors.Is(err, apperrors.NotFound) {
+	if !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {
 		return nil, apperrors.Conflict
 	}
 
 	exist, err = projectDomainService.ExistsUniqueProjectName(groupIDVo, nameVo)
-	if !errors.Is(err, apperrors.NotFound) {
+	if !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {
 		return nil, apperrors.Conflict
@@ -144,7 +142,7 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistUniqueProjectForUpdate(projectDm)
-	if err != nil && !errors.Is(err, apperrors.NotFound) {
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {
 		return nil, apperrors.Conflict

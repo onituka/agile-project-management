@@ -30,3 +30,7 @@ func AsAppError(err error) *appError {
 		httpStatus: http.StatusInternalServerError,
 	}
 }
+
+func Is(err, target error) bool {
+	return errors.Is(err, target)
+}

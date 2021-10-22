@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"database/sql"
-	"errors"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
@@ -92,7 +91,7 @@ func (r *projectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.
 
 	var projectDto datesource.Project
 	if err := r.Conn.QueryRowx(query, id.Value()).StructScan(&projectDto); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
+		if apperrors.Is(err, sql.ErrNoRows) {
 			return nil, apperrors.NotFound
 		}
 
@@ -133,7 +132,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.Gro
 
 	var projectDto datesource.Project
 	if err := r.Conn.QueryRowx(query, groupID.Value(), keyName.Value()).StructScan(&projectDto); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
+		if apperrors.Is(err, sql.ErrNoRows) {
 			return nil, apperrors.NotFound
 		}
 
@@ -174,7 +173,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupI
 
 	var projectDto datesource.Project
 	if err := r.Conn.QueryRowx(query, groupID.Value(), name.Value()).StructScan(&projectDto); err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
+		if apperrors.Is(err, sql.ErrNoRows) {
 			return nil, apperrors.NotFound
 		}
 
