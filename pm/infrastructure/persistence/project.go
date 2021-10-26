@@ -35,7 +35,7 @@ func (r *projectRepository) CreateProject(project *projectdm.Project) error {
 	if _, err := r.Conn.Exec(
 		query,
 		project.ID().Value(),
-		project.Group().Value(),
+		project.GroupID().Value(),
 		project.KeyName().Value(),
 		project.Name().Value(),
 		project.LeaderID().Value(),

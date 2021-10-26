@@ -9,8 +9,8 @@ type CreateProject struct {
 	Name              string    `json:"name"`
 	LeaderID          string    `json:"leaderID"`
 	DefaultAssigneeID string    `json:"defaultAssigneeID"`
-	CreatedDate       time.Time `json:"createdAt"`
-	UpdatedDate       time.Time `json:"updatedAt"`
+	CreatedAt         time.Time `json:"createdAt"`
+	UpdatedAt         time.Time `json:"updatedAt"`
 }
 
 type UpdateProject struct {
@@ -20,6 +20,6 @@ type UpdateProject struct {
 	Name              string    `json:"name"`
 	LeaderID          string    `json:"leaderID"`
 	DefaultAssigneeID string    `json:"defaultAssigneeID"`
-	CreatedDate       time.Time `json:"createdAt"`
-	UpdatedDate       time.Time `json:"updatedAt"`
+	CreatedAt         time.Time `json:"createdAt"`
+	UpdatedAt         time.Time `json:"updatedAt"`
 }

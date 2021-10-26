@@ -2,7 +2,6 @@ package projectdm
 
 import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 )
 
 type projectDomainService struct {
@@ -15,18 +14,16 @@ func NewProjectDomainService(projectRepository ProjectRepository) *projectDomain
 	}
 }
 
-func (s *projectDomainService) ExistsUniqueProjectKeyName(groupID sheredvo.GroupID, keyName KeyName) (bool, error) {
-	projectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(groupID, keyName)
-	if projectDm != nil {
+func (s *projectDomainService) ExistsUniqueProjectForCreate(projectDm *Project) (bool, error) {
+	existingProjectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.GroupID(), projectDm.KeyName())
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
+		return false, err
+	} else if existingProjectDm != nil {
 		return true, nil
 	}
 
-	return false, err
-}
-
-func (s *projectDomainService) ExistsUniqueProjectName(groupID sheredvo.GroupID, name Name) (bool, error) {
-	projectDm, err := s.projectRepository.FetchProjectByGroupIDAndName(groupID, name)
-	if projectDm != nil {
+	existingProjectDm, err = s.projectRepository.FetchProjectByGroupIDAndName(projectDm.GroupID(), projectDm.Name())
+	if existingProjectDm != nil {
 		return true, nil
 	}
 
@@ -43,12 +40,12 @@ func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (
 		return false, nil
 	}
 
-	projectDmByName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.Group(), projectDm.KeyName())
+	projectDmByName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.GroupID(), projectDm.KeyName())
 	if errByKeyName != nil && !apperrors.Is(errByKeyName, apperrors.NotFound) {
 		return false, errByKeyName
 	}
 
-	projectDmByKeyName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.groupID, projectDm.Name())
+	projectDmByKeyName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.GroupID(), projectDm.Name())
 	if errByName != nil && !apperrors.Is(errByName, apperrors.NotFound) {
 		return false, errByName
 	}

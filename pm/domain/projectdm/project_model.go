@@ -65,7 +65,7 @@ func (p *Project) ID() sheredvo.ProjectID {
 	return p.id
 }
 
-func (p *Project) Group() sheredvo.GroupID {
+func (p *Project) GroupID() sheredvo.GroupID {
 	return p.groupID
 }
 
@@ -85,10 +85,26 @@ func (p *Project) DefaultAssigneeID() sheredvo.UserID {
 	return p.defaultAssigneeID
 }
 
-func (p *Project) CreatedDate() time.Time {
+func (p *Project) CreatedAt() time.Time {
 	return p.createdDate
 }
 
-func (p *Project) UpdatedDate() time.Time {
+func (p *Project) UpdatedAt() time.Time {
 	return p.updatedDate
+}
+
+func (p *Project) ChangeKeyName(keyName KeyName) {
+	p.keyName = keyName
+}
+
+func (p *Project) ChangeName(name Name) {
+	p.name = name
+}
+
+func (p *Project) ChangeLeaderID(leaderID sheredvo.UserID) {
+	p.leaderID = leaderID
+}
+
+func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID sheredvo.UserID) {
+	p.defaultAssigneeID = defaultAssigneeID
 }

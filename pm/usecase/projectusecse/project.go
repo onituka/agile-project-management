@@ -49,22 +49,6 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 		return nil, apperrors.InvalidParameter
 	}
 
-	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
-
-	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
-	if !apperrors.Is(err, apperrors.NotFound) {
-		return nil, err
-	} else if exist {
-		return nil, apperrors.Conflict
-	}
-
-	exist, err = projectDomainService.ExistsUniqueProjectName(groupIDVo, nameVo)
-	if !apperrors.Is(err, apperrors.NotFound) {
-		return nil, err
-	} else if exist {
-		return nil, apperrors.Conflict
-	}
-
 	projectDm := projectdm.GenProjectForCreate(
 		groupIDVo,
 		keyNameVo,
@@ -72,6 +56,15 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 		leaderIDVo,
 		defaultAssigneeIDVo,
 	)
+
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	exist, err := projectDomainService.ExistsUniqueProjectForCreate(projectDm)
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
+		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
+	}
 
 	if err = u.projectRepository.CreateProject(projectDm); err != nil {
 		return nil, err
@@ -84,13 +77,13 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 
 	return &output.CreateProject{
 		ID:                projectDm.ID().Value(),
-		GroupID:           projectDm.Group().Value(),
+		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),
 		LeaderID:          projectDm.LeaderID().Value(),
 		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
-		CreatedDate:       projectDm.CreatedDate(),
-		UpdatedDate:       projectDm.UpdatedDate(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil
 
 }
@@ -101,11 +94,7 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 		return nil, err
 	}
 
-	if _, err = u.projectRepository.FetchProjectByID(projectIDVo); err != nil {
-		return nil, err
-	}
-
-	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
+	projectDm, err := u.projectRepository.FetchProjectByID(projectIDVo)
 	if err != nil {
 		return nil, err
 	}
@@ -115,29 +104,28 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 		return nil, err
 	}
 
+	projectDm.ChangeKeyName(keyNameVo)
+
 	nameVo, err := projectdm.NewName(in.Name)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
-	leaderIDVo, err := sheredvo.NewUserID(in.DefaultAssigneeID)
+	projectDm.ChangeName(nameVo)
+
+	leaderIDVo, err := sheredvo.NewUserID(in.LeaderID)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
-	defaultAssigneeIDVo, err := sheredvo.NewUserID(in.LeaderID)
+	projectDm.ChangeLeaderID(leaderIDVo)
+
+	defaultAssigneeID, err := sheredvo.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
-	projectDm := projectdm.GenProjectForUpdate(
-		projectIDVo,
-		groupIDVo,
-		keyNameVo,
-		nameVo,
-		leaderIDVo,
-		defaultAssigneeIDVo,
-	)
+	projectDm.ChangeDefaultAssigneeID(defaultAssigneeID)
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
@@ -159,12 +147,12 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 
 	return &output.UpdateProject{
 		ID:                projectDm.ID().Value(),
-		GroupID:           projectDm.Group().Value(),
+		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),
 		LeaderID:          projectDm.LeaderID().Value(),
 		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
-		CreatedDate:       projectDm.CreatedDate(),
-		UpdatedDate:       projectDm.UpdatedDate(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil
 }
