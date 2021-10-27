@@ -22,6 +22,6 @@ func (k KeyName) Value() string {
 	return string(k)
 }
 
-func (p *Project) EqualKeyName(keyName KeyName) bool {
-	return p.KeyName() == keyName
+func (k KeyName) Equals(keyName KeyName) bool {
+	return k == keyName
 }

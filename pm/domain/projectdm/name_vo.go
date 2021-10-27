@@ -16,6 +16,6 @@ func (n Name) Value() string {
 	return string(n)
 }
 
-func (p *Project) EqualName(name Name) bool {
-	return p.Name() == name
+func (n Name) Equals(name Name) bool {
+	return n == name
 }
