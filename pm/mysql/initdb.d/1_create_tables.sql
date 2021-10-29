@@ -11,7 +11,7 @@ CREATE TABLE products
     PRIMARY KEY (id)
 );
 
-CREATE TABLE product_pages
+CREATE TABLE product_notes
 (
     id         CHAR(36)    NOT NULL,
     title      VARCHAR(80) NOT NULL,
@@ -27,21 +27,21 @@ CREATE TABLE product_pages
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE product_page_comments
+CREATE TABLE product_note_comments
 (
     id              CHAR(36) NOT NULL,
     user_id         CHAR(36) NOT NULL,
     content         TEXT     NOT NULL,
-    product_page_id CHAR(36) NOT NULL,
+    product_note_id CHAR(36) NOT NULL,
     created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY fk_product_page_id (product_page_id)
-        REFERENCES product_pages (id)
+    FOREIGN KEY fk_product_note_id (product_note_id)
+        REFERENCES product_notes (id)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
-CREATE TABLE product_page_comment_paths
+CREATE TABLE product_note_comment_paths
 (
     comment_parent_id CHAR(36) NOT NULL,
     comment_child_id  CHAR(36) NOT NULL
