@@ -25,8 +25,8 @@ values
 INSERT INTO product_note_comment_paths
 (comment_parent_id, comment_child_id)
 values
-    ("cf77d797-597d-40d1-91ca-171cd4aff5b9", "d0278096-04f0-47ec-aeca-b15fe3886b46"),
-    ("cf77d797-597d-40d1-91ca-171cd4aff5b9", "d0278096-04f0-47ec-aeca-b15fe3886b46");
+    ("40d891c2-f1fd-4291-a333-4a5815246442", "40d891c2-f1fd-4291-a333-4a5815246442"),
+    ("40d811c2-f1fd-4291-a333-4a5815246442", "40d811c2-f1fd-4291-a333-4a5815246442");
 
 -- projects table test data
 INSERT INTO projects

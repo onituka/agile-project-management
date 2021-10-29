@@ -44,7 +44,13 @@ CREATE TABLE product_note_comments
 CREATE TABLE product_note_comment_paths
 (
     comment_parent_id CHAR(36) NOT NULL,
-    comment_child_id  CHAR(36) NOT NULL
+    comment_child_id  CHAR(36) NOT NULL,
+    FOREIGN KEY fk_comment_parent_id(comment_parent_id)
+        REFERENCES product_note_comments (id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY fk_comment_child_id(comment_child_id)
+        REFERENCES product_note_comments (id)
+        ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE projects
