@@ -105,8 +105,8 @@ func (r *projectRepository) FetchProjectByID(id sheredvo.ProjectID) (*projectdm.
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
-		projectDto.CreatedDate,
-		projectDto.UpdatedDate,
+		projectDto.CreatedAt,
+		projectDto.UpdatedAt,
 	)
 
 	return projectDm, nil
@@ -146,8 +146,8 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(groupID sheredvo.Gro
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
-		projectDto.CreatedDate,
-		projectDto.UpdatedDate,
+		projectDto.CreatedAt,
+		projectDto.UpdatedAt,
 	)
 
 	return projectDm, nil
@@ -187,8 +187,8 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(groupID sheredvo.GroupI
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
-		projectDto.CreatedDate,
-		projectDto.UpdatedDate,
+		projectDto.CreatedAt,
+		projectDto.UpdatedAt,
 	)
 
 	return projectDm, nil
