@@ -1,6 +1,8 @@
 package projectdm
 
 import (
+	"context"
+
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 )
 
@@ -14,15 +16,15 @@ func NewProjectDomainService(projectRepository ProjectRepository) *projectDomain
 	}
 }
 
-func (s *projectDomainService) ExistsUniqueProjectForCreate(projectDm *Project) (bool, error) {
-	existingProjectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.GroupID(), projectDm.KeyName())
+func (s *projectDomainService) ExistsUniqueProjectForCreate(ctx context.Context, projectDm *Project) (bool, error) {
+	existingProjectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(ctx, projectDm.GroupID(), projectDm.KeyName())
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return false, err
 	} else if existingProjectDm != nil {
 		return true, nil
 	}
 
-	existingProjectDm, err = s.projectRepository.FetchProjectByGroupIDAndName(projectDm.GroupID(), projectDm.Name())
+	existingProjectDm, err = s.projectRepository.FetchProjectByGroupIDAndName(ctx, projectDm.GroupID(), projectDm.Name())
 	if existingProjectDm != nil {
 		return true, nil
 	}
@@ -31,8 +33,8 @@ func (s *projectDomainService) ExistsUniqueProjectForCreate(projectDm *Project) 
 }
 
 // TODO: シンプルなロジックにリファクタ
-func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (bool, error) {
-	oldProjectDm, err := s.projectRepository.FetchProjectByID(projectDm.ID())
+func (s *projectDomainService) ExistUniqueProjectForUpdate(ctx context.Context, projectDm *Project) (bool, error) {
+	oldProjectDm, err := s.projectRepository.FetchProjectByID(ctx, projectDm.ID())
 	if err != nil {
 		return false, apperrors.InternalServerError
 	}
@@ -41,12 +43,12 @@ func (s *projectDomainService) ExistUniqueProjectForUpdate(projectDm *Project) (
 		return false, nil
 	}
 
-	projectDmByKeyName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(projectDm.GroupID(), projectDm.KeyName())
+	projectDmByKeyName, errByKeyName := s.projectRepository.FetchProjectByGroupIDAndKeyName(ctx, projectDm.GroupID(), projectDm.KeyName())
 	if errByKeyName != nil && !apperrors.Is(errByKeyName, apperrors.NotFound) {
 		return false, errByKeyName
 	}
 
-	projectDmByName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(projectDm.GroupID(), projectDm.Name())
+	projectDmByName, errByName := s.projectRepository.FetchProjectByGroupIDAndName(ctx, projectDm.GroupID(), projectDm.Name())
 	if errByName != nil && !apperrors.Is(errByName, apperrors.NotFound) {
 		return false, errByName
 	}

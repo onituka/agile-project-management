@@ -13,6 +13,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/config"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/middleware"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
@@ -20,15 +21,17 @@ import (
 )
 
 func Run() error {
-	mySQLHandler, err := rdb.NewMySQLHandler()
+	router := mux.NewRouter()
+
+	conn, err := rdb.NewDB()
 	if err != nil {
 		return err
 	}
-	defer mySQLHandler.Conn.Close()
+	defer conn.Close()
 
-	router := mux.NewRouter()
+	router.Use(middleware.DBMiddlewareFunc(conn))
 
-	projectRepository := persistence.NewProjectRepository(mySQLHandler)
+	projectRepository := persistence.NewProjectRepository()
 	projectUsecase := projectusecse.NewProjectUsecase(projectRepository)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 

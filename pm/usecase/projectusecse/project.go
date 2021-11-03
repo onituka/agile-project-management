@@ -1,6 +1,8 @@
 package projectusecse
 
 import (
+	"context"
+
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
@@ -9,8 +11,8 @@ import (
 )
 
 type ProjectUsecase interface {
-	CreateProject(in *input.CreateProject) (*output.CreateProject, error)
-	UpdateProject(in *input.UpdateProject) (*output.UpdateProject, error)
+	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
+	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
 }
 
 type projectUsecase struct {
@@ -23,7 +25,7 @@ func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository) *projectUs
 	}
 }
 
-func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateProject, error) {
+func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error) {
 	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -59,18 +61,18 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
-	exist, err := projectDomainService.ExistsUniqueProjectForCreate(projectDm)
+	exist, err := projectDomainService.ExistsUniqueProjectForCreate(ctx, projectDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {
 		return nil, apperrors.Conflict
 	}
 
-	if err = u.projectRepository.CreateProject(projectDm); err != nil {
+	if err = u.projectRepository.CreateProject(ctx, projectDm); err != nil {
 		return nil, err
 	}
 
-	projectDm, err = u.projectRepository.FetchProjectByID(projectDm.ID())
+	projectDm, err = u.projectRepository.FetchProjectByID(ctx, projectDm.ID())
 	if err != nil {
 		return nil, err
 	}
@@ -88,13 +90,13 @@ func (u *projectUsecase) CreateProject(in *input.CreateProject) (*output.CreateP
 
 }
 
-func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateProject, error) {
+func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error) {
 	projectIDVo, err := sheredvo.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByID(projectIDVo)
+	projectDm, err := u.projectRepository.FetchProjectByIDForUpdare(ctx, projectIDVo)
 	if err != nil {
 		return nil, err
 	}
@@ -129,18 +131,18 @@ func (u *projectUsecase) UpdateProject(in *input.UpdateProject) (*output.UpdateP
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
-	exist, err := projectDomainService.ExistUniqueProjectForUpdate(projectDm)
+	exist, err := projectDomainService.ExistUniqueProjectForUpdate(ctx, projectDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {
 		return nil, apperrors.Conflict
 	}
 
-	if err = u.projectRepository.UpdateProject(projectDm); err != nil {
+	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
 		return nil, err
 	}
 
-	projectDm, err = u.projectRepository.FetchProjectByID(projectDm.ID())
+	projectDm, err = u.projectRepository.FetchProjectByID(ctx, projectDm.ID())
 	if err != nil {
 		return nil, err
 	}

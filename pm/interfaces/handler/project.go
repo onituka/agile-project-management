@@ -25,12 +25,14 @@ func NewProjectHandler(projectUsecase projectusecse.ProjectUsecase) *projectHand
 func (h *projectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 	var in input.CreateProject
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
+		setAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
 		return
 	}
 
-	out, err := h.projectUsecase.CreateProject(&in)
+	out, err := h.projectUsecase.CreateProject(r.Context(), &in)
 	if err != nil {
+		setAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
@@ -45,12 +47,14 @@ func (h *projectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
 		ID: projectID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
-		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		setAppErrorToCtx(r, err)
+		presenter.ErrorJSON(w, apperrors.InvalidParameter)
 		return
 	}
 
-	out, err := h.projectUsecase.UpdateProject(&in)
+	out, err := h.projectUsecase.UpdateProject(r.Context(), &in)
 	if err != nil {
+		setAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}

@@ -7,11 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/config"
 )
 
-type MySQLHandler struct {
-	Conn *sqlx.DB
-}
-
-func NewMySQLHandler() (*MySQLHandler, error) {
+func NewDB() (*sqlx.DB, error) {
 	conn, err := sqlx.Open("mysql", config.Env.MySQL.Dsn)
 	if err != nil {
 		return nil, err
@@ -25,7 +21,5 @@ func NewMySQLHandler() (*MySQLHandler, error) {
 	conn.SetMaxIdleConns(config.Env.MySQL.MaxIdleConn)
 	conn.SetConnMaxLifetime(config.Env.MySQL.MaxConnLifetime)
 
-	return &MySQLHandler{
-		Conn: conn,
-	}, nil
+	return conn, nil
 }
