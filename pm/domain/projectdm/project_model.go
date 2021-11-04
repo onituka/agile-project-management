@@ -108,3 +108,7 @@ func (p *Project) ChangeLeaderID(leaderID sheredvo.UserID) {
 func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID sheredvo.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
+
+func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
+	p.updatedAt = updatedAt
+}

@@ -8,6 +8,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
+	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type ProjectUsecase interface {
@@ -17,11 +18,13 @@ type ProjectUsecase interface {
 
 type projectUsecase struct {
 	projectRepository projectdm.ProjectRepository
+	timeManager       timemanager.TimeManager
 }
 
-func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository) *projectUsecase {
+func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *projectUsecase {
 	return &projectUsecase{
 		projectRepository: ProjectRepository,
+		timeManager:       timeManager,
 	}
 }
 
@@ -51,12 +54,16 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 		return nil, apperrors.InvalidParameter
 	}
 
+	now := u.timeManager.Now()
+
 	projectDm := projectdm.GenProjectForCreate(
 		groupIDVo,
 		keyNameVo,
 		nameVo,
 		leaderIDVo,
 		defaultAssigneeIDVo,
+		now,
+		now,
 	)
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
@@ -69,11 +76,6 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 	}
 
 	if err = u.projectRepository.CreateProject(ctx, projectDm); err != nil {
-		return nil, err
-	}
-
-	projectDm, err = u.projectRepository.FetchProjectByID(ctx, projectDm.ID())
-	if err != nil {
 		return nil, err
 	}
 
@@ -129,6 +131,8 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 
 	projectDm.ChangeDefaultAssigneeID(defaultAssigneeID)
 
+	projectDm.ChangeUpdatedAt(u.timeManager.Now())
+
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistUniqueProjectForUpdate(ctx, projectDm)
@@ -139,11 +143,6 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 	}
 
 	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
-		return nil, err
-	}
-
-	projectDm, err = u.projectRepository.FetchProjectByID(ctx, projectDm.ID())
-	if err != nil {
 		return nil, err
 	}
 

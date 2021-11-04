@@ -12,6 +12,8 @@ func GenProjectForCreate(
 	name Name,
 	leaderID sheredvo.UserID,
 	defaultAssigneeID sheredvo.UserID,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *Project {
 	return newProject(
 		sheredvo.NewProjectIDForCreate(),
@@ -20,7 +22,7 @@ func GenProjectForCreate(
 		name,
 		leaderID,
 		defaultAssigneeID,
-		time.Time{},
-		time.Time{},
+		createdAt,
+		updatedAt,
 	)
 }
