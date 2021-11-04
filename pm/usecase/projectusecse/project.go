@@ -96,7 +96,7 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByIDForUpdare(ctx, projectIDVo)
+	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo)
 	if err != nil {
 		return nil, err
 	}

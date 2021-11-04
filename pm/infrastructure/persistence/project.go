@@ -83,7 +83,7 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
 	return nil
 }
 
-func (r *projectRepository) FetchProjectByIDForUpdare(ctx context.Context, id sheredvo.ProjectID) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id sheredvo.ProjectID) (*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err

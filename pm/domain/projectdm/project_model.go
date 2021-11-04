@@ -13,8 +13,8 @@ type Project struct {
 	name              Name
 	leaderID          sheredvo.UserID
 	defaultAssigneeID sheredvo.UserID
-	createdDate       time.Time
-	updatedDate       time.Time
+	createdAt         time.Time
+	updatedAt         time.Time
 }
 
 func newProject(
@@ -24,8 +24,8 @@ func newProject(
 	name Name,
 	leaderID sheredvo.UserID,
 	defaultAssigneeID sheredvo.UserID,
-	createdDate time.Time,
-	updatedDate time.Time,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *Project {
 	return &Project{
 		id:                id,
@@ -34,8 +34,8 @@ func newProject(
 		name:              name,
 		leaderID:          leaderID,
 		defaultAssigneeID: defaultAssigneeID,
-		createdDate:       createdDate,
-		updatedDate:       updatedDate,
+		createdAt:         createdAt,
+		updatedAt:         updatedAt,
 	}
 }
 
@@ -46,8 +46,8 @@ func Reconstruct(
 	name string,
 	leaderID string,
 	defaultAssigneeID string,
-	createdDate time.Time,
-	updatedDate time.Time,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *Project {
 	return newProject(
 		sheredvo.ProjectID(id),
@@ -56,8 +56,8 @@ func Reconstruct(
 		Name(name),
 		sheredvo.UserID(leaderID),
 		sheredvo.UserID(defaultAssigneeID),
-		createdDate,
-		updatedDate,
+		createdAt,
+		updatedAt,
 	)
 }
 
@@ -86,11 +86,11 @@ func (p *Project) DefaultAssigneeID() sheredvo.UserID {
 }
 
 func (p *Project) CreatedAt() time.Time {
-	return p.createdDate
+	return p.createdAt
 }
 
 func (p *Project) UpdatedAt() time.Time {
-	return p.updatedDate
+	return p.updatedAt
 }
 
 func (p *Project) ChangeKeyName(keyName KeyName) {
