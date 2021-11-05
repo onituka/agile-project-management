@@ -16,3 +16,7 @@ type UpdateProject struct {
 	LeaderID          string `json:"leaderID"`
 	DefaultAssigneeID string `json:"defaultAssigneeID"`
 }
+
+type FetchProjectByID struct {
+	ID string `json:"ID"`
+}

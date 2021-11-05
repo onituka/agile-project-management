@@ -14,6 +14,7 @@ import (
 type ProjectUsecase interface {
 	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
 	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
+	FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error)
 }
 
 type projectUsecase struct {
@@ -147,6 +148,29 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 	}
 
 	return &output.UpdateProject{
+		ID:                projectDm.ID().Value(),
+		GroupID:           projectDm.GroupID().Value(),
+		KeyName:           projectDm.KeyName().Value(),
+		Name:              projectDm.Name().Value(),
+		LeaderID:          projectDm.LeaderID().Value(),
+		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
+	}, nil
+}
+
+func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error) {
+	projectIDVo, err := sheredvo.NewProjectID(in.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm, err := u.projectRepository.FetchProjectByID(ctx, projectIDVo)
+	if err != nil {
+		return nil, err
+	}
+
+	return &output.FetchProjectByID{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
