@@ -9,6 +9,6 @@ type Project struct {
 	Name              string    `db:"name"`
 	LeaderID          string    `db:"leader_id"`
 	DefaultAssigneeID string    `db:"default_assignee_id"`
-	CreatedDate       time.Time `db:"created_at"`
-	UpdatedDate       time.Time `db:"updated_at"`
+	CreatedAt         time.Time `db:"created_at"`
+	UpdatedAt         time.Time `db:"updated_at"`
 }

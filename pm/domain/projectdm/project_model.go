@@ -13,8 +13,8 @@ type Project struct {
 	name              Name
 	leaderID          sheredvo.UserID
 	defaultAssigneeID sheredvo.UserID
-	createdDate       time.Time
-	updatedDate       time.Time
+	createdAt         time.Time
+	updatedAt         time.Time
 }
 
 func newProject(
@@ -24,8 +24,8 @@ func newProject(
 	name Name,
 	leaderID sheredvo.UserID,
 	defaultAssigneeID sheredvo.UserID,
-	createdDate time.Time,
-	updatedDate time.Time,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *Project {
 	return &Project{
 		id:                id,
@@ -34,8 +34,8 @@ func newProject(
 		name:              name,
 		leaderID:          leaderID,
 		defaultAssigneeID: defaultAssigneeID,
-		createdDate:       createdDate,
-		updatedDate:       updatedDate,
+		createdAt:         createdAt,
+		updatedAt:         updatedAt,
 	}
 }
 
@@ -46,8 +46,8 @@ func Reconstruct(
 	name string,
 	leaderID string,
 	defaultAssigneeID string,
-	createdDate time.Time,
-	updatedDate time.Time,
+	createdAt time.Time,
+	updatedAt time.Time,
 ) *Project {
 	return newProject(
 		sheredvo.ProjectID(id),
@@ -56,8 +56,8 @@ func Reconstruct(
 		Name(name),
 		sheredvo.UserID(leaderID),
 		sheredvo.UserID(defaultAssigneeID),
-		createdDate,
-		updatedDate,
+		createdAt,
+		updatedAt,
 	)
 }
 
@@ -65,7 +65,7 @@ func (p *Project) ID() sheredvo.ProjectID {
 	return p.id
 }
 
-func (p *Project) Group() sheredvo.GroupID {
+func (p *Project) GroupID() sheredvo.GroupID {
 	return p.groupID
 }
 
@@ -85,10 +85,30 @@ func (p *Project) DefaultAssigneeID() sheredvo.UserID {
 	return p.defaultAssigneeID
 }
 
-func (p *Project) CreatedDate() time.Time {
-	return p.createdDate
+func (p *Project) CreatedAt() time.Time {
+	return p.createdAt
 }
 
-func (p *Project) UpdatedDate() time.Time {
-	return p.updatedDate
+func (p *Project) UpdatedAt() time.Time {
+	return p.updatedAt
+}
+
+func (p *Project) ChangeKeyName(keyName KeyName) {
+	p.keyName = keyName
+}
+
+func (p *Project) ChangeName(name Name) {
+	p.name = name
+}
+
+func (p *Project) ChangeLeaderID(leaderID sheredvo.UserID) {
+	p.leaderID = leaderID
+}
+
+func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID sheredvo.UserID) {
+	p.defaultAssigneeID = defaultAssigneeID
+}
+
+func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
+	p.updatedAt = updatedAt
 }

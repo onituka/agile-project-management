@@ -1,30 +1,34 @@
 package projectusecse
 
 import (
-	"errors"
+	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
+	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type ProjectUsecase interface {
-	CreateProject(in *input.Project) (*output.Project, error)
+	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
+	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
 }
 
 type projectUsecase struct {
-	ProjectRepository projectdm.ProjectRepository
+	projectRepository projectdm.ProjectRepository
+	timeManager       timemanager.TimeManager
 }
 
-func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository) *projectUsecase {
+func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *projectUsecase {
 	return &projectUsecase{
-		ProjectRepository: ProjectRepository,
+		projectRepository: ProjectRepository,
+		timeManager:       timeManager,
 	}
 }
 
-func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, error) {
+func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error) {
 	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -50,21 +54,7 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		return nil, apperrors.InvalidParameter
 	}
 
-	projectDomainService := projectdm.NewProjectDomainService(u.ProjectRepository)
-
-	exist, err := projectDomainService.ExistsUniqueProjectKeyName(groupIDVo, keyNameVo)
-	if exist {
-		return nil, apperrors.Conflict
-	} else if !errors.Is(err, apperrors.NotFound) {
-		return nil, err
-	}
-
-	exist, err = projectDomainService.ExistsUniqueProjectName(groupIDVo, nameVo)
-	if exist {
-		return nil, apperrors.Conflict
-	} else if !errors.Is(err, apperrors.NotFound) {
-		return nil, err
-	}
+	now := u.timeManager.Now()
 
 	projectDm := projectdm.GenProjectForCreate(
 		groupIDVo,
@@ -72,26 +62,98 @@ func (u *projectUsecase) CreateProject(in *input.Project) (*output.Project, erro
 		nameVo,
 		leaderIDVo,
 		defaultAssigneeIDVo,
+		now,
+		now,
 	)
 
-	if err = u.ProjectRepository.CreateProject(projectDm); err != nil {
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	exist, err := projectDomainService.ExistsUniqueProjectForCreate(ctx, projectDm)
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
+		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
+	}
+
+	if err = u.projectRepository.CreateProject(ctx, projectDm); err != nil {
 		return nil, err
 	}
 
-	projectDm, err = u.ProjectRepository.FetchProjectByID(projectDm.ID())
-	if err != nil {
-		return nil, err
-	}
-
-	return &output.Project{
+	return &output.CreateProject{
 		ID:                projectDm.ID().Value(),
-		GroupID:           projectDm.Group().Value(),
+		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),
 		LeaderID:          projectDm.LeaderID().Value(),
 		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
-		CreatedDate:       projectDm.CreatedDate(),
-		UpdatedDate:       projectDm.UpdatedDate(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil
 
+}
+
+func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error) {
+	projectIDVo, err := sheredvo.NewProjectID(in.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo)
+	if err != nil {
+		return nil, err
+	}
+
+	keyNameVo, err := projectdm.NewKeyName(in.KeyName)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm.ChangeKeyName(keyNameVo)
+
+	nameVo, err := projectdm.NewName(in.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm.ChangeName(nameVo)
+
+	leaderIDVo, err := sheredvo.NewUserID(in.LeaderID)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm.ChangeLeaderID(leaderIDVo)
+
+	defaultAssigneeID, err := sheredvo.NewUserID(in.DefaultAssigneeID)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm.ChangeDefaultAssigneeID(defaultAssigneeID)
+
+	projectDm.ChangeUpdatedAt(u.timeManager.Now())
+
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	exist, err := projectDomainService.ExistUniqueProjectForUpdate(ctx, projectDm)
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
+		return nil, err
+	} else if exist {
+		return nil, apperrors.Conflict
+	}
+
+	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
+		return nil, err
+	}
+
+	return &output.UpdateProject{
+		ID:                projectDm.ID().Value(),
+		GroupID:           projectDm.GroupID().Value(),
+		KeyName:           projectDm.KeyName().Value(),
+		Name:              projectDm.Name().Value(),
+		LeaderID:          projectDm.LeaderID().Value(),
+		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
+	}, nil
 }

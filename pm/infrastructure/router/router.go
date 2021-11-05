@@ -13,26 +13,33 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/config"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/middleware"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
+	"github.com/onituka/agile-project-management/project-management/usecase/clock"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
 )
 
 func Run() error {
-	mySQLHandler, err := rdb.NewMySQLHandler()
+	router := mux.NewRouter()
+
+	conn, err := rdb.NewDB()
 	if err != nil {
 		return err
 	}
-	defer mySQLHandler.Conn.Close()
+	defer conn.Close()
 
-	router := mux.NewRouter()
+	realTime := clock.NewRealTime()
 
-	projectRepository := persistence.NewProjectRepository(mySQLHandler)
-	projectUsecase := projectusecse.NewProjectUsecase(projectRepository)
+	router.Use(middleware.DBMiddlewareFunc(conn))
+
+	projectRepository := persistence.NewProjectRepository()
+	projectUsecase := projectusecse.NewProjectUsecase(projectRepository, realTime)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
-	router.HandleFunc("/project", projectHandler.CreateProject).Methods(http.MethodPost)
+	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
+	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),

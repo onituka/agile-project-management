@@ -15,3 +15,7 @@ func NewName(name string) (Name, error) {
 func (n Name) Value() string {
 	return string(n)
 }
+
+func (n Name) Equals(name Name) bool {
+	return n == name
+}
