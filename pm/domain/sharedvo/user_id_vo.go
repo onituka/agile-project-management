@@ -1,4 +1,4 @@
-package sheredvo
+package sharedvo
 
 import (
 	"github.com/google/uuid"
