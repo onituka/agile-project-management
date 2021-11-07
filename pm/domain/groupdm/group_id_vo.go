@@ -1,4 +1,4 @@
-package sharedvo
+package groupdm
 
 import (
 	"github.com/google/uuid"

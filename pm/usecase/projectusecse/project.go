@@ -4,8 +4,9 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/domain/sharedvo"
+	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
 	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
@@ -30,7 +31,7 @@ func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository, timeManage
 }
 
 func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error) {
-	groupIDVo, err := sharedvo.NewGroupID(in.GroupID)
+	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -45,12 +46,12 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 		return nil, apperrors.InvalidParameter
 	}
 
-	leaderIDVo, err := sharedvo.NewUserID(in.DefaultAssigneeID)
+	leaderIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}
 
-	defaultAssigneeIDVo, err := sharedvo.NewUserID(in.LeaderID)
+	defaultAssigneeIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}
@@ -118,14 +119,14 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 
 	projectDm.ChangeName(nameVo)
 
-	leaderIDVo, err := sharedvo.NewUserID(in.LeaderID)
+	leaderIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, err
 	}
 
 	projectDm.ChangeLeaderID(leaderIDVo)
 
-	defaultAssigneeID, err := sharedvo.NewUserID(in.DefaultAssigneeID)
+	defaultAssigneeID, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, err
 	}

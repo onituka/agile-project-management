@@ -3,7 +3,7 @@ package projectdm
 import (
 	"context"
 
-	"github.com/onituka/agile-project-management/project-management/domain/sharedvo"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 )
 
 type ProjectRepository interface {
@@ -11,6 +11,6 @@ type ProjectRepository interface {
 	UpdateProject(ctx context.Context, project *Project) error
 	FetchProjectByIDForUpdate(ctx context.Context, id ProjectID) (*Project, error)
 	FetchProjectByID(ctx context.Context, id ProjectID) (*Project, error)
-	FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID sharedvo.GroupID, keyName KeyName) (*Project, error)
-	FetchProjectByGroupIDAndName(ctx context.Context, groupID sharedvo.GroupID, name Name) (*Project, error)
+	FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID groupdm.GroupID, keyName KeyName) (*Project, error)
+	FetchProjectByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, name Name) (*Project, error)
 }

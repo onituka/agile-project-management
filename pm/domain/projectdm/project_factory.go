@@ -3,15 +3,16 @@ package projectdm
 import (
 	"time"
 
-	"github.com/onituka/agile-project-management/project-management/domain/sharedvo"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
 
 func GenProjectForCreate(
-	groupID sharedvo.GroupID,
+	groupID groupdm.GroupID,
 	keyName KeyName,
 	name Name,
-	leaderID sharedvo.UserID,
-	defaultAssigneeID sharedvo.UserID,
+	leaderID userdm.UserID,
+	defaultAssigneeID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) *Project {

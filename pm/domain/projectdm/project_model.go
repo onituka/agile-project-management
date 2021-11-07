@@ -3,27 +3,28 @@ package projectdm
 import (
 	"time"
 
-	"github.com/onituka/agile-project-management/project-management/domain/sharedvo"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
 
 type Project struct {
 	id                ProjectID
-	groupID           sharedvo.GroupID
+	groupID           groupdm.GroupID
 	keyName           KeyName
 	name              Name
-	leaderID          sharedvo.UserID
-	defaultAssigneeID sharedvo.UserID
+	leaderID          userdm.UserID
+	defaultAssigneeID userdm.UserID
 	createdAt         time.Time
 	updatedAt         time.Time
 }
 
 func newProject(
 	id ProjectID,
-	groupID sharedvo.GroupID,
+	groupID groupdm.GroupID,
 	keyName KeyName,
 	name Name,
-	leaderID sharedvo.UserID,
-	defaultAssigneeID sharedvo.UserID,
+	leaderID userdm.UserID,
+	defaultAssigneeID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) *Project {
@@ -51,11 +52,11 @@ func Reconstruct(
 ) *Project {
 	return newProject(
 		ProjectID(id),
-		sharedvo.GroupID(groupID),
+		groupdm.GroupID(groupID),
 		KeyName(keyName),
 		Name(name),
-		sharedvo.UserID(leaderID),
-		sharedvo.UserID(defaultAssigneeID),
+		userdm.UserID(leaderID),
+		userdm.UserID(defaultAssigneeID),
 		createdAt,
 		updatedAt,
 	)
@@ -65,7 +66,7 @@ func (p *Project) ID() ProjectID {
 	return p.id
 }
 
-func (p *Project) GroupID() sharedvo.GroupID {
+func (p *Project) GroupID() groupdm.GroupID {
 	return p.groupID
 }
 
@@ -77,11 +78,11 @@ func (p *Project) Name() Name {
 	return p.name
 }
 
-func (p *Project) LeaderID() sharedvo.UserID {
+func (p *Project) LeaderID() userdm.UserID {
 	return p.leaderID
 }
 
-func (p *Project) DefaultAssigneeID() sharedvo.UserID {
+func (p *Project) DefaultAssigneeID() userdm.UserID {
 	return p.defaultAssigneeID
 }
 
@@ -101,11 +102,11 @@ func (p *Project) ChangeName(name Name) {
 	p.name = name
 }
 
-func (p *Project) ChangeLeaderID(leaderID sharedvo.UserID) {
+func (p *Project) ChangeLeaderID(leaderID userdm.UserID) {
 	p.leaderID = leaderID
 }
 
-func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID sharedvo.UserID) {
+func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
 
