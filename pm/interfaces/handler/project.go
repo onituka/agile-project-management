@@ -61,3 +61,20 @@ func (h *projectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
 
 	presenter.JSON(w, http.StatusOK, out)
 }
+
+func (h *projectHandler) FetchProjectByID(w http.ResponseWriter, r *http.Request) {
+	projectID := mux.Vars(r)["projectID"]
+
+	in := input.FetchProjectByID{
+		ID: projectID,
+	}
+
+	out, err := h.projectUsecase.FetchProjectByID(r.Context(), &in)
+	if err != nil {
+		setAppErrorToCtx(r, err)
+		presenter.ErrorJSON(w, err)
+		return
+	}
+
+	presenter.JSON(w, http.StatusOK, out)
+}

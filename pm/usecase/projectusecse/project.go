@@ -4,8 +4,9 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
+	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
 	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
@@ -14,6 +15,7 @@ import (
 type ProjectUsecase interface {
 	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
 	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
+	FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error)
 }
 
 type projectUsecase struct {
@@ -29,7 +31,7 @@ func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository, timeManage
 }
 
 func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error) {
-	groupIDVo, err := sheredvo.NewGroupID(in.GroupID)
+	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
 	}
@@ -44,12 +46,12 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 		return nil, apperrors.InvalidParameter
 	}
 
-	leaderIDVo, err := sheredvo.NewUserID(in.DefaultAssigneeID)
+	leaderIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}
 
-	defaultAssigneeIDVo, err := sheredvo.NewUserID(in.LeaderID)
+	defaultAssigneeIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, apperrors.InvalidParameter
 	}
@@ -93,7 +95,7 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 }
 
 func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error) {
-	projectIDVo, err := sheredvo.NewProjectID(in.ID)
+	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -117,14 +119,14 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 
 	projectDm.ChangeName(nameVo)
 
-	leaderIDVo, err := sheredvo.NewUserID(in.LeaderID)
+	leaderIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, err
 	}
 
 	projectDm.ChangeLeaderID(leaderIDVo)
 
-	defaultAssigneeID, err := sheredvo.NewUserID(in.DefaultAssigneeID)
+	defaultAssigneeID, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, err
 	}
@@ -147,6 +149,29 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 	}
 
 	return &output.UpdateProject{
+		ID:                projectDm.ID().Value(),
+		GroupID:           projectDm.GroupID().Value(),
+		KeyName:           projectDm.KeyName().Value(),
+		Name:              projectDm.Name().Value(),
+		LeaderID:          projectDm.LeaderID().Value(),
+		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		CreatedAt:         projectDm.CreatedAt(),
+		UpdatedAt:         projectDm.UpdatedAt(),
+	}, nil
+}
+
+func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error) {
+	projectIDVo, err := projectdm.NewProjectID(in.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	projectDm, err := u.projectRepository.FetchProjectByID(ctx, projectIDVo)
+	if err != nil {
+		return nil, err
+	}
+
+	return &output.FetchProjectByID{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),

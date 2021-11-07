@@ -1,4 +1,4 @@
-package sheredvo
+package projectdm
 
 import (
 	"github.com/google/uuid"

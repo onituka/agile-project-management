@@ -5,8 +5,8 @@ import (
 	"database/sql"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/domain/sheredvo"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/datesource"
 )
 
@@ -83,7 +83,7 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
 	return nil
 }
 
-func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id sheredvo.ProjectID) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -129,7 +129,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id sh
 	return projectDm, nil
 }
 
-func (r *projectRepository) FetchProjectByID(ctx context.Context, id sheredvo.ProjectID) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -174,7 +174,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id sheredvo.Pr
 	return projectDm, nil
 }
 
-func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID sheredvo.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID groupdm.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -221,7 +221,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 	return projectDm, nil
 }
 
-func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, groupID sheredvo.GroupID, name projectdm.Name) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, name projectdm.Name) (*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err

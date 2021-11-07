@@ -40,6 +40,7 @@ func Run() error {
 
 	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
 	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)
+	router.HandleFunc("/projects/{projectID}", projectHandler.FetchProjectByID).Methods(http.MethodGet)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),
