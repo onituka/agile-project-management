@@ -16,6 +16,7 @@ type ProjectUsecase interface {
 	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
 	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
 	FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error)
+	FetchProjects(ctx context.Context) ([]*output.FetchProjects, error)
 }
 
 type projectUsecase struct {
@@ -181,4 +182,27 @@ func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchPr
 		CreatedAt:         projectDm.CreatedAt(),
 		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil
+}
+
+func (u *projectUsecase) FetchProjects(ctx context.Context) ([]*output.FetchProjects, error) {
+
+	projectsDm, err := u.projectRepository.FetchProjects(ctx)
+	if err != nil {
+		return nil, err
+	}
+	projectsDto := make([]*output.FetchProjects, len(projectsDm))
+	for i, projectDm := range projectsDm {
+		projectsDto[i] = &output.FetchProjects{
+			ID:                projectDm.ID().Value(),
+			GroupID:           projectDm.GroupID().Value(),
+			KeyName:           projectDm.KeyName().Value(),
+			Name:              projectDm.Name().Value(),
+			LeaderID:          projectDm.LeaderID().Value(),
+			DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+			CreatedAt:         projectDm.CreatedAt(),
+			UpdatedAt:         projectDm.UpdatedAt(),
+		}
+	}
+
+	return projectsDto, nil
 }
