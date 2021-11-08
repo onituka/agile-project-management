@@ -267,3 +267,57 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 
 	return projectDm, nil
 }
+
+func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Project, error) {
+	conn, err := execFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT 
+           id,
+           group_id,
+           key_name,
+           name,
+           leader_id,
+           default_assignee_id,
+           created_at,
+           updated_at
+         FROM
+           projects`
+
+	rows, err := conn.QueryxContext(ctx, query)
+	if err != nil {
+		return nil, apperrors.InternalServerError
+	}
+
+	defer rows.Close()
+
+	var projectsDto []datesource.Project
+	for rows.Next() {
+		var projectDto datesource.Project
+		if err := rows.StructScan(&projectDto); err != nil {
+			return nil, apperrors.InternalServerError
+		}
+
+		projectsDto = append(projectsDto, projectDto)
+
+	}
+
+	projectDms := make([]*projectdm.Project, len(projectsDto))
+	for i, projectDto := range projectsDto {
+		projectDms[i] = projectdm.Reconstruct(
+			projectDto.ID,
+			projectDto.GroupID,
+			projectDto.KeyName,
+			projectDto.Name,
+			projectDto.LeaderID,
+			projectDto.DefaultAssigneeID,
+			projectDto.CreatedAt,
+			projectDto.UpdatedAt,
+		)
+	}
+
+	return projectDms, nil
+}

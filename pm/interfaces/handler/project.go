@@ -78,3 +78,14 @@ func (h *projectHandler) FetchProjectByID(w http.ResponseWriter, r *http.Request
 
 	presenter.JSON(w, http.StatusOK, out)
 }
+
+func (h *projectHandler) FetchProjects(w http.ResponseWriter, r *http.Request) {
+	out, err := h.projectUsecase.FetchProjects(r.Context())
+	if err != nil {
+		setAppErrorToCtx(r, err)
+		presenter.ErrorJSON(w, err)
+		return
+	}
+
+	presenter.JSON(w, http.StatusOK, out)
+}
