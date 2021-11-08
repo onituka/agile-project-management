@@ -35,7 +35,9 @@ type FetchProjectByID struct {
 	UpdatedAt         time.Time `json:"updatedAt"`
 }
 
-type FetchProjects struct {
+type FetchProjects []*Project
+
+type Project struct {
 	ID                string    `json:"id"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
