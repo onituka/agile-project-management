@@ -1,6 +1,6 @@
-package input
+package projectusecse
 
-type CreateProject struct {
+type CreateProjectInput struct {
 	GroupID           string `json:"groupID"`
 	KeyName           string `json:"keyName"`
 	Name              string `json:"name"`
@@ -8,7 +8,7 @@ type CreateProject struct {
 	DefaultAssigneeID string `json:"defaultAssigneeID"`
 }
 
-type UpdateProject struct {
+type UpdateProjectInput struct {
 	ID                string `json:"ID"`
 	GroupID           string `json:"groupID"`
 	KeyName           string `json:"keyName"`
@@ -17,6 +17,6 @@ type UpdateProject struct {
 	DefaultAssigneeID string `json:"defaultAssigneeID"`
 }
 
-type FetchProjectByID struct {
+type FetchProjectByIDInput struct {
 	ID string `json:"ID"`
 }

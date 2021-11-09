@@ -1,8 +1,8 @@
-package output
+package projectusecse
 
 import "time"
 
-type CreateProject struct {
+type CreateProjectOutput struct {
 	ID                string    `json:"id"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
@@ -13,7 +13,7 @@ type CreateProject struct {
 	UpdatedAt         time.Time `json:"updatedAt"`
 }
 
-type UpdateProject struct {
+type UpdateProjectOutput struct {
 	ID                string    `json:"id"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
@@ -24,7 +24,7 @@ type UpdateProject struct {
 	UpdatedAt         time.Time `json:"updatedAt"`
 }
 
-type FetchProjectByID struct {
+type FetchProjectByIDOutput struct {
 	ID                string    `json:"id"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
@@ -35,7 +35,7 @@ type FetchProjectByID struct {
 	UpdatedAt         time.Time `json:"updatedAt"`
 }
 
-type FetchProjects []*Project
+type FetchProjectsOutput []*Project
 
 type Project struct {
 	ID                string    `json:"id"`
