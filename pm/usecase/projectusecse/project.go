@@ -7,16 +7,14 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/input"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse/output"
 	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type ProjectUsecase interface {
-	CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error)
-	UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error)
-	FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error)
-	FetchProjects(ctx context.Context) (output.FetchProjects, error)
+	CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error)
+	UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error)
+	FetchProjectByID(ctx context.Context, in *FetchProjectByIDInput) (*FetchProjectByIDOutput, error)
+	FetchProjects(ctx context.Context) (FetchProjectsOutput, error)
 }
 
 type projectUsecase struct {
@@ -31,7 +29,7 @@ func NewProjectUsecase(ProjectRepository projectdm.ProjectRepository, timeManage
 	}
 }
 
-func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProject) (*output.CreateProject, error) {
+func (u *projectUsecase) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
 	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -82,7 +80,7 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 		return nil, err
 	}
 
-	return &output.CreateProject{
+	return &CreateProjectOutput{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
@@ -95,7 +93,7 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *input.CreateProj
 
 }
 
-func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProject) (*output.UpdateProject, error) {
+func (u *projectUsecase) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
@@ -149,7 +147,7 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 		return nil, err
 	}
 
-	return &output.UpdateProject{
+	return &UpdateProjectOutput{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
@@ -161,7 +159,7 @@ func (u *projectUsecase) UpdateProject(ctx context.Context, in *input.UpdateProj
 	}, nil
 }
 
-func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchProjectByID) (*output.FetchProjectByID, error) {
+func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *FetchProjectByIDInput) (*FetchProjectByIDOutput, error) {
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
@@ -172,7 +170,7 @@ func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchPr
 		return nil, err
 	}
 
-	return &output.FetchProjectByID{
+	return &FetchProjectByIDOutput{
 		ID:                projectDm.ID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
@@ -184,15 +182,15 @@ func (u *projectUsecase) FetchProjectByID(ctx context.Context, in *input.FetchPr
 	}, nil
 }
 
-func (u *projectUsecase) FetchProjects(ctx context.Context) (output.FetchProjects, error) {
+func (u *projectUsecase) FetchProjects(ctx context.Context) (FetchProjectsOutput, error) {
 	projectsDm, err := u.projectRepository.FetchProjects(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	projectsDto := make(output.FetchProjects, len(projectsDm))
+	projectsDto := make(FetchProjectsOutput, len(projectsDm))
 	for i, projectDm := range projectsDm {
-		projectsDto[i] = &output.Project{
+		projectsDto[i] = &Project{
 			ID:                projectDm.ID().Value(),
 			GroupID:           projectDm.GroupID().Value(),
 			KeyName:           projectDm.KeyName().Value(),

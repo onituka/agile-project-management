@@ -45,7 +45,7 @@ func Run() error {
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),
-		Handler: router,
+		Handler: middleware.CorsMiddlewareFunc()(router),
 	}
 
 	errorCh := make(chan error, 1)

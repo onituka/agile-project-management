@@ -20,11 +20,16 @@ func init() {
 
 type ENV struct {
 	Server
+	Cors
 	MySQL
 }
 
 type Server struct {
-	Port int `envconfig:"SERVER_PORT" required:"true"` // DEVELOP_SERVER_PORT
+	Port int `envconfig:"SERVER_PORT" required:"true"`
+}
+
+type Cors struct {
+	AllowedOrigins []string `envconfig:"CORS_ALLOWED_ORIGINS" required:"true"`
 }
 
 type MySQL struct {
