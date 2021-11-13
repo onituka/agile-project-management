@@ -1,18 +1,19 @@
 package productdm
 
 import (
+	"time"
+
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"time"
 )
 
 type Product struct {
-	id                ProductID
-	groupID           groupdm.GroupID
-	name              Name
-	leaderID          userdm.UserID
-	createdAt         time.Time
-	updatedAt         time.Time
+	id        ProductID
+	groupID   groupdm.GroupID
+	name      Name
+	leaderID  userdm.UserID
+	createdAt time.Time
+	updatedAt time.Time
 }
 
 func newProduct(
@@ -24,12 +25,12 @@ func newProduct(
 	updatedAt time.Time,
 ) *Product {
 	return &Product{
-		id:                id,
-		groupID:           groupID,
-		name:              name,
-		leaderID:          leaderID,
-		createdAt:         createdAt,
-		updatedAt:         updatedAt,
+		id:        id,
+		groupID:   groupID,
+		name:      name,
+		leaderID:  leaderID,
+		createdAt: createdAt,
+		updatedAt: updatedAt,
 	}
 }
 

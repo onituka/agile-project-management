@@ -2,10 +2,11 @@ package handler
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
-	"net/http"
 )
 
 type productHandler struct {
