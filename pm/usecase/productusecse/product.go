@@ -62,7 +62,6 @@ func (u *productUsecase) CreateProduct(ctx context.Context, in *CreateProductInp
 	}
 
 	if err = u.productRepository.CreateProduct(ctx, productDm); err != nil {
-
 		return nil, err
 	}
 
