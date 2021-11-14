@@ -34,7 +34,7 @@ const (
 
 var (
 	update = flag.Bool("update", false, "update golden test files")
-	clean  = flag.Bool("clean", false, "clean old golden test files")
+	clean  = flag.Bool("clean", false, "Clean old golden test files")
 )
 
 func AssertResponseBody(t *testing.T, res *http.Response, fileNameOpts ...string) {
@@ -152,15 +152,17 @@ func updateGoldenFile(goldenFile string, actualData []byte) error {
 
 func ensureDir(goldenFileDir string) error {
 	s, err := os.Stat(goldenFileDir)
+	defer func() {
+		*clean = false
+	}()
 
 	switch {
 	case err != nil && os.IsNotExist(err):
-		*clean = false
 		return os.MkdirAll(goldenFileDir, dirPerms)
 
 	case err == nil && s.IsDir() && *clean:
-		*clean = false
-		if err = os.RemoveAll(goldenFileDir); err != nil {
+		// ./testdata/response folder削除
+		if err = os.RemoveAll(filepath.Join(baseFixtureDir, responseFixtureDir)); err != nil {
 			return err
 		}
 		return os.MkdirAll(goldenFileDir, dirPerms)
