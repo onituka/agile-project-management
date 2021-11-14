@@ -7,7 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
-	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/datesource"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/datasource"
 )
 
 type productRepository struct{}
@@ -68,7 +68,7 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
          AND
            name = ?`
 
-	var productDto datesource.Product
+	var productDto datasource.Product
 
 	if err = conn.QueryRowxContext(ctx, query, groupID.Value(), Name.Value()).StructScan(&productDto); err != nil {
 		if apperrors.Is(err, sql.ErrNoRows) {

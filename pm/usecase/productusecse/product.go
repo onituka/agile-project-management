@@ -34,12 +34,12 @@ func (u *productUsecase) CreateProduct(ctx context.Context, in *CreateProductInp
 
 	nameVo, err := productdm.NewName(in.Name)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
 	leaderIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
 	now := u.timeManager.Now()

@@ -1,4 +1,4 @@
-package datesource
+package datasource
 
 import "time"
 
