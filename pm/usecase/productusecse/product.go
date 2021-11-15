@@ -54,7 +54,7 @@ func (u *productUsecase) CreateProduct(ctx context.Context, in *CreateProductInp
 
 	productDomainService := productdm.NewProductDomainService(u.productRepository)
 
-	exist, err := productDomainService.ExistsUniqueProductForCreate(ctx, productDm)
+	exist, err := productDomainService.ExistsProductForCreate(ctx, productDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {

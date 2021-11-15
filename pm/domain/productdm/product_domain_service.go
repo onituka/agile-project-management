@@ -16,7 +16,7 @@ func NewProductDomainService(productRepository ProductRepository) *productDomain
 	}
 }
 
-func (s *productDomainService) ExistsUniqueProductForCreate(ctx context.Context, productDm *Product) (bool, error) {
+func (s *productDomainService) ExistsProductForCreate(ctx context.Context, productDm *Product) (bool, error) {
 	existingProductDm, err := s.productRepository.FetchProductByGroupIDAndName(ctx, productDm.GroupID(), productDm.Name())
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return false, err
