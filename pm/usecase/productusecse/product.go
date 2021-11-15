@@ -44,13 +44,16 @@ func (u *productUsecase) CreateProduct(ctx context.Context, in *CreateProductInp
 
 	now := u.timeManager.Now()
 
-	productDm := productdm.GenProductForCreate(
+	productDm, err := productdm.GenProductForCreate(
 		groupIDVo,
 		nameVo,
 		leaderIDVo,
 		now,
 		now,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	productDomainService := productdm.NewProductDomainService(u.productRepository)
 

@@ -3,6 +3,7 @@ package productdm
 import (
 	"time"
 
+	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
@@ -23,7 +24,11 @@ func newProduct(
 	leaderID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Product {
+) (*Product, error) {
+	if createdAt.IsZero() || updatedAt.IsZero() {
+		return nil, apperrors.InvalidParameter
+	}
+
 	return &Product{
 		id:        id,
 		groupID:   groupID,
@@ -31,7 +36,7 @@ func newProduct(
 		leaderID:  leaderID,
 		createdAt: createdAt,
 		updatedAt: updatedAt,
-	}
+	}, nil
 }
 
 func Reconstruct(
@@ -41,12 +46,32 @@ func Reconstruct(
 	leaderID string,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Product {
+) (*Product, error) {
+	idVo, err := NewProductID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	groupIDVo, err := groupdm.NewGroupID(groupID)
+	if err != nil {
+		return nil, err
+	}
+
+	nameVo, err := NewName(name)
+	if err != nil {
+		return nil, err
+	}
+
+	leaderIDVo, err := userdm.NewUserID(leaderID)
+	if err != nil {
+		return nil, err
+	}
+
 	return newProduct(
-		ProductID(id),
-		groupdm.GroupID(groupID),
-		Name(name),
-		userdm.UserID(leaderID),
+		idVo,
+		groupIDVo,
+		nameVo,
+		leaderIDVo,
 		createdAt,
 		updatedAt,
 	)

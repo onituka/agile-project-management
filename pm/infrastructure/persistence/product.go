@@ -82,7 +82,7 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
 		return nil, apperrors.InternalServerError
 	}
 
-	productDm := productdm.Reconstruct(
+	productDm, err := productdm.Reconstruct(
 		productDto.ID,
 		productDto.GroupID,
 		productDto.Name,
@@ -90,6 +90,9 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
 		productDto.CreatedAt,
 		productDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return productDm, nil
 }

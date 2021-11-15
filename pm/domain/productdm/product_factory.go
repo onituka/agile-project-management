@@ -13,7 +13,7 @@ func GenProductForCreate(
 	leaderID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Product {
+) (*Product, error) {
 	return newProduct(
 		NewProductIDForCreate(),
 		groupID,
