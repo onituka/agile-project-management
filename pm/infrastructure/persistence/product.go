@@ -28,10 +28,12 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
          id,
          group_id,
          name,
-         leader_id
+         leader_id,
+         created_at,
+         updated_at
         )
        VALUES
-         (?, ?, ?, ?)`
+         (?, ?, ?, ?, ?, ?)`
 
 	if _, err = conn.ExecContext(
 		ctx,
@@ -40,6 +42,8 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
 		product.GroupID().Value(),
 		product.Name().Value(),
 		product.LeaderID().Value(),
+		product.CreatedAt(),
+		product.UpdatedAt(),
 	); err != nil {
 		return apperrors.InternalServerError
 	}
