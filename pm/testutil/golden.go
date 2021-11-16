@@ -34,7 +34,7 @@ const (
 
 var (
 	update = flag.Bool("update", false, "update golden test files")
-	clean  = flag.Bool("clean", false, "Clean old golden test files")
+	clean  = flag.Bool("clean", false, "clean old golden test files")
 )
 
 func AssertResponseBody(t *testing.T, res *http.Response, fileNameOpts ...string) {
