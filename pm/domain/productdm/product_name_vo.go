@@ -1,4 +1,4 @@
-package projectdm
+package productdm
 
 import (
 	"unicode/utf8"

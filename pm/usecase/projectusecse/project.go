@@ -42,22 +42,22 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *CreateProjectInp
 
 	nameVo, err := projectdm.NewName(in.Name)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
 	leaderIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
 	defaultAssigneeIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
-		return nil, apperrors.InvalidParameter
+		return nil, err
 	}
 
 	now := u.timeManager.Now()
 
-	projectDm := projectdm.GenProjectForCreate(
+	projectDm, err := projectdm.GenProjectForCreate(
 		groupIDVo,
 		keyNameVo,
 		nameVo,
@@ -69,7 +69,7 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *CreateProjectInp
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
-	exist, err := projectDomainService.ExistsUniqueProjectForCreate(ctx, projectDm)
+	exist, err := projectDomainService.ExistsProjectForCreate(ctx, projectDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
 	} else if exist {

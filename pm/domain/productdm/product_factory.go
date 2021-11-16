@@ -1,4 +1,4 @@
-package projectdm
+package productdm
 
 import (
 	"time"
@@ -7,22 +7,18 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
 
-func GenProjectForCreate(
+func GenProductForCreate(
 	groupID groupdm.GroupID,
-	keyName KeyName,
 	name Name,
 	leaderID userdm.UserID,
-	defaultAssigneeID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
-) (*Project, error) {
-	return newProject(
-		NewProjectIDForCreate(),
+) (*Product, error) {
+	return newProduct(
+		NewProductIDForCreate(),
 		groupID,
-		keyName,
 		name,
 		leaderID,
-		defaultAssigneeID,
 		createdAt,
 		updatedAt,
 	)
