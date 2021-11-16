@@ -16,7 +16,7 @@ func NewProjectDomainService(projectRepository ProjectRepository) *projectDomain
 	}
 }
 
-func (s *projectDomainService) ExistsUniqueProjectForCreate(ctx context.Context, projectDm *Project) (bool, error) {
+func (s *projectDomainService) ExistsProjectForCreate(ctx context.Context, projectDm *Project) (bool, error) {
 	existingProjectDm, err := s.projectRepository.FetchProjectByGroupIDAndKeyName(ctx, projectDm.GroupID(), projectDm.KeyName())
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return false, err

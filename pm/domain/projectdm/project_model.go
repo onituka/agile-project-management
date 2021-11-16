@@ -3,6 +3,7 @@ package projectdm
 import (
 	"time"
 
+	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
@@ -27,7 +28,11 @@ func newProject(
 	defaultAssigneeID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Project {
+) (*Project, error) {
+	if createdAt.IsZero() || updatedAt.IsZero() != false {
+		return nil, apperrors.InvalidParameter
+	}
+
 	return &Project{
 		id:                id,
 		groupID:           groupID,
@@ -37,7 +42,7 @@ func newProject(
 		defaultAssigneeID: defaultAssigneeID,
 		createdAt:         createdAt,
 		updatedAt:         updatedAt,
-	}
+	}, nil
 }
 
 func Reconstruct(
@@ -49,14 +54,44 @@ func Reconstruct(
 	defaultAssigneeID string,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Project {
+) (*Project, error) {
+	idVo, err := NewProjectID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	groupIDVo, err := groupdm.NewGroupID(groupID)
+	if err != nil {
+		return nil, err
+	}
+
+	keyNameVo, err := NewKeyName(keyName)
+	if err != nil {
+		return nil, err
+	}
+
+	nameVo, err := NewName(name)
+	if err != nil {
+		return nil, err
+	}
+
+	leaderIDVo, err := userdm.NewUserID(leaderID)
+	if err != nil {
+		return nil, err
+	}
+
+	defaultAssigneeIDVo, err := userdm.NewUserID(defaultAssigneeID)
+	if err != nil {
+		return nil, err
+	}
+
 	return newProject(
-		ProjectID(id),
-		groupdm.GroupID(groupID),
-		KeyName(keyName),
-		Name(name),
-		userdm.UserID(leaderID),
-		userdm.UserID(defaultAssigneeID),
+		ProjectID(idVo),
+		groupdm.GroupID(groupIDVo),
+		KeyName(keyNameVo),
+		Name(nameVo),
+		userdm.UserID(leaderIDVo),
+		userdm.UserID(defaultAssigneeIDVo),
 		createdAt,
 		updatedAt,
 	)
