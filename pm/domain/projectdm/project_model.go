@@ -86,12 +86,12 @@ func Reconstruct(
 	}
 
 	return newProject(
-		ProjectID(idVo),
-		groupdm.GroupID(groupIDVo),
-		KeyName(keyNameVo),
-		Name(nameVo),
-		userdm.UserID(leaderIDVo),
-		userdm.UserID(defaultAssigneeIDVo),
+		idVo,
+		groupIDVo,
+		keyNameVo,
+		nameVo,
+		leaderIDVo,
+		defaultAssigneeIDVo,
 		createdAt,
 		updatedAt,
 	)
