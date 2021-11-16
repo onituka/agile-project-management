@@ -30,10 +30,12 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
          key_name,
          name,
          leader_id,
-         default_assignee_id
+         default_assignee_id,
+         created_at,
+         updated_at
         )
        VALUES
-         (?, ?, ?, ?, ?, ?)`
+         (?, ?, ?, ?, ?, ?, ?, ?)`
 
 	if _, err = conn.ExecContext(
 		ctx,
@@ -44,6 +46,8 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
 		project.Name().Value(),
 		project.LeaderID().Value(),
 		project.DefaultAssigneeID().Value(),
+		project.CreatedAt(),
+		project.UpdatedAt(),
 	); err != nil {
 		return apperrors.InternalServerError
 	}
@@ -115,7 +119,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.Reconstruct(
+	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
 		projectDto.GroupID,
 		projectDto.KeyName,
@@ -125,6 +129,9 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -160,7 +167,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.Reconstruct(
+	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
 		projectDto.GroupID,
 		projectDto.KeyName,
@@ -170,6 +177,9 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -207,7 +217,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.Reconstruct(
+	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
 		projectDto.GroupID,
 		projectDto.KeyName,
@@ -217,6 +227,9 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -254,7 +267,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 		return nil, apperrors.InternalServerError
 	}
 
-	projectDm := projectdm.Reconstruct(
+	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
 		projectDto.GroupID,
 		projectDto.KeyName,
@@ -264,6 +277,9 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -307,7 +323,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 
 	projectDms := make([]*projectdm.Project, len(projectsDto))
 	for i, projectDto := range projectsDto {
-		projectDms[i] = projectdm.Reconstruct(
+		projectDms[i], err = projectdm.Reconstruct(
 			projectDto.ID,
 			projectDto.GroupID,
 			projectDto.KeyName,
@@ -317,6 +333,9 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 			projectDto.CreatedAt,
 			projectDto.UpdatedAt,
 		)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return projectDms, nil

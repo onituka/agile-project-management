@@ -15,7 +15,7 @@ func GenProjectForCreate(
 	defaultAssigneeID userdm.UserID,
 	createdAt time.Time,
 	updatedAt time.Time,
-) *Project {
+) (*Project, error) {
 	return newProject(
 		NewProjectIDForCreate(),
 		groupID,
