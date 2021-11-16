@@ -129,6 +129,9 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -174,6 +177,9 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -221,6 +227,9 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -268,6 +277,9 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	return projectDm, nil
 }
@@ -321,6 +333,9 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 			projectDto.CreatedAt,
 			projectDto.UpdatedAt,
 		)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return projectDms, nil
