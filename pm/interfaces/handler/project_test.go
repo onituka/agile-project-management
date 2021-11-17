@@ -120,7 +120,6 @@ func Test_projectHandler_CreateProject(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
-			defer gmctrl.Finish()
 
 			// gomockデータ生成
 			f := fields{
