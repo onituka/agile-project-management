@@ -134,7 +134,6 @@ func Test_projectHandler_CreateProject(t *testing.T) {
 			// handler生成
 			h := NewProjectHandler(f.projectUsecase)
 
-			// mockContext生成
 			r := httptest.NewRequest(http.MethodPost, "/projects", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
 
