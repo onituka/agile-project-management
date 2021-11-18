@@ -56,7 +56,7 @@ func Test_productHandler_CreateProduct(t *testing.T) {
 			prepareMock: nil,
 		},
 		{
-			name:       "400-2-グループ名不正",
+			name:       "400-2-グループID不正",
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
