@@ -56,7 +56,7 @@ func Test_productHandler_CreateProduct(t *testing.T) {
 			prepareMock: nil,
 		},
 		{
-			name:       "400-2-GroupID不正",
+			name:       "400-2-グループ名不正",
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
@@ -72,7 +72,7 @@ func Test_productHandler_CreateProduct(t *testing.T) {
 			},
 		},
 		{
-			name:       "409-GroupID重複",
+			name:       "409-プロダクト名重複",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
