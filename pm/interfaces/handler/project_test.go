@@ -358,7 +358,7 @@ func Test_projectHandler_UpdateProject(t *testing.T) {
 			},
 		},
 		{
-			name:        "400-2-jsonでコード失敗",
+			name:        "400-2-jsonデコード失敗",
 			fileSuffix:  "400-2",
 			prepareMock: nil,
 		},
