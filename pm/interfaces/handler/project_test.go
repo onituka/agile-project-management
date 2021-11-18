@@ -122,7 +122,6 @@ func Test_projectHandler_CreateProject(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
 
-			// gomockデータ生成
 			f := fields{
 				projectUsecase: mockusecase.NewMockProjectUsecase(gmctrl),
 			}
@@ -131,7 +130,6 @@ func Test_projectHandler_CreateProject(t *testing.T) {
 				tt.prepareMock(&f)
 			}
 
-			// handler生成
 			h := NewProjectHandler(f.projectUsecase)
 
 			r := httptest.NewRequest(http.MethodPost, "/projects", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
@@ -222,7 +220,7 @@ func Test_projectHandler_FetchProjectByID(t *testing.T) {
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
-				err := apperrors.InvalidParameter
+				err := apperrors.NotFound
 
 				f.projectUsecase.EXPECT().FetchProjectByID(ctx, in).Return(nil, err)
 			},
@@ -260,7 +258,6 @@ func Test_projectHandler_FetchProjectByID(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
 
-			// gomockデータ生成
 			f := fields{
 				projectUsecase: mockusecase.NewMockProjectUsecase(gmctrl),
 			}
@@ -269,7 +266,6 @@ func Test_projectHandler_FetchProjectByID(t *testing.T) {
 				tt.prepareMock(&f)
 			}
 
-			// handler生成
 			h := NewProjectHandler(f.projectUsecase)
 
 			r := httptest.NewRequest(http.MethodGet, "/projects/024d71d6-1d03-11ec-a478-0242ac180002", nil)
