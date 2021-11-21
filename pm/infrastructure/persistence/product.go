@@ -90,8 +90,8 @@ func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id pr
            id,
            group_id,
            name,
-         　leader_id,
-        　 created_at,
+           leader_id,
+           created_at,
            updated_at
          FROM
            products
