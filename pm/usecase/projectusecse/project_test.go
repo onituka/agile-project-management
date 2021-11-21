@@ -15,7 +15,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 )
 
-func Test_projectUsecase_FetchProjectByID(t *testing.T) {
+func TestProjectUsecaseFetchProjectByID(t *testing.T) {
 	type fields struct {
 		projectRepository *mockrepository.MockProjectRepository
 		timeManager       *mocktime.MockTimeManager
