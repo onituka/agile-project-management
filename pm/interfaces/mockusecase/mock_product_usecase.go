@@ -49,3 +49,18 @@ func (mr *MockProductUsecaseMockRecorder) CreateProduct(ctx, in interface{}) *go
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProduct", reflect.TypeOf((*MockProductUsecase)(nil).CreateProduct), ctx, in)
 }
+
+// UpdateProduct mocks base method.
+func (m *MockProductUsecase) UpdateProduct(ctx context.Context, in *productusecse.UpdateProductInput) (*productusecse.UpdateProductOutput, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProduct", ctx, in)
+	ret0, _ := ret[0].(*productusecse.UpdateProductOutput)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateProduct indicates an expected call of UpdateProduct.
+func (mr *MockProductUsecaseMockRecorder) UpdateProduct(ctx, in interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProduct", reflect.TypeOf((*MockProductUsecase)(nil).UpdateProduct), ctx, in)
+}

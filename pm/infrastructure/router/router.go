@@ -44,6 +44,7 @@ func Run() error {
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
 	router.HandleFunc("/products", productHandler.CreateProduct).Methods(http.MethodPost)
+	router.HandleFunc("/products/{productID}", productHandler.UpdateProduct).Methods(http.MethodPut)
 
 	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
 	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)
