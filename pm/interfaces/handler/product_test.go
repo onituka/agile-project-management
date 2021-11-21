@@ -16,7 +16,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
 )
 
-func Test_productHandler_CreateProduct(t *testing.T) {
+func TestProductHandlerCreateProduct(t *testing.T) {
 	type fields struct {
 		productUsecase *mockusecase.MockProductUsecase
 	}

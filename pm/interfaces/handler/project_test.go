@@ -17,7 +17,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
 )
 
-func Test_projectHandler_CreateProject(t *testing.T) {
+func TestProjectHandlerCreateProject(t *testing.T) {
 	type fields struct {
 		projectUsecase *mockusecase.MockProjectUsecase
 	}
@@ -145,7 +145,7 @@ func Test_projectHandler_CreateProject(t *testing.T) {
 	}
 }
 
-func Test_projectHandler_FetchProjectByID(t *testing.T) {
+func TestProjectHandlerFetchProjectByID(t *testing.T) {
 	type fields struct {
 		projectUsecase *mockusecase.MockProjectUsecase
 	}
@@ -285,7 +285,7 @@ func Test_projectHandler_FetchProjectByID(t *testing.T) {
 	}
 }
 
-func Test_projectHandler_UpdateProject(t *testing.T) {
+func TestProjectHandlerUpdateProject(t *testing.T) {
 	type fields struct {
 		projectUsecase *mockusecase.MockProjectUsecase
 	}
@@ -468,6 +468,7 @@ func Test_projectHandler_UpdateProject(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
@@ -499,7 +500,7 @@ func Test_projectHandler_UpdateProject(t *testing.T) {
 	}
 }
 
-func Test_projectHandler_FetchProjects(t *testing.T) {
+func TestProjectHandlerFetchProjects(t *testing.T) {
 	type fields struct {
 		projectUsecase *mockusecase.MockProjectUsecase
 	}
@@ -563,6 +564,7 @@ func Test_projectHandler_FetchProjects(t *testing.T) {
 			},
 		},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
