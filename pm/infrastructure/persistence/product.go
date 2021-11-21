@@ -87,17 +87,17 @@ func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id pr
 
 	query := `
          SELECT
-         id,
-         group_id,
-         name,
-         leader_id,
-         created_at,
-         updated_at
+           id,
+           group_id,
+           name,
+         　leader_id,
+        　 created_at,
+           updated_at
          FROM
-            products
+           products
          WHERE
            id = ?
-           FOR UPDATE`
+         FOR UPDATE`
 
 	var productDto datasource.Product
 
@@ -132,14 +132,14 @@ func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.P
 
 	query := `
          SELECT
-         id,
-         group_id,
-         name,
-         leader_id,
-         created_at,
-         updated_at
+           id,
+           group_id,
+           name,
+           leader_id,
+           created_at,
+           updated_at
          FROM
-            products
+           products
          WHERE
            id = ?`
 
