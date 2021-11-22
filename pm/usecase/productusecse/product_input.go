@@ -7,7 +7,7 @@ type CreateProductInput struct {
 }
 
 type UpdateProductInput struct {
-	ID       string `json:"ID"`
+	ID       string
 	GroupID  string `json:"groupID"`
 	Name     string `json:"name"`
 	LeaderID string `json:"leaderID"`
