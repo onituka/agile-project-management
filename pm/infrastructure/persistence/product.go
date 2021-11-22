@@ -59,18 +59,20 @@ func (r *productRepository) UpdateProduct(ctx context.Context, product *productd
 
 	query := `
         UPDATE
-            products
+          products
         SET
-            name = ?,
-            leader_id = ?
+          name = ?,
+          leader_id = ?,
+          updated_at = ?
         WHERE
-              id = ?`
+          id = ?`
 
 	if _, err := conn.ExecContext(
 		ctx,
 		query,
 		product.Name().Value(),
 		product.LeaderID().Value(),
+		product.UpdatedAt(),
 		product.ID().Value(),
 	); err != nil {
 		return apperrors.InternalServerError
