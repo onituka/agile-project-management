@@ -1,4 +1,4 @@
-package productusecse
+package productusecase
 
 import (
 	"context"

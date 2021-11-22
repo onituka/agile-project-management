@@ -1,4 +1,4 @@
-package productusecse
+package productusecase
 
 type CreateProductInput struct {
 	GroupID  string `json:"groupID"`

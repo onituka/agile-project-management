@@ -13,7 +13,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/mockusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
 
 func TestProductHandlerCreateProduct(t *testing.T) {
@@ -31,13 +31,13 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctX := context.Background()
 
-				in := &productusecse.CreateProductInput{
+				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
-				out := &productusecse.CreateProductOutput{
+				out := &productusecase.CreateProductOutput{
 					ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:      "プロジェクト管理ツール",
@@ -61,7 +61,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecse.CreateProductInput{
+				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac1800020",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -77,7 +77,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecse.CreateProductInput{
+				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -94,7 +94,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecse.CreateProductInput{
+				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",

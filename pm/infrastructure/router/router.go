@@ -18,8 +18,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/usecase/clock"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 func Run() error {
@@ -36,11 +36,11 @@ func Run() error {
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
 	productRepository := persistence.NewProductRepository()
-	productUsecase := productusecse.NewProductUsecase(productRepository, realTime)
+	productUsecase := productusecase.NewProductUsecase(productRepository, realTime)
 	productHandler := handler.NewProductHandler(productUsecase)
 
 	projectRepository := persistence.NewProjectRepository()
-	projectUsecase := projectusecse.NewProjectUsecase(projectRepository, realTime)
+	projectUsecase := projectusecase.NewProjectUsecase(projectRepository, realTime)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
 
 	router.HandleFunc("/products", productHandler.CreateProduct).Methods(http.MethodPost)

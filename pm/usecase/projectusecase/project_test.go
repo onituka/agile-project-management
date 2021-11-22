@@ -1,4 +1,4 @@
-package projectusecse
+package projectusecase
 
 import (
 	"context"

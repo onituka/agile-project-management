@@ -8,21 +8,21 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 type projectHandler struct {
-	projectUsecase projectusecse.ProjectUsecase
+	projectUsecase projectusecase.ProjectUsecase
 }
 
-func NewProjectHandler(projectUsecase projectusecse.ProjectUsecase) *projectHandler {
+func NewProjectHandler(projectUsecase projectusecase.ProjectUsecase) *projectHandler {
 	return &projectHandler{
 		projectUsecase: projectUsecase,
 	}
 }
 
 func (h *projectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
-	var in projectusecse.CreateProjectInput
+	var in projectusecase.CreateProjectInput
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		setAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
@@ -42,7 +42,7 @@ func (h *projectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 func (h *projectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
 	projectID := mux.Vars(r)["projectID"]
 
-	in := projectusecse.UpdateProjectInput{
+	in := projectusecase.UpdateProjectInput{
 		ID: projectID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
@@ -64,7 +64,7 @@ func (h *projectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
 func (h *projectHandler) FetchProjectByID(w http.ResponseWriter, r *http.Request) {
 	projectID := mux.Vars(r)["projectID"]
 
-	in := projectusecse.FetchProjectByIDInput{
+	in := projectusecase.FetchProjectByIDInput{
 		ID: projectID,
 	}
 

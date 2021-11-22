@@ -8,21 +8,21 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
 
 type productHandler struct {
-	productUsecase productusecse.ProductUsecase
+	productUsecase productusecase.ProductUsecase
 }
 
-func NewProductHandler(productUsecase productusecse.ProductUsecase) *productHandler {
+func NewProductHandler(productUsecase productusecase.ProductUsecase) *productHandler {
 	return &productHandler{
 		productUsecase: productUsecase,
 	}
 }
 
 func (h *productHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
-	var in productusecse.CreateProductInput
+	var in productusecase.CreateProductInput
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		setAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
@@ -42,7 +42,7 @@ func (h *productHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 func (h *productHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	productID := mux.Vars(r)["productID"]
 
-	in := productusecse.UpdateProductInput{
+	in := productusecase.UpdateProductInput{
 		ID: productID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
