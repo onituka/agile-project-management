@@ -24,14 +24,14 @@ func NewProjectHandler(projectUsecase projectusecase.ProjectUsecase) *projectHan
 func (h *projectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 	var in projectusecase.CreateProjectInput
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
 		return
 	}
 
 	out, err := h.projectUsecase.CreateProject(r.Context(), &in)
 	if err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
@@ -46,14 +46,14 @@ func (h *projectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
 		ID: projectID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
 		return
 	}
 
 	out, err := h.projectUsecase.UpdateProject(r.Context(), &in)
 	if err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
@@ -70,7 +70,7 @@ func (h *projectHandler) FetchProjectByID(w http.ResponseWriter, r *http.Request
 
 	out, err := h.projectUsecase.FetchProjectByID(r.Context(), &in)
 	if err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
@@ -81,7 +81,7 @@ func (h *projectHandler) FetchProjectByID(w http.ResponseWriter, r *http.Request
 func (h *projectHandler) FetchProjects(w http.ResponseWriter, r *http.Request) {
 	out, err := h.projectUsecase.FetchProjects(r.Context())
 	if err != nil {
-		setAppErrorToCtx(r, err)
+		SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
