@@ -1,4 +1,4 @@
 {
   "status": 404,
-  "error": "projectNotFound"
+  "error": "NotFound"
 }
