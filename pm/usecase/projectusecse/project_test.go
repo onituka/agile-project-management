@@ -239,7 +239,7 @@ func TestProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "name不正",
+			name:        "プロジェクト名不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.Background(),
