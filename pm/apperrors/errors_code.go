@@ -6,7 +6,7 @@ const (
 	InvalidParameterCode    code = "InvalidParameter"
 	ConflictCode            code = "Conflict"
 	InternalServerErrorCode code = "InternalServerError"
-	NotFoundCode            code = "projectNotFound"
+	NotFoundCode            code = "NotFound"
 )
 
 func (c code) value() string {

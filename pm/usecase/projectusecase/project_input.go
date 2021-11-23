@@ -1,4 +1,4 @@
-package projectusecse
+package projectusecase
 
 type CreateProjectInput struct {
 	GroupID           string `json:"groupID"`

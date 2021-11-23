@@ -14,7 +14,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/mockusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 func TestProjectHandlerCreateProject(t *testing.T) {
@@ -32,7 +32,7 @@ func TestProjectHandlerCreateProject(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &projectusecse.CreateProjectInput{
+				in := &projectusecase.CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -40,7 +40,7 @@ func TestProjectHandlerCreateProject(t *testing.T) {
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				}
 
-				out := &projectusecse.CreateProjectOutput{
+				out := &projectusecase.CreateProjectOutput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -65,7 +65,7 @@ func TestProjectHandlerCreateProject(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &projectusecse.CreateProjectInput{
+				in := &projectusecase.CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "1AAA",
 					Name:              "管理ツール1",
@@ -84,7 +84,7 @@ func TestProjectHandlerCreateProject(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &projectusecse.CreateProjectInput{
+				in := &projectusecase.CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -103,7 +103,7 @@ func TestProjectHandlerCreateProject(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &projectusecse.CreateProjectInput{
+				in := &projectusecase.CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -163,11 +163,11 @@ func TestProjectHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.FetchProjectByIDInput{
+				in := &projectusecase.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
-				out := &projectusecse.FetchProjectByIDOutput{
+				out := &projectusecase.FetchProjectByIDOutput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -194,7 +194,7 @@ func TestProjectHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}).Context()
 
-				in := &projectusecse.FetchProjectByIDInput{
+				in := &projectusecase.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}
 
@@ -216,7 +216,7 @@ func TestProjectHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.FetchProjectByIDInput{
+				in := &projectusecase.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
@@ -238,7 +238,7 @@ func TestProjectHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.FetchProjectByIDInput{
+				in := &projectusecase.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
@@ -303,7 +303,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -312,7 +312,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				}
 
-				out := &projectusecse.UpdateProjectOutput{
+				out := &projectusecase.UpdateProjectOutput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -339,7 +339,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac1800023",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -370,7 +370,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "1AAA",
@@ -396,7 +396,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -422,7 +422,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -449,7 +449,7 @@ func TestProjectHandlerUpdateProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecse.UpdateProjectInput{
+				in := &projectusecase.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -515,8 +515,8 @@ func TestProjectHandlerFetchProjects(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				out := projectusecse.FetchProjectsOutput{
-					&projectusecse.Project{
+				out := projectusecase.FetchProjectsOutput{
+					&projectusecase.Project{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "AAA",
@@ -526,7 +526,7 @@ func TestProjectHandlerFetchProjects(t *testing.T) {
 						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 					},
-					&projectusecse.Project{
+					&projectusecase.Project{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180003",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
@@ -547,7 +547,7 @@ func TestProjectHandlerFetchProjects(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				out := make(projectusecse.FetchProjectsOutput, 0)
+				out := make(projectusecase.FetchProjectsOutput, 0)
 
 				f.projectUsecase.EXPECT().FetchProjects(ctx).Return(out, nil)
 			},

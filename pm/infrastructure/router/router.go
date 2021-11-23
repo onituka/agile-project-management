@@ -18,32 +18,26 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/usecase/clock"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecse"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecse"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 func Run() error {
 	router := mux.NewRouter()
 
+	realTime := clock.NewRealTime()
 	conn, err := rdb.NewDB()
 	if err != nil {
 		return err
 	}
 	defer conn.Close()
 
-	realTime := clock.NewRealTime()
-
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
-	productRepository := persistence.NewProductRepository()
-	productUsecase := productusecse.NewProductUsecase(productRepository, realTime)
-	productHandler := handler.NewProductHandler(productUsecase)
+	newProductRouter(router, realTime)
 
 	projectRepository := persistence.NewProjectRepository()
-	projectUsecase := projectusecse.NewProjectUsecase(projectRepository, realTime)
+	projectUsecase := projectusecase.NewProjectUsecase(projectRepository, realTime)
 	projectHandler := handler.NewProjectHandler(projectUsecase)
-
-	router.HandleFunc("/products", productHandler.CreateProduct).Methods(http.MethodPost)
 
 	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
 	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)

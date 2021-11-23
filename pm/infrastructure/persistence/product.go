@@ -51,6 +51,126 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
 	return nil
 }
 
+func (r *productRepository) UpdateProduct(ctx context.Context, product *productdm.Product) error {
+	conn, err := execFromCtx(ctx)
+	if err != nil {
+		return err
+	}
+
+	query := `
+        UPDATE
+          products
+        SET
+          name = ?,
+          leader_id = ?,
+          updated_at = ?
+        WHERE
+          id = ?`
+
+	if _, err := conn.ExecContext(
+		ctx,
+		query,
+		product.Name().Value(),
+		product.LeaderID().Value(),
+		product.UpdatedAt(),
+		product.ID().Value(),
+	); err != nil {
+		return apperrors.InternalServerError
+	}
+
+	return nil
+}
+
+func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id productdm.ProductID) (*productdm.Product, error) {
+	conn, err := execFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT
+           id,
+           group_id,
+           name,
+           leader_id,
+           created_at,
+           updated_at
+         FROM
+           products
+         WHERE
+           id = ?
+         FOR UPDATE`
+
+	var productDto datasource.Product
+
+	if err := conn.QueryRowxContext(ctx, query, id.Value()).StructScan(&productDto); err != nil {
+		if apperrors.Is(err, sql.ErrNoRows) {
+			return nil, apperrors.NotFound
+		}
+
+		return nil, apperrors.InternalServerError
+	}
+
+	productDm, err := productdm.Reconstruct(
+		productDto.ID,
+		productDto.GroupID,
+		productDto.Name,
+		productDto.LeaderID,
+		productDto.CreatedAt,
+		productDto.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return productDm, nil
+}
+
+func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.ProductID) (*productdm.Product, error) {
+	conn, err := execFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT
+           id,
+           group_id,
+           name,
+           leader_id,
+           created_at,
+           updated_at
+         FROM
+           products
+         WHERE
+           id = ?`
+
+	var productDto datasource.Product
+
+	if err := conn.QueryRowxContext(ctx, query, id.Value()).StructScan(&productDto); err != nil {
+		if apperrors.Is(err, sql.ErrNoRows) {
+			return nil, apperrors.NotFound
+		}
+
+		return nil, apperrors.InternalServerError
+	}
+
+	productDm, err := productdm.Reconstruct(
+		productDto.ID,
+		productDto.GroupID,
+		productDto.Name,
+		productDto.LeaderID,
+		productDto.CreatedAt,
+		productDto.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return productDm, nil
+
+}
+
 func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, Name productdm.Name) (*productdm.Product, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
