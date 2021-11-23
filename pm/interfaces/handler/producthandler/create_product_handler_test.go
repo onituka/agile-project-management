@@ -1,4 +1,4 @@
-package handler
+package producthandler
 
 import (
 	"context"
@@ -11,14 +11,14 @@ import (
 	"github.com/golang/mock/gomock"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/interfaces/mockusecase"
+	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler/mockproductusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
 
-func TestProductHandlerCreateProduct(t *testing.T) {
+func TestCreateProductHandlerCreateProduct(t *testing.T) {
 	type fields struct {
-		productUsecase *mockusecase.MockProductUsecase
+		createProductUsecase *mockproductusecase.MockCreateProductUsecase
 	}
 	tests := []struct {
 		name        string
@@ -46,8 +46,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 					UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 				}
 
-				f.productUsecase.EXPECT().CreateProduct(ctX, in).Return(out, nil)
-
+				f.createProductUsecase.EXPECT().CreateProduct(ctX, in).Return(out, nil)
 			},
 		},
 		{
@@ -68,7 +67,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 				}
 				err := apperrors.InvalidParameter
 
-				f.productUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
+				f.createProductUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
 			},
 		},
 		{
@@ -85,7 +84,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 
 				err := apperrors.Conflict
 
-				f.productUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
+				f.createProductUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
 			},
 		},
 		{
@@ -102,7 +101,7 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 
 				err := apperrors.InternalServerError
 
-				f.productUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
+				f.createProductUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
 			},
 		},
 	}
@@ -112,14 +111,14 @@ func TestProductHandlerCreateProduct(t *testing.T) {
 			gmctrl := gomock.NewController(t)
 
 			f := fields{
-				productUsecase: mockusecase.NewMockProductUsecase(gmctrl),
+				createProductUsecase: mockproductusecase.NewMockCreateProductUsecase(gmctrl),
 			}
 
 			if tt.prepareMock != nil {
 				tt.prepareMock(&f)
 			}
 
-			h := NewProductHandler(f.productUsecase)
+			h := NewCreateProductHandler(f.createProductUsecase)
 
 			r := httptest.NewRequest(http.MethodPost, "/products", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
