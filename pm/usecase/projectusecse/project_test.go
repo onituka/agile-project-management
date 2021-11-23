@@ -223,13 +223,13 @@ func TestProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "keyNameID不正",
+			name:        "keyName不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.Background(),
 				in: &CreateProjectInput{
-					GroupID:           "invalid keyName id",
-					KeyName:           "AAA",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					KeyName:           "invalid keyName",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
@@ -239,14 +239,14 @@ func TestProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "nameID不正",
+			name:        "name不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.Background(),
 				in: &CreateProjectInput{
-					GroupID:           "invalid name id",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
-					Name:              "管理ツール1",
+					Name:              "A",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				},
@@ -260,10 +260,10 @@ func TestProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				in: &CreateProjectInput{
-					GroupID:           "invalid leader id",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
-					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+					LeaderID:          "invalid leader id",
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				},
 			},
@@ -276,11 +276,11 @@ func TestProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.Background(),
 				in: &CreateProjectInput{
-					GroupID:           "invalid defaultAssignee id",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "invalid defaultAssignee id",
 				},
 			},
 			want:    nil,
