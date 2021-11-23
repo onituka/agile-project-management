@@ -45,12 +45,12 @@ func (u *projectUsecase) CreateProject(ctx context.Context, in *CreateProjectInp
 		return nil, err
 	}
 
-	leaderIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
+	leaderIDVo, err := userdm.NewUserID(in.LeaderID)
 	if err != nil {
 		return nil, err
 	}
 
-	defaultAssigneeIDVo, err := userdm.NewUserID(in.LeaderID)
+	defaultAssigneeIDVo, err := userdm.NewUserID(in.DefaultAssigneeID)
 	if err != nil {
 		return nil, err
 	}
