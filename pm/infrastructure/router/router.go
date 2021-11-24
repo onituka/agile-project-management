@@ -14,11 +14,8 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/config"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/middleware"
-	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
-	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/usecase/clock"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 func Run() error {
@@ -34,15 +31,7 @@ func Run() error {
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
 	newProductRouter(router, realTime)
-
-	projectRepository := persistence.NewProjectRepository()
-	projectUsecase := projectusecase.NewProjectUsecase(projectRepository, realTime)
-	projectHandler := handler.NewProjectHandler(projectUsecase)
-
-	router.HandleFunc("/projects", projectHandler.CreateProject).Methods(http.MethodPost)
-	router.HandleFunc("/projects/{projectID}", projectHandler.UpdateProject).Methods(http.MethodPut)
-	router.HandleFunc("/projects/{projectID}", projectHandler.FetchProjectByID).Methods(http.MethodGet)
-	router.HandleFunc("/projects", projectHandler.FetchProjects).Methods(http.MethodGet)
+	newProjectRouter(router, realTime)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),

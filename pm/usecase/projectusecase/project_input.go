@@ -9,7 +9,7 @@ type CreateProjectInput struct {
 }
 
 type UpdateProjectInput struct {
-	ID                string `json:"ID"`
+	ID                string
 	GroupID           string `json:"groupID"`
 	KeyName           string `json:"keyName"`
 	Name              string `json:"name"`
@@ -18,5 +18,5 @@ type UpdateProjectInput struct {
 }
 
 type FetchProjectByIDInput struct {
-	ID string `json:"ID"`
+	ID string
 }
