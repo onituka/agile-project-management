@@ -29,7 +29,7 @@ func newProject(
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Project, error) {
-	if createdAt.IsZero() || updatedAt.IsZero() != false {
+	if createdAt.IsZero() || updatedAt.IsZero() {
 		return nil, apperrors.InvalidParameter
 	}
 

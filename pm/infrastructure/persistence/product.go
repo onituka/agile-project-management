@@ -168,7 +168,6 @@ func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.P
 	}
 
 	return productDm, nil
-
 }
 
 func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, Name productdm.Name) (*productdm.Product, error) {

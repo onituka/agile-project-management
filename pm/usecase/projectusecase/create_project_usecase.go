@@ -63,6 +63,9 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		now,
 		now,
 	)
+	if err != nil {
+		return nil, err
+	}
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
@@ -87,5 +90,4 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		CreatedAt:         projectDm.CreatedAt(),
 		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil
-
 }

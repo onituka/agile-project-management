@@ -318,7 +318,6 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 		}
 
 		projectsDto = append(projectsDto, projectDto)
-
 	}
 
 	projectDms := make([]*projectdm.Project, len(projectsDto))
