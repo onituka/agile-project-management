@@ -76,5 +76,4 @@ func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProd
 		CreatedAt: productDm.CreatedAt(),
 		UpdatedAt: productDm.UpdatedAt(),
 	}, nil
-
 }

@@ -1,0 +1,45 @@
+name: pm test
+on:
+  pull_request:
+    paths:
+      - pm/**
+      - .github/workflows/pm-test.yaml
+defaults:
+  run:
+    shell: bash
+    working-directory: pm
+jobs:
+  test:
+    name: pm test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.16
+
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.43
+          working-directory: pm
+          args: --config ../.github/.golangci.yaml
+
+      - name: Run tests
+        run: |
+          GO_ENV=local \
+          LOCAL_SERVER_PORT=8080 \
+          LOCAL_CORS_ALLOWED_ORIGINS="http://localhost:3000" \
+          LOCAL_MYSQL_DSN="root:root@tcp(127.0.0.1:3336)/test_db" \
+          go test -race ./...

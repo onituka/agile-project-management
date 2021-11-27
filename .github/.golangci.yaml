@@ -1,0 +1,23 @@
+linters:
+  disable-all: true
+  enable:
+    - deadcode
+    - errcheck
+    - gci
+    - gofmt
+    - gosec
+    - gosimple
+    - govet
+    - ifshort
+    - ineffassign
+    - nilerr
+    - structcheck
+    - typecheck
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+
+linters-settings:
+  gci:
+    local-prefixes: github.com/onituka/agile-project-management
