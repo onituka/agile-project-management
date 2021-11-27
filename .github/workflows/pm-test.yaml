@@ -30,11 +30,11 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Run golangci-lint
-      - uses: golangci/golangci-lint-action@v2
-      - uses: ./.github/.golangci.yaml
+        uses: golangci/golangci-lint-action@v2
         with:
           version: v1.43
           working-directory: pm
+          args: --config ../.github/.golangci.yaml
 
       - name: Run tests
         run: |
