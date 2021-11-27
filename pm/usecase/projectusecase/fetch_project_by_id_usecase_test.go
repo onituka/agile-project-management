@@ -12,13 +12,11 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/mockrepository"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 )
 
-func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
+func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 	type fields struct {
 		projectRepository *mockrepository.MockProjectRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -126,7 +124,6 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 
 			f := fields{
 				projectRepository: mockrepository.NewMockProjectRepository(gmctrl),
-				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				tt.prepareMock(&f)
