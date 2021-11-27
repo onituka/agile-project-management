@@ -11,12 +11,12 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mockrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 )
 
 func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 	type fields struct {
-		projectRepository *mockrepository.MockProjectRepository
+		projectRepository *mockprojectrepository.MockProjectRepository
 	}
 	type args struct {
 		ctx context.Context
@@ -123,7 +123,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			gmctrl := gomock.NewController(t)
 
 			f := fields{
-				projectRepository: mockrepository.NewMockProjectRepository(gmctrl),
+				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				tt.prepareMock(&f)
