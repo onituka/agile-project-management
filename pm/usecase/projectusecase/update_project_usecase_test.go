@@ -12,13 +12,13 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mockrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 )
 
 func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 	type fields struct {
-		projectRepository *mockrepository.MockProjectRepository
+		projectRepository *mockprojectrepository.MockProjectRepository
 		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
@@ -236,7 +236,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			gmctrl := gomock.NewController(t)
 
 			f := fields{
-				projectRepository: mockrepository.NewMockProjectRepository(gmctrl),
+				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
 				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
