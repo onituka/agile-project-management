@@ -58,8 +58,13 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 			},
 		},
 		{
-			name:       "400-1-プロダクトID不正",
-			fileSuffix: "400-1",
+			name:        "400-1-jsonデコード失敗",
+			fileSuffix:  "400-1",
+			prepareMock: nil,
+		},
+		{
+			name:       "400-2-プロダクトID不正",
+			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
@@ -77,34 +82,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
-				})
-			},
-		},
-		{
-			name:        "400-2-jsonデコード失敗",
-			fileSuffix:  "400-2",
-			prepareMock: nil,
-		},
-		{
-			name:       "400-3-グループID不正",
-			fileSuffix: "400-3",
-			prepareMock: func(f *fields) {
-				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-				}).Context()
-
-				in := &productusecase.UpdateProductInput{
-					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Name:     "プロジェクト管理ツール",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
-				}
-				err := apperrors.InvalidParameter
-
-				f.updateProductUsecase.EXPECT().UpdateProduct(ctx, in).Return(nil, err)
-			},
-			prepareRequest: func(r *http.Request) {
-				*r = *mux.SetURLVars(r, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
 		},
