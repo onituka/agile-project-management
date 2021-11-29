@@ -36,7 +36,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -68,7 +67,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -97,7 +95,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac1800020",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -121,7 +118,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -145,7 +141,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -169,7 +164,6 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 				in := &productusecase.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
