@@ -31,7 +31,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 		{
 			name: "正常",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectDms := make([]*projectdm.Project, 2)
 				projectDms[0], _ = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
@@ -57,7 +57,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjects(ctx).Return(projectDms, nil)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 			},
 			want: FetchProjectsOutput{
 				&Project{
@@ -86,7 +86,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 		{
 			name: "DBエラー",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectDms := make([]*projectdm.Project, 2)
 				projectDms[0], _ = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
@@ -113,7 +113,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjects(ctx).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 			},
 			want:    nil,
 			wantErr: apperrors.InternalServerError,
