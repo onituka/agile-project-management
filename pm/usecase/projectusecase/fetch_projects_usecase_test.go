@@ -23,17 +23,19 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        FetchProjectsOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				projectDms := make([]*projectdm.Project, 2)
-				projectDms[0], _ = projectdm.Reconstruct(
+				var err error
+
+				projectDms[0], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
@@ -43,7 +45,11 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
-				projectDms[1], _ = projectdm.Reconstruct(
+				if err != nil {
+					return err
+				}
+
+				projectDms[1], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180003",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
@@ -53,8 +59,12 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
+				if err != nil {
+					return err
+				}
 
 				f.projectRepository.EXPECT().FetchProjects(ctx).Return(projectDms, nil)
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -85,10 +95,12 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				projectDms := make([]*projectdm.Project, 2)
-				projectDms[0], _ = projectdm.Reconstruct(
+				var err error
+
+				projectDms[0], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
@@ -98,7 +110,11 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
-				projectDms[1], _ = projectdm.Reconstruct(
+				if err != nil {
+					return err
+				}
+
+				projectDms[1], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180003",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
@@ -108,9 +124,14 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
-				err := apperrors.InternalServerError
+				if err != nil {
+					return err
+				}
 
-				f.projectRepository.EXPECT().FetchProjects(ctx).Return(nil, err)
+				apperr := apperrors.InternalServerError
+
+				f.projectRepository.EXPECT().FetchProjects(ctx).Return(nil, apperr)
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -126,7 +147,9 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewFetchProjectsUsecase(f.projectRepository)
