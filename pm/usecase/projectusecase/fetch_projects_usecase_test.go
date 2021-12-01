@@ -155,7 +155,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 			u := NewFetchProjectsUsecase(f.projectRepository)
 
 			got, err := u.FetchProjects(tt.args.ctx)
-			if (err != nil) != (tt.wantErr != nil) {
+			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("FetchProjects() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
