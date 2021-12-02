@@ -28,23 +28,35 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        *CreateProductOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
-				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
-				nameVo := productdm.Name("プロジェクト管理ツール")
-				err := apperrors.NotFound
+				var err error
+
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
+				nameVo, err := productdm.NewName("プロジェクト管理ツール")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
+				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.productRepository.EXPECT().CreateProduct(ctx, gomock.Any()).Return(nil)
+
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -108,15 +120,26 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
-				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
-				nameVo := productdm.Name("プロジェクト管理ツール")
-				err := apperrors.InternalServerError
+				var err error
+
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
+				nameVo, err := productdm.NewName("プロジェクト管理ツール")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.InternalServerError
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
+				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -140,14 +163,16 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewCreateProductUsecase(f.productRepository, f.timeManager)
 
 			got, err := u.CreateProduct(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
-				t.Errorf("FetchProjects() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("CreateProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 
