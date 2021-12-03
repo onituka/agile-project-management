@@ -35,7 +35,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 		{
 			name: "正常",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				projectDm, _ := projectdm.Reconstruct(
@@ -72,7 +72,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -98,7 +98,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name:        "projectID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID:                "invalid project id",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -114,7 +114,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 		{
 			name: "指定したIDでプロジェクトが存在しない",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 
 				err := apperrors.NotFound
@@ -122,7 +122,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
@@ -134,7 +134,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name:        "keyName不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
@@ -150,7 +150,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name:        "プロジェクト名不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -166,7 +166,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name:        "leaderID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -182,7 +182,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name:        "defaultAssigneeID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -197,7 +197,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 		{
 			name: "DBエラー",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				projectDm, _ := projectdm.Reconstruct(
@@ -217,7 +217,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",

@@ -32,7 +32,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 		{
 			name: "正常",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 
 				projectDm, _ := projectdm.Reconstruct(
@@ -49,7 +49,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(projectDm, nil)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
@@ -70,7 +70,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			name:        "プロジェクトID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &FetchProjectByIDInput{
 					ID: "invalid project id",
 				},
@@ -81,7 +81,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 		{
 			name: "指定したIDでプロジェクトが存在しない",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 
 				err := apperrors.NotFound
@@ -89,7 +89,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
@@ -100,7 +100,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 		{
 			name: "DBエラー",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 
 				err := apperrors.InternalServerError
@@ -108,7 +108,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},

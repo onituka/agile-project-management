@@ -36,7 +36,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 		{
 			name: "正常",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
 				keyNameVo := projectdm.KeyName("AAA")
@@ -49,7 +49,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				f.projectRepository.EXPECT().CreateProject(ctx, gomock.Any()).Return(nil)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -74,7 +74,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "グループID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "invalid group id",
 					KeyName:           "AAA",
@@ -90,7 +90,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "keyName不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
@@ -106,7 +106,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "プロジェクト名不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -122,7 +122,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "leaderID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -138,7 +138,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "defaultAssigneeID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -153,7 +153,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 		{
 			name: "DBエラー",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				groupVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
 				keyNameVo := projectdm.KeyName("AAA")
@@ -163,7 +163,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, err)
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
