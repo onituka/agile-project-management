@@ -24,16 +24,21 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        *FetchProjectByIDOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 
 				projectDm, _ := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
@@ -45,8 +50,13 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
+				if err != nil {
+					return err
+				}
 
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(projectDm, nil)
+
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -80,13 +90,20 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 		},
 		{
 			name: "指定したIDでプロジェクトが存在しない",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 
-				err := apperrors.NotFound
+				apperr := apperrors.NotFound
 
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -99,13 +116,20 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 
-				err := apperrors.InternalServerError
+				apperr := apperrors.InternalServerError
 
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -126,7 +150,9 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewFetchProjectByIDUsecase(f.projectRepository)

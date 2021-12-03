@@ -27,17 +27,23 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        *UpdateProjectOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
 				projectDm, _ := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
@@ -48,6 +54,10 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
+				if err != nil {
+					return err
+				}
+
 				oldProjectDm, _ := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
@@ -58,18 +68,35 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
+				if err != nil {
+					return err
+				}
 
 				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
 				keyNameVo := projectdm.KeyName("AAA")
+				if err != nil {
+					return err
+				}
+
 				nameVo := projectdm.Name("管理ツール1")
-				err := apperrors.NotFound
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
 
 				f.timeManager.EXPECT().Now().Return(now)
 				f.projectRepository.EXPECT().UpdateProject(ctx, projectDm).Return(nil)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(oldProjectDm, nil)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
+
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -113,13 +140,20 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 		},
 		{
 			name: "指定したIDでプロジェクトが存在しない",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 
-				err := apperrors.NotFound
+				apperr := apperrors.NotFound
 
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -196,10 +230,16 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
+				var err error
+
 				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
 				projectDm, _ := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
@@ -210,11 +250,17 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
-				err := apperrors.InternalServerError
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.InternalServerError
 
 				f.timeManager.EXPECT().Now().Return(now)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -240,7 +286,9 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewUpdateProjectUsecase(f.projectRepository, f.timeManager)

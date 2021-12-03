@@ -28,25 +28,41 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        *CreateProjectOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
+				var err error
+
 				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
 				keyNameVo := projectdm.KeyName("AAA")
+				if err != nil {
+					return err
+				}
+
 				nameVo := projectdm.Name("管理ツール1")
-				err := apperrors.NotFound
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().CreateProject(ctx, gomock.Any()).Return(nil)
+
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -152,15 +168,27 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
+			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
+				var err error
+
 				groupVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
 				keyNameVo := projectdm.KeyName("AAA")
-				err := apperrors.InternalServerError
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.InternalServerError
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
 				ctx: context.TODO(),
@@ -186,7 +214,9 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewCreateProjectUsecase(f.projectRepository, f.timeManager)

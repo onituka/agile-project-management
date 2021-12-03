@@ -139,6 +139,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 
 				f.timeManager.EXPECT().Now().Return(now)
 				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
+
 				return err
 			},
 			args: args{
