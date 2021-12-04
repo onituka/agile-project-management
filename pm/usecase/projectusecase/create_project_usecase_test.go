@@ -40,17 +40,17 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
-				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				keyNameVo := projectdm.KeyName("AAA")
+				keyNameVo, err := projectdm.NewKeyName("AAA")
 				if err != nil {
 					return err
 				}
 
-				nameVo := projectdm.Name("管理ツール1")
+				nameVo, err := projectdm.NewName("管理ツール1")
 				if err != nil {
 					return err
 				}
@@ -173,12 +173,12 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
-				groupVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				groupVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				keyNameVo := projectdm.KeyName("AAA")
+				keyNameVo, err := projectdm.NewKeyName("AAA")
 				if err != nil {
 					return err
 				}
@@ -222,7 +222,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			u := NewCreateProjectUsecase(f.projectRepository, f.timeManager)
 
 			got, err := u.CreateProject(tt.args.ctx, tt.args.in)
-			if (err != nil) != (tt.wantErr != nil) {
+			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("CreateProject() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}

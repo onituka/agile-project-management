@@ -35,12 +35,12 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				projectDm, _ := projectdm.Reconstruct(
+				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
@@ -94,7 +94,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
@@ -120,7 +120,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
@@ -158,7 +158,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			u := NewFetchProjectByIDUsecase(f.projectRepository)
 
 			got, err := u.FetchProjectByID(tt.args.ctx, tt.args.in)
-			if (err != nil) != (tt.wantErr != nil) {
+			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("FetchProjectByID() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}

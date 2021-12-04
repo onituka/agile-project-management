@@ -39,12 +39,12 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				projectDm, _ := projectdm.Reconstruct(
+				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
@@ -58,7 +58,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					return err
 				}
 
-				oldProjectDm, _ := projectdm.Reconstruct(
+				oldProjectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
@@ -72,17 +72,17 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					return err
 				}
 
-				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				keyNameVo := projectdm.KeyName("AAA")
+				keyNameVo, err := projectdm.NewKeyName("AAA")
 				if err != nil {
 					return err
 				}
 
-				nameVo := projectdm.Name("管理ツール1")
+				nameVo, err := projectdm.NewName("管理ツール1")
 				if err != nil {
 					return err
 				}
@@ -144,7 +144,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
@@ -235,12 +235,12 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
-				projectIDVo := projectdm.ProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
 
-				projectDm, _ := projectdm.Reconstruct(
+				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
@@ -294,7 +294,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			u := NewUpdateProjectUsecase(f.projectRepository, f.timeManager)
 
 			got, err := u.UpdateProject(tt.args.ctx, tt.args.in)
-			if (err != nil) != (tt.wantErr != nil) {
+			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("Updateproject() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
