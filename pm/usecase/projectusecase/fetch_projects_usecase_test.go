@@ -64,6 +64,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				}
 
 				f.projectRepository.EXPECT().FetchProjects(ctx).Return(projectDms, nil)
+
 				return nil
 			},
 			args: args{
@@ -131,6 +132,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.projectRepository.EXPECT().FetchProjects(ctx).Return(nil, apperr)
+
 				return nil
 			},
 			args: args{

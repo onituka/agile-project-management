@@ -28,28 +28,44 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 	}
 	tests := []struct {
 		name        string
-		prepareMock func(f *fields)
+		prepareMock func(f *fields) error
 		args        args
 		want        *CreateProjectOutput
 		wantErr     error
 	}{
 		{
 			name: "正常",
-			prepareMock: func(f *fields) {
-				ctx := context.Background()
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
-				groupIDVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
-				keyNameVo := projectdm.KeyName("AAA")
-				nameVo := projectdm.Name("管理ツール1")
-				err := apperrors.NotFound
+				var err error
+
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
+				keyNameVo, err := projectdm.NewKeyName("AAA")
+				if err != nil {
+					return err
+				}
+
+				nameVo, err := projectdm.NewName("管理ツール1")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().CreateProject(ctx, gomock.Any()).Return(nil)
+
+				return nil
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -74,7 +90,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "グループID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "invalid group id",
 					KeyName:           "AAA",
@@ -90,7 +106,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "keyName不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
@@ -106,7 +122,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "プロジェクト名不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -122,7 +138,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "leaderID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -138,7 +154,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name:        "defaultAssigneeID不正",
 			prepareMock: nil,
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -152,18 +168,30 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 		},
 		{
 			name: "DBエラー",
-			prepareMock: func(f *fields) {
-				ctx := context.Background()
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
 				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
-				groupVo := groupdm.GroupID("024d78d6-1d03-11ec-a478-0242ac180002")
-				keyNameVo := projectdm.KeyName("AAA")
-				err := apperrors.InternalServerError
+				var err error
+
+				groupVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
+				keyNameVo, err := projectdm.NewKeyName("AAA")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.InternalServerError
 
 				f.timeManager.EXPECT().Now().Return(now)
-				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, apperr)
+
+				return err
 			},
 			args: args{
-				ctx: context.Background(),
+				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -186,13 +214,15 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
-				tt.prepareMock(&f)
+				if err := tt.prepareMock(&f); err != nil {
+					t.Fatalf("prepareMock() error = %v", err)
+				}
 			}
 
 			u := NewCreateProjectUsecase(f.projectRepository, f.timeManager)
 
 			got, err := u.CreateProject(tt.args.ctx, tt.args.in)
-			if (err != nil) != (tt.wantErr != nil) {
+			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("CreateProject() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
