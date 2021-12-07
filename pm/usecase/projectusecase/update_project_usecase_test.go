@@ -364,7 +364,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
 
-				return err
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
