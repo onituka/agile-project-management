@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 
+	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
@@ -21,7 +22,19 @@ func NewFetchProductByIDHandler(fetchProductByIDUsecase productusecase.FetchProd
 }
 
 func (h *fetchProductByIDHandler) FetchProductByID(w http.ResponseWriter, r *http.Request) {
-	productID := mux.Vars(r)["productID"]
+	rv := mux.Vars(r)
+	if rv == nil {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
 
 	in := productusecase.FetchProductByIDInput{
 		ID: productID,
