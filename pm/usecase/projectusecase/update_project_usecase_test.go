@@ -165,12 +165,38 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			wantErr: apperrors.NotFound,
 		},
 		{
-			name:        "keyName不正",
-			prepareMock: nil,
+			name: "keyName不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
+
+				projectDm, err := projectdm.Reconstruct(
+					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"024d78d6-1d03-11ec-a478-0242ac180002",
+					"AAA",
+					"管理ツール1",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					"024d78d6-1d03-11ec-a478-9242ac180002",
+					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+				)
+				if err != nil {
+					return err
+				}
+
+				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &UpdateProjectInput{
-					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
