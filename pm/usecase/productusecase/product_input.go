@@ -11,3 +11,7 @@ type UpdateProductInput struct {
 	Name     string `json:"name"`
 	LeaderID string `json:"leaderID"`
 }
+
+type FetchProductByIDInput struct {
+	ID string
+}
