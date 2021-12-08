@@ -23,7 +23,19 @@ func NewUpdateProductHandler(updateProductUsecase productusecase.UpdateProductUs
 }
 
 func (h *updateProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
-	productID := mux.Vars(r)["productID"]
+	rv := mux.Vars(r)
+	if rv == nil {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
 
 	in := productusecase.UpdateProductInput{
 		ID: productID,
