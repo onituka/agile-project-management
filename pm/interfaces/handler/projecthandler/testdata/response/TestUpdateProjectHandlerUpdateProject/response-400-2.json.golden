@@ -1,4 +1,4 @@
 {
-  "status": 400,
-  "error": "InvalidParameter"
+  "status": 500,
+  "error": "InternalServerError"
 }
