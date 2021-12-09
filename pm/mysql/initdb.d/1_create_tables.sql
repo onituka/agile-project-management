@@ -14,6 +14,7 @@ CREATE TABLE products
 CREATE TABLE projects
 (
     id                  CHAR(36)    NOT NULL,
+    product_id          CHAR(36)    NOT NULL,
     group_id            CHAR(36)    NOT NULL,
     key_name            VARCHAR(10) NOT NULL,
     name                VARCHAR(80) NOT NULL,
