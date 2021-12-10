@@ -1,7 +1,6 @@
 package producthandler
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -12,17 +11,17 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
 
-type updateProductHandler struct {
-	productUsecase productusecase.UpdateProductUsecase
+type fetchProductByIDHandler struct {
+	productUsecase productusecase.FetchProductByIDUsecase
 }
 
-func NewUpdateProductHandler(updateProductUsecase productusecase.UpdateProductUsecase) *updateProductHandler {
-	return &updateProductHandler{
-		productUsecase: updateProductUsecase,
+func NewFetchProductByIDHandler(fetchProductByIDUsecase productusecase.FetchProductByIDUsecase) *fetchProductByIDHandler {
+	return &fetchProductByIDHandler{
+		productUsecase: fetchProductByIDUsecase,
 	}
 }
 
-func (h *updateProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+func (h *fetchProductByIDHandler) FetchProductByID(w http.ResponseWriter, r *http.Request) {
 	rv := mux.Vars(r)
 	if rv == nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
@@ -37,16 +36,11 @@ func (h *updateProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	in := productusecase.UpdateProductInput{
+	in := productusecase.FetchProductByIDInput{
 		ID: productID,
 	}
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
-		handler.SetAppErrorToCtx(r, err)
-		presenter.ErrorJSON(w, apperrors.InvalidParameter)
-		return
-	}
 
-	out, err := h.productUsecase.UpdateProduct(r.Context(), &in)
+	out, err := h.productUsecase.FetchProductByID(r.Context(), &in)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)

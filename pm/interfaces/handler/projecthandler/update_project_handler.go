@@ -23,7 +23,18 @@ func NewUpdateProjectHandler(updateProjectUsecase projectusecase.UpdateProjectUs
 }
 
 func (h *updateProjectHandler) UpdateProject(w http.ResponseWriter, r *http.Request) {
-	projectID := mux.Vars(r)["projectID"]
+	rv := mux.Vars(r)
+	if rv == nil {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+	projectID, ok := rv["projectID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
 
 	in := projectusecase.UpdateProjectInput{
 		ID: projectID,
