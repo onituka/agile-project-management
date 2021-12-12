@@ -24,5 +24,8 @@ CREATE TABLE projects
     updated_at          DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE uq_key_name(group_id, key_name),
-    UNIQUE uq_name(group_id, name)
+    UNIQUE uq_name(group_id, name),
+    FOREIGN KEY fk_product_id(product_id)
+    REFERENCES products(id)
+    ON DELETE RESTRICT ON UPDATE RESTRICT
 );
