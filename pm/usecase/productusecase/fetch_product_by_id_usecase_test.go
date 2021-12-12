@@ -99,7 +99,7 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(nil, apperr)
 
-				return err
+				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
