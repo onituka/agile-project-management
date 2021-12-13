@@ -98,6 +98,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 	query := `
          SELECT 
            id,
+           product_id,     
            group_id,
            key_name,
            name,
@@ -148,6 +149,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 	query := `
          SELECT 
            id,
+           product_id,     
            group_id,
            key_name,
            name,
@@ -197,6 +199,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 	query := `
          SELECT 
            id,
+           product_id,
            group_id,
            key_name,
            name,
@@ -248,6 +251,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 	query := `
          SELECT 
            id,
+           product_id,     
            group_id,
            key_name,
            name,
@@ -299,6 +303,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 	query := `
          SELECT 
            id,
+           product_id,     
            group_id,
            key_name,
            name,
