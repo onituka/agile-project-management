@@ -46,6 +46,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -60,6 +61,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				oldProjectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
 					"管理ツール2",
@@ -102,7 +104,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
-					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -111,6 +112,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			want: &UpdateProjectOutput{
 				ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+				ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 				KeyName:           "AAA",
 				Name:              "管理ツール1",
@@ -128,7 +130,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				ctx: context.TODO(),
 				in: &UpdateProjectInput{
 					ID:                "invalid project id",
-					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -177,6 +178,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -219,6 +221,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -261,6 +264,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -303,6 +307,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -346,6 +351,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				projectDm, err := projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",

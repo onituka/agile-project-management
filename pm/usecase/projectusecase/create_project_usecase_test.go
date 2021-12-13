@@ -68,6 +68,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -76,6 +77,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			},
 			want: &CreateProjectOutput{
 				ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+				ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 				KeyName:           "AAA",
 				Name:              "管理ツール1",
@@ -87,11 +89,29 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: nil,
 		},
 		{
+			name:        "プロダクトIDの不正",
+			prepareMock: nil,
+			args: args{
+				ctx: context.TODO(),
+				in: &CreateProjectInput{
+					ProductID:         "invalid product id",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					KeyName:           "AAA",
+					Name:              "管理ツール1",
+					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InvalidParameter,
+		},
+		{
 			name:        "グループID不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "invalid group id",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -108,6 +128,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
 					Name:              "管理ツール1",
@@ -124,6 +145,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "A",
@@ -140,6 +162,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -156,6 +179,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -193,6 +217,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
