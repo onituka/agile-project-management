@@ -9,7 +9,7 @@ values
 
 -- projects table test data
 INSERT INTO projects
-    (id,product_id, group_id, key_name, name, leader_id, default_assignee_id, created_at, updated_at)
+    (id, product_id, group_id, key_name, name, leader_id, default_assignee_id, created_at, updated_at)
 values
     ("024d71d6-1d03-11ec-a478-0242ac180002", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "024d78d6-1d03-11ec-a478-0242ac180002", "AAA", "管理ツール1", "024d78d6-1d03-11ec-a478-0242ac184402", "024d78d6-1d03-11ec-a478-9242ac180002", default, default),
     ("024d7945-1d03-11ec-a478-0242ac180002", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "024d78d6-1d03-11ec-a478-0242ac180002", "BBB", "管理ツール2", "024d78d6-1d03-11ec-a478-0242ac180022", "024d78d6-1d03-11ec-a478-0242ac180502", default, default),
