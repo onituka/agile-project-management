@@ -1,6 +1,7 @@
 package projectusecase
 
 type CreateProjectInput struct {
+	ProductID         string `json:"productID"`
 	GroupID           string `json:"groupID"`
 	KeyName           string `json:"keyName"`
 	Name              string `json:"name"`
@@ -10,7 +11,6 @@ type CreateProjectInput struct {
 
 type UpdateProjectInput struct {
 	ID                string
-	GroupID           string `json:"groupID"`
 	KeyName           string `json:"keyName"`
 	Name              string `json:"name"`
 	LeaderID          string `json:"leaderID"`

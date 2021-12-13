@@ -33,6 +33,7 @@ func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *Fetc
 
 	return &FetchProjectByIDOutput{
 		ID:                projectDm.ID().Value(),
+		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),

@@ -5,11 +5,13 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 )
 
 type Project struct {
 	id                ProjectID
+	productID         productdm.ProductID
 	groupID           groupdm.GroupID
 	keyName           KeyName
 	name              Name
@@ -21,6 +23,7 @@ type Project struct {
 
 func newProject(
 	id ProjectID,
+	productID productdm.ProductID,
 	groupID groupdm.GroupID,
 	keyName KeyName,
 	name Name,
@@ -35,6 +38,7 @@ func newProject(
 
 	return &Project{
 		id:                id,
+		productID:         productID,
 		groupID:           groupID,
 		keyName:           keyName,
 		name:              name,
@@ -47,6 +51,7 @@ func newProject(
 
 func Reconstruct(
 	id string,
+	productID string,
 	groupID string,
 	keyName string,
 	name string,
@@ -56,6 +61,11 @@ func Reconstruct(
 	updatedAt time.Time,
 ) (*Project, error) {
 	idVo, err := NewProjectID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	productIDVo, err := productdm.NewProductID(productID)
 	if err != nil {
 		return nil, err
 	}
@@ -87,6 +97,7 @@ func Reconstruct(
 
 	return newProject(
 		idVo,
+		productIDVo,
 		groupIDVo,
 		keyNameVo,
 		nameVo,
@@ -99,6 +110,10 @@ func Reconstruct(
 
 func (p *Project) ID() ProjectID {
 	return p.id
+}
+
+func (p *Project) ProductID() productdm.ProductID {
+	return p.productID
 }
 
 func (p *Project) GroupID() groupdm.GroupID {

@@ -5,6 +5,7 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
@@ -27,6 +28,11 @@ func NewCreateProjectUsecase(CreateProjectRepository projectdm.ProjectRepository
 }
 
 func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
+	productIDVo, err := productdm.NewProductID(in.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
 	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -55,6 +61,7 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 	now := u.timeManager.Now()
 
 	projectDm, err := projectdm.GenProjectForCreate(
+		productIDVo,
 		groupIDVo,
 		keyNameVo,
 		nameVo,
@@ -82,6 +89,7 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 
 	return &CreateProjectOutput{
 		ID:                projectDm.ID().Value(),
+		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),

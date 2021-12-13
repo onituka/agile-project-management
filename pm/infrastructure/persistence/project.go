@@ -26,6 +26,7 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
        INSERT INTO projects
        (
          id,
+         product_id,
          group_id,
          key_name,
          name,
@@ -35,12 +36,13 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
          updated_at
         )
        VALUES
-         (?, ?, ?, ?, ?, ?, ?, ?)`
+         (?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	if _, err = conn.ExecContext(
 		ctx,
 		query,
 		project.ID().Value(),
+		project.ProductID().Value(),
 		project.GroupID().Value(),
 		project.KeyName().Value(),
 		project.Name().Value(),
@@ -121,6 +123,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 
 	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
+		projectDto.ProductID,
 		projectDto.GroupID,
 		projectDto.KeyName,
 		projectDto.Name,
@@ -169,6 +172,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 
 	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
+		projectDto.ProductID,
 		projectDto.GroupID,
 		projectDto.KeyName,
 		projectDto.Name,
@@ -219,6 +223,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 
 	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
+		projectDto.ProductID,
 		projectDto.GroupID,
 		projectDto.KeyName,
 		projectDto.Name,
@@ -269,6 +274,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 
 	projectDm, err := projectdm.Reconstruct(
 		projectDto.ID,
+		projectDto.ProductID,
 		projectDto.GroupID,
 		projectDto.KeyName,
 		projectDto.Name,
@@ -324,6 +330,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 	for i, projectDto := range projectsDto {
 		projectDms[i], err = projectdm.Reconstruct(
 			projectDto.ID,
+			projectDto.ProductID,
 			projectDto.GroupID,
 			projectDto.KeyName,
 			projectDto.Name,
