@@ -25,4 +25,8 @@ func newProductRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	fetchProductByIDUsecase := productusecase.NewFetchProductByIDUsecase(productRepository)
 	fetchProductByIDHandler := producthandler.NewFetchProductByIDHandler(fetchProductByIDUsecase)
 	router.HandleFunc("/products/{productID}", fetchProductByIDHandler.FetchProductByID).Methods(http.MethodGet)
+
+	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productRepository)
+	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
+	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Methods(http.MethodGet)
 }

@@ -95,6 +95,21 @@ func (mr *MockProductRepositoryMockRecorder) FetchProductByIDForUpdate(ctx, id i
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProductByIDForUpdate", reflect.TypeOf((*MockProductRepository)(nil).FetchProductByIDForUpdate), ctx, id)
 }
 
+// FetchProducts mocks base method.
+func (m *MockProductRepository) FetchProducts(ctx context.Context) ([]*productdm.Product, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FetchProducts", ctx)
+	ret0, _ := ret[0].([]*productdm.Product)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FetchProducts indicates an expected call of FetchProducts.
+func (mr *MockProductRepositoryMockRecorder) FetchProducts(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProducts", reflect.TypeOf((*MockProductRepository)(nil).FetchProducts), ctx)
+}
+
 // UpdateProduct mocks base method.
 func (m *MockProductRepository) UpdateProduct(ctx context.Context, product *productdm.Product) error {
 	m.ctrl.T.Helper()
