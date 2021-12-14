@@ -321,19 +321,14 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 
 	defer rows.Close()
 
-	var projectsDto []datasource.Project
+	var projectDms []*projectdm.Project
 	for rows.Next() {
 		var projectDto datasource.Project
-		if err := rows.StructScan(&projectDto); err != nil {
+		if err = rows.StructScan(&projectDto); err != nil {
 			return nil, apperrors.InternalServerError
 		}
 
-		projectsDto = append(projectsDto, projectDto)
-	}
-
-	projectDms := make([]*projectdm.Project, len(projectsDto))
-	for i, projectDto := range projectsDto {
-		projectDms[i], err = projectdm.Reconstruct(
+		projectDm, err := projectdm.Reconstruct(
 			projectDto.ID,
 			projectDto.ProductID,
 			projectDto.GroupID,
@@ -347,6 +342,8 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 		if err != nil {
 			return nil, err
 		}
+
+		projectDms = append(projectDms, projectDm)
 	}
 
 	return projectDms, nil
