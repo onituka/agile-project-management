@@ -240,19 +240,14 @@ func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Pro
 
 	defer rows.Close()
 
-	var productsDto []datasource.Product
+	var productDms []*productdm.Product
 	for rows.Next() {
 		var productDto datasource.Product
-		if err := rows.StructScan(&productDto); err != nil {
+		if err = rows.StructScan(&productDto); err != nil {
 			return nil, apperrors.InternalServerError
 		}
 
-		productsDto = append(productsDto, productDto)
-	}
-
-	productDms := make([]*productdm.Product, len(productsDto))
-	for i, productDto := range productsDto {
-		productDms[i], err = productdm.Reconstruct(
+		productDm, err := productdm.Reconstruct(
 			productDto.ID,
 			productDto.GroupID,
 			productDto.Name,
@@ -263,6 +258,8 @@ func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Pro
 		if err != nil {
 			return nil, err
 		}
+
+		productDms = append(productDms, productDm)
 	}
 
 	return productDms, nil
