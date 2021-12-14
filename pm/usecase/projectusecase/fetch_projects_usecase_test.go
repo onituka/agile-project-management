@@ -37,6 +37,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 
 				projectDms[0], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -51,6 +52,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 
 				projectDms[1], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180003",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
 					"管理ツール2",
@@ -73,6 +75,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 			want: FetchProjectsOutput{
 				&Project{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -83,6 +86,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 				},
 				&Project{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180003",
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "BBB",
 					Name:              "管理ツール2",
@@ -103,6 +107,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 
 				projectDms[0], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180002",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"AAA",
 					"管理ツール1",
@@ -117,6 +122,7 @@ func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 
 				projectDms[1], err = projectdm.Reconstruct(
 					"024d71d6-1d03-11ec-a478-0242ac180003",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					"024d78d6-1d03-11ec-a478-0242ac180002",
 					"BBB",
 					"管理ツール2",

@@ -4,6 +4,7 @@ import "time"
 
 type Project struct {
 	ID                string    `db:"id"`
+	ProductID         string    `db:"product_id"`
 	GroupID           string    `db:"group_id"`
 	KeyName           string    `db:"key_name"`
 	Name              string    `db:"name"`

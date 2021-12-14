@@ -30,6 +30,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context) (FetchProjects
 	for i, projectDm := range projectsDm {
 		projectsDto[i] = &Project{
 			ID:                projectDm.ID().Value(),
+			ProductID:         projectDm.ProductID().Value(),
 			GroupID:           projectDm.GroupID().Value(),
 			KeyName:           projectDm.KeyName().Value(),
 			Name:              projectDm.Name().Value(),

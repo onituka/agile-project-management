@@ -81,6 +81,7 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *UpdateProj
 
 	return &UpdateProjectOutput{
 		ID:                projectDm.ID().Value(),
+		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),
 		KeyName:           projectDm.KeyName().Value(),
 		Name:              projectDm.Name().Value(),

@@ -4,6 +4,7 @@ import "time"
 
 type CreateProjectOutput struct {
 	ID                string    `json:"id"`
+	ProductID         string    `json:"productID"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
 	Name              string    `json:"name"`
@@ -15,6 +16,7 @@ type CreateProjectOutput struct {
 
 type UpdateProjectOutput struct {
 	ID                string    `json:"id"`
+	ProductID         string    `json:"productID"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
 	Name              string    `json:"name"`
@@ -26,6 +28,7 @@ type UpdateProjectOutput struct {
 
 type FetchProjectByIDOutput struct {
 	ID                string    `json:"id"`
+	ProductID         string    `json:"productID"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
 	Name              string    `json:"name"`
@@ -39,6 +42,7 @@ type FetchProjectsOutput []*Project
 
 type Project struct {
 	ID                string    `json:"id"`
+	ProductID         string    `json:"productID"`
 	GroupID           string    `json:"groupID"`
 	KeyName           string    `json:"keyName"`
 	Name              string    `json:"name"`

@@ -33,6 +33,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 				out := projectusecase.FetchProjectsOutput{
 					&projectusecase.Project{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "AAA",
 						Name:              "管理ツール1",
@@ -43,6 +44,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 					},
 					&projectusecase.Project{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180003",
+						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
 						Name:              "管理ツール2",
