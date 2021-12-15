@@ -1,0 +1,273 @@
+openapi: "3.0.3"
+
+servers:
+  - url: "http://localhost:8080"
+    description: "localhost"
+
+info:
+  title: "プロジェクト管理"
+  version: "1.0.0"
+
+paths:
+  /products:
+    post:
+      summary: "プロダクト作成"
+      tags: [ Product ]
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostProductReq"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostProductResp"
+        400:
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        409:
+          description: "NotFound"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: "InternalServerError"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+  /products/{productID}:
+    put:
+      summary: "プロダクト更新"
+      tags: [ Product ]
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutProductReq"
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PutProductResp"
+        400:
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: "NotFound"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        409:
+          description: "Conflict"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: "InternalServerError"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    get:
+      summary: "プロダクト詳細取得"
+      tags: [ Product ]
+      description: ""
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetProductByIDResp"
+        400:
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: "NotFound"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: "InternalServerError"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+components:
+  schemas:
+    # request body schema
+    PostProductReq:
+      title: "PostProductReq"
+      properties:
+        groupID:
+          type: "string"
+          description: 'グループID'
+          example: "024d78d6-1d03-11ec-a478-0242ac180002"
+        name:
+          type: "string"
+          description: 'プロダクト名'
+          example: "プロジェクト管理ツール"
+        leaderID:
+          type: "string"
+          description: 'プロダクトリーダーID'
+          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+
+    PutProductReq:
+      title: "PutProductReq"
+      properties:
+        name:
+          type: "string"
+          description: 'プロダクト名'
+          example: "プロジェクト管理ツール"
+        leaderID:
+          type: "string"
+          description: 'プロダクトリーダーID'
+          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+
+    # response body schema
+    PostProductResp:
+      title: "PostProductResp"
+      properties:
+        id:
+          type: "string"
+          description: 'プロダクトID'
+          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
+        groupID:
+          type: "string"
+          description: 'グループID'
+          example: "024d78d6-1d03-11ec-a478-0242ac180002"
+        name:
+          type: "string"
+          description: 'プロダクト名'
+          example: "プロジェクト管理ツール"
+        leaderID:
+          type: "string"
+          description: 'プロダクトリーダーID'
+          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+        createdAt:
+          type: "string"
+          description: '作成日'
+          example: "2021-12-24T00:00:00Z"
+        updatedAt:
+          type: "string"
+          description: '更新日'
+          example: '2021-12-24T00:00:00Z'
+
+    PutProductResp:
+      title: "PutProductResp"
+      properties:
+        id:
+          type: "string"
+          description: 'プロダクトID'
+          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
+        groupID:
+          type: "string"
+          description: 'グループID'
+          example: "024d78d6-1d03-11ec-a478-0242ac180002"
+        name:
+          type: "string"
+          description: 'プロダクト名'
+          example: "プロジェクト管理ツール"
+        leaderID:
+          type: "string"
+          description: 'プロダクトリーダーID'
+          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+        createdAt:
+          type: "string"
+          description: '作成日'
+          example: "2021-12-24T00:00:00Z"
+        updatedAt:
+          type: "string"
+          description: '更新日'
+          example: '2021-12-24T00:00:00Z'
+
+    GetProductByIDResp:
+      title: "PutProductResp"
+      properties:
+        id:
+          type: "string"
+          description: 'プロダクトID'
+          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
+        groupID:
+          type: "string"
+          description: 'グループID'
+          example: "024d78d6-1d03-11ec-a478-0242ac180002"
+        name:
+          type: "string"
+          description: 'プロダクト名'
+          example: "プロジェクト管理ツール"
+        leaderID:
+          type: "string"
+          description: 'プロダクトリーダーID'
+          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+        createdAt:
+          type: "string"
+          description: '作成日'
+          example: "2021-12-24T00:00:00Z"
+        updatedAt:
+          type: "string"
+          description: '更新日'
+          example: '2021-12-24T00:00:00Z'
+
+    # error response body schema
+    400BadRequest:
+      description: "BadRequest"
+      type: "object"
+      properties:
+        error:
+          type: "string"
+          enum:
+            - "InvalidParameter"
+
+    404NotFound:
+      description: "NotFound"
+      type: "object"
+      properties:
+        error:
+          type: "string"
+          enum:
+            - "NotFound"
+
+    409Conflict:
+      description: "Conflict"
+      type: "object"
+      properties:
+        error:
+          type: "string"
+          enum:
+            - "Conflict"
+
+    500InternalServerError:
+      description: "InternalServerError"
+      type: "object"
+      properties:
+        error:
+          type: "string"
+          enum:
+            - "InternalServerError"
