@@ -215,3 +215,52 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
 
 	return productDm, nil
 }
+
+func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Product, error) {
+	conn, err := execFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT 
+           id,
+           group_id,
+           name,
+           leader_id,
+           created_at,
+           updated_at
+         FROM
+           products`
+
+	rows, err := conn.QueryxContext(ctx, query)
+	if err != nil {
+		return nil, apperrors.InternalServerError
+	}
+
+	defer rows.Close()
+
+	var productDms []*productdm.Product
+	for rows.Next() {
+		var productDto datasource.Product
+		if err = rows.StructScan(&productDto); err != nil {
+			return nil, apperrors.InternalServerError
+		}
+
+		productDm, err := productdm.Reconstruct(
+			productDto.ID,
+			productDto.GroupID,
+			productDto.Name,
+			productDto.LeaderID,
+			productDto.CreatedAt,
+			productDto.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		productDms = append(productDms, productDm)
+	}
+
+	return productDms, nil
+}
