@@ -39,6 +39,7 @@ func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *Fetc
 		Name:              projectDm.Name().Value(),
 		LeaderID:          projectDm.LeaderID().Value(),
 		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		TrashedAt:         projectDm.TrashedAt(),
 		CreatedAt:         projectDm.CreatedAt(),
 		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil

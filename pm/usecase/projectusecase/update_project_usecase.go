@@ -87,6 +87,7 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *UpdateProj
 		Name:              projectDm.Name().Value(),
 		LeaderID:          projectDm.LeaderID().Value(),
 		DefaultAssigneeID: projectDm.DefaultAssigneeID().Value(),
+		TrashedAt:         projectDm.TrashedAt(),
 		CreatedAt:         projectDm.CreatedAt(),
 		UpdatedAt:         projectDm.UpdatedAt(),
 	}, nil

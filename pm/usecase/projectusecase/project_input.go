@@ -20,3 +20,7 @@ type UpdateProjectInput struct {
 type FetchProjectByIDInput struct {
 	ID string
 }
+
+type TrashedProjectIDInput struct {
+	ID string
+}

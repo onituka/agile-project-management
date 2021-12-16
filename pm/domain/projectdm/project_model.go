@@ -17,6 +17,7 @@ type Project struct {
 	name              Name
 	leaderID          userdm.UserID
 	defaultAssigneeID userdm.UserID
+	trashedAt         *time.Time
 	createdAt         time.Time
 	updatedAt         time.Time
 }
@@ -29,6 +30,7 @@ func newProject(
 	name Name,
 	leaderID userdm.UserID,
 	defaultAssigneeID userdm.UserID,
+	trashedAt *time.Time,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Project, error) {
@@ -44,6 +46,7 @@ func newProject(
 		name:              name,
 		leaderID:          leaderID,
 		defaultAssigneeID: defaultAssigneeID,
+		trashedAt:         trashedAt,
 		createdAt:         createdAt,
 		updatedAt:         updatedAt,
 	}, nil
@@ -57,6 +60,7 @@ func Reconstruct(
 	name string,
 	leaderID string,
 	defaultAssigneeID string,
+	trashedAt *time.Time,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Project, error) {
@@ -103,6 +107,7 @@ func Reconstruct(
 		nameVo,
 		leaderIDVo,
 		defaultAssigneeIDVo,
+		trashedAt,
 		createdAt,
 		updatedAt,
 	)
@@ -136,6 +141,10 @@ func (p *Project) DefaultAssigneeID() userdm.UserID {
 	return p.defaultAssigneeID
 }
 
+func (p *Project) TrashedAt() *time.Time {
+	return p.trashedAt
+}
+
 func (p *Project) CreatedAt() time.Time {
 	return p.createdAt
 }
@@ -160,6 +169,14 @@ func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
 
+func (p *Project) ChangeTrashedAt(trashedAt *time.Time) {
+	p.trashedAt = trashedAt
+}
+
 func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
 	p.updatedAt = updatedAt
+}
+
+func (p *Project) IsTrashed() bool {
+	return p.trashedAt != nil
 }
