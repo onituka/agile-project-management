@@ -33,5 +33,4 @@ func newProjectRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository, realTime)
 	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)
 	router.HandleFunc("/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
-
 }

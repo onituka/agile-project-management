@@ -170,7 +170,9 @@ func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 }
 
 func (p *Project) ChangeTrashedAt(trashedAt *time.Time) {
-	p.trashedAt = trashedAt
+	if p.trashedAt == nil {
+		p.trashedAt = trashedAt
+	}
 }
 
 func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {

@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-
 	groupdm "github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	projectdm "github.com/onituka/agile-project-management/project-management/domain/projectdm"
 )
