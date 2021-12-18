@@ -169,10 +169,14 @@ func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
 
-func (p *Project) ChangeTrashedAt(trashedAt *time.Time) {
-	if p.trashedAt == nil {
-		p.trashedAt = trashedAt
+func (p *Project) ChangeTrashedAt(trashedAt *time.Time) error {
+	if trashedAt == nil {
+		return apperrors.InternalServerError
 	}
+
+	p.trashedAt = trashedAt
+
+	return nil
 }
 
 func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
