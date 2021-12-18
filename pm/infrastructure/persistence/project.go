@@ -32,11 +32,12 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
          name,
          leader_id,
          default_assignee_id,
+         trashed_at,
          created_at,
          updated_at
         )
        VALUES
-         (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	if _, err = conn.ExecContext(
 		ctx,
@@ -48,6 +49,7 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
 		project.Name().Value(),
 		project.LeaderID().Value(),
 		project.DefaultAssigneeID().Value(),
+		project.TrashedAt(),
 		project.CreatedAt(),
 		project.UpdatedAt(),
 	); err != nil {
@@ -70,7 +72,9 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
           key_name = ?,
           name = ?,
           leader_id = ?,
-          default_assignee_id = ?
+          default_assignee_id = ?,
+          trashed_at = ?,
+          updated_at = ?
         WHERE
           id = ?`
 
@@ -81,6 +85,8 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
 		project.Name().Value(),
 		project.LeaderID().Value(),
 		project.DefaultAssigneeID().Value(),
+		project.TrashedAt(),
+		project.UpdatedAt(),
 		project.ID().Value(),
 	); err != nil {
 		return apperrors.InternalServerError
@@ -104,6 +110,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
            name,
            leader_id,
            default_assignee_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -130,6 +137,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
+		projectDto.TrashedAt,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
@@ -155,6 +163,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
            name,
            leader_id,
            default_assignee_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -180,6 +189,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
+		projectDto.TrashedAt,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
@@ -205,6 +215,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
            name,
            leader_id,
            default_assignee_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -232,6 +243,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
+		projectDto.TrashedAt,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
@@ -257,6 +269,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
            name,
            leader_id,
            default_assignee_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -284,6 +297,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 		projectDto.Name,
 		projectDto.LeaderID,
 		projectDto.DefaultAssigneeID,
+		projectDto.TrashedAt,
 		projectDto.CreatedAt,
 		projectDto.UpdatedAt,
 	)
@@ -309,6 +323,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
            name,
            leader_id,
            default_assignee_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -336,6 +351,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 			projectDto.Name,
 			projectDto.LeaderID,
 			projectDto.DefaultAssigneeID,
+			projectDto.TrashedAt,
 			projectDto.CreatedAt,
 			projectDto.UpdatedAt,
 		)

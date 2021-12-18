@@ -26,6 +26,7 @@ func GenProjectForCreate(
 		name,
 		leaderID,
 		defaultAssigneeID,
+		nil,
 		createdAt,
 		updatedAt,
 	)

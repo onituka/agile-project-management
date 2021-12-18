@@ -29,4 +29,8 @@ func newProjectRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	fetchProjectsUsecase := projectusecase.NewFetchProjectsUsecase(projectRepository)
 	fetchProjectsHandler := projecthandler.NewFetchProjectsHandler(fetchProjectsUsecase)
 	router.HandleFunc("/projects", fetchProjectsHandler.FetchProjects).Methods(http.MethodGet)
+
+	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository, realTime)
+	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)
+	router.HandleFunc("/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
 }

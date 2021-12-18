@@ -52,6 +52,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -67,6 +68,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール2",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -118,6 +120,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				Name:              "管理ツール1",
 				LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 				DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+				TrashedAt:         nil,
 				CreatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				UpdatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 			},
@@ -184,6 +187,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -227,6 +231,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -270,6 +275,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -313,6 +319,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
@@ -357,6 +364,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"管理ツール1",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					"024d78d6-1d03-11ec-a478-9242ac180002",
+					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
 				)
