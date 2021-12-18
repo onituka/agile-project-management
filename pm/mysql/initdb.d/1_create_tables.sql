@@ -6,6 +6,7 @@ CREATE TABLE products
     group_id   CHAR(36)    NOT NULL,
     name       VARCHAR(80) NOT NULL,
     leader_id  CHAR(36)    NOT NULL,
+    trashed_at DATETIME    DEFAULT NULL,
     created_at DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id)

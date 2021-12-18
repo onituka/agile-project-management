@@ -11,6 +11,7 @@ func GenProductForCreate(
 	groupID groupdm.GroupID,
 	name Name,
 	leaderID userdm.UserID,
+	trashedAt *time.Time,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Product, error) {
@@ -19,6 +20,7 @@ func GenProductForCreate(
 		groupID,
 		name,
 		leaderID,
+		trashedAt,
 		createdAt,
 		updatedAt,
 	)

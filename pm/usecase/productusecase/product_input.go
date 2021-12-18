@@ -15,3 +15,7 @@ type UpdateProductInput struct {
 type FetchProductByIDInput struct {
 	ID string
 }
+
+type TrashedProductInput struct {
+	ID string
+}

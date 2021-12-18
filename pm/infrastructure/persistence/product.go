@@ -29,11 +29,12 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
          group_id,
          name,
          leader_id,
+         trashed_at,
          created_at,
          updated_at
         )
        VALUES
-         (?, ?, ?, ?, ?, ?)`
+         (?, ?, ?, ?, ?, ?, ?)`
 
 	if _, err = conn.ExecContext(
 		ctx,
@@ -42,6 +43,7 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
 		product.GroupID().Value(),
 		product.Name().Value(),
 		product.LeaderID().Value(),
+		product.TrashedAt(),
 		product.CreatedAt(),
 		product.UpdatedAt(),
 	); err != nil {
@@ -63,6 +65,7 @@ func (r *productRepository) UpdateProduct(ctx context.Context, product *productd
         SET
           name = ?,
           leader_id = ?,
+          trashed_at = ?,
           updated_at = ?
         WHERE
           id = ?`
@@ -73,6 +76,7 @@ func (r *productRepository) UpdateProduct(ctx context.Context, product *productd
 		product.Name().Value(),
 		product.LeaderID().Value(),
 		product.UpdatedAt(),
+		product.TrashedAt(),
 		product.ID().Value(),
 	); err != nil {
 		return apperrors.InternalServerError
@@ -93,6 +97,7 @@ func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id pr
            group_id,
            name,
            leader_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -116,6 +121,7 @@ func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id pr
 		productDto.GroupID,
 		productDto.Name,
 		productDto.LeaderID,
+		productDto.TrashedAt,
 		productDto.CreatedAt,
 		productDto.UpdatedAt,
 	)
@@ -138,6 +144,7 @@ func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.P
            group_id,
            name,
            leader_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -160,6 +167,7 @@ func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.P
 		productDto.GroupID,
 		productDto.Name,
 		productDto.LeaderID,
+		productDto.TrashedAt,
 		productDto.CreatedAt,
 		productDto.UpdatedAt,
 	)
@@ -182,6 +190,7 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
            group_id,
            name,
            leader_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -206,6 +215,7 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
 		productDto.GroupID,
 		productDto.Name,
 		productDto.LeaderID,
+		productDto.TrashedAt,
 		productDto.CreatedAt,
 		productDto.UpdatedAt,
 	)
@@ -228,6 +238,7 @@ func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Pro
            group_id,
            name,
            leader_id,
+           trashed_at,
            created_at,
            updated_at
          FROM
@@ -252,6 +263,7 @@ func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Pro
 			productDto.GroupID,
 			productDto.Name,
 			productDto.LeaderID,
+			productDto.TrashedAt,
 			productDto.CreatedAt,
 			productDto.UpdatedAt,
 		)

@@ -48,6 +48,7 @@ func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProd
 		groupIDVo,
 		nameVo,
 		leaderIDVo,
+		nil,
 		now,
 		now,
 	)

@@ -13,6 +13,7 @@ type Product struct {
 	groupID   groupdm.GroupID
 	name      Name
 	leaderID  userdm.UserID
+	trashedAt *time.Time
 	createdAt time.Time
 	updatedAt time.Time
 }
@@ -22,6 +23,7 @@ func newProduct(
 	groupID groupdm.GroupID,
 	name Name,
 	leaderID userdm.UserID,
+	trashedAt *time.Time,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Product, error) {
@@ -34,6 +36,7 @@ func newProduct(
 		groupID:   groupID,
 		name:      name,
 		leaderID:  leaderID,
+		trashedAt: trashedAt,
 		createdAt: createdAt,
 		updatedAt: updatedAt,
 	}, nil
@@ -44,6 +47,7 @@ func Reconstruct(
 	groupID string,
 	name string,
 	leaderID string,
+	trashedAt *time.Time,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Product, error) {
@@ -72,6 +76,7 @@ func Reconstruct(
 		groupIDVo,
 		nameVo,
 		leaderIDVo,
+		trashedAt,
 		createdAt,
 		updatedAt,
 	)
@@ -93,6 +98,10 @@ func (p *Product) LeaderID() userdm.UserID {
 	return p.leaderID
 }
 
+func (p *Product) TrashedAt() *time.Time {
+	return p.trashedAt
+}
+
 func (p *Product) CreatedAt() time.Time {
 	return p.createdAt
 }
@@ -109,6 +118,20 @@ func (p *Product) ChangeLeaderID(leaderID userdm.UserID) {
 	p.leaderID = leaderID
 }
 
+func (p *Product) ChangeTrashedAt(trashedAt *time.Time) error {
+	if trashedAt == nil {
+		return apperrors.InternalServerError
+	}
+
+	p.trashedAt = trashedAt
+
+	return nil
+}
+
 func (p *Product) ChangeUpdatedAt(updatedAt time.Time) {
 	p.updatedAt = updatedAt
+}
+
+func (p *Product) IsTrashed() bool {
+	return p.trashedAt != nil
 }

@@ -13,6 +13,7 @@ import (
 
 func newProductRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	productRepository := persistence.NewProductRepository()
+	projectRepository := persistence.NewProjectRepository()
 
 	createProductUsecase := productusecase.NewCreateProductUsecase(productRepository, realTime)
 	createProductHandler := producthandler.NewCreateProductHandler(createProductUsecase)
@@ -29,4 +30,8 @@ func newProductRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productRepository)
 	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
 	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Methods(http.MethodGet)
+
+	trashedProductUsecase := productusecase.NewTrashedProductUsecase(productRepository, projectRepository, realTime)
+	trashedProductHandler := producthandler.NewTrashedProductHandler(trashedProductUsecase)
+	router.HandleFunc("/products/{productID}/trash-box", trashedProductHandler.TrashedProduct).Methods(http.MethodPut)
 }
