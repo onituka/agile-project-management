@@ -366,7 +366,7 @@ func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Pro
 	return projectDms, nil
 }
 
-func (r *projectRepository) FetchProjectsByProductIDAndTrashedAt(ctx context.Context, productID productdm.ProductID) ([]*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectsNotInTrashByProductID(ctx context.Context, productID productdm.ProductID) ([]*projectdm.Project, error) {
 	conn, err := execFromCtx(ctx)
 	if err != nil {
 		return nil, err
