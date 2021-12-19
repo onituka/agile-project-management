@@ -15,5 +15,5 @@ type ProjectRepository interface {
 	FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID groupdm.GroupID, keyName KeyName) (*Project, error)
 	FetchProjectByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, name Name) (*Project, error)
 	FetchProjects(ctx context.Context) ([]*Project, error)
-	FetchProjectsByProductIDAndTrashedAt(ctx context.Context, productID productdm.ProductID) ([]*Project, error)
+	FetchProjectsNotInTrashByProductID(ctx context.Context, productID productdm.ProductID) ([]*Project, error)
 }

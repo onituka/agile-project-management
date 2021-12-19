@@ -52,7 +52,7 @@ func (u *trashedProductUsecase) TrashedProduct(ctx context.Context, in *TrashedP
 		return nil, err
 	}
 
-	projectDms, err := u.projectRepository.FetchProjectsByProductIDAndTrashedAt(ctx, productDm.ID())
+	projectDms, err := u.projectRepository.FetchProjectsNotInTrashByProductID(ctx, productDm.ID())
 	if err != nil {
 		return nil, err
 	}
