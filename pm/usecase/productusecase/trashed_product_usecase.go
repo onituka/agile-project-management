@@ -42,9 +42,7 @@ func (u *trashedProductUsecase) TrashedProduct(ctx context.Context, in *TrashedP
 
 	now := u.timeManager.Now()
 
-	if err = productDm.ChangeTrashedAt(&now); err != nil {
-		return nil, err
-	}
+	productDm.MoveTrash()
 
 	productDm.ChangeUpdatedAt(now)
 

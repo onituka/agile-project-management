@@ -118,20 +118,15 @@ func (p *Product) ChangeLeaderID(leaderID userdm.UserID) {
 	p.leaderID = leaderID
 }
 
-func (p *Product) ChangeTrashedAt(trashedAt *time.Time) error {
-	if trashedAt == nil {
-		return apperrors.InternalServerError
-	}
-
-	p.trashedAt = trashedAt
-
-	return nil
-}
-
 func (p *Product) ChangeUpdatedAt(updatedAt time.Time) {
 	p.updatedAt = updatedAt
 }
 
 func (p *Product) IsTrashed() bool {
 	return p.trashedAt != nil
+}
+
+func (p *Product) MoveTrash() {
+	now := time.Now().UTC()
+	p.trashedAt = &now
 }
