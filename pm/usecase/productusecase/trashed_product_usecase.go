@@ -55,6 +55,8 @@ func (u *trashedProductUsecase) TrashedProduct(ctx context.Context, in *TrashedP
 		return nil, err
 	}
 
+	// プロダクトに紐付くプロジェクト数をNとした時、N回分DBアクセスする事を許容する
+	// プロジェクト数は多くならない想定
 	for i, _ := range projectDms {
 		projectDm := projectDms[i]
 
