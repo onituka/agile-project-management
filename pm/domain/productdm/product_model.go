@@ -126,7 +126,7 @@ func (p *Product) IsTrashed() bool {
 	return p.trashedAt != nil
 }
 
-func (p *Product) MoveTrash() {
+func (p *Product) MoveToTrash() {
 	now := time.Now().UTC()
 	p.trashedAt = &now
 }
