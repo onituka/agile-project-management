@@ -37,11 +37,9 @@ func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedP
 		return nil, apperrors.Conflict
 	}
 
-	now := u.timeManager.Now()
-
 	projectDm.MoveToTrashed()
 
-	projectDm.ChangeUpdatedAt(now)
+	projectDm.MoveToUpdate()
 
 	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
 		return nil, err

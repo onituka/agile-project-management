@@ -174,8 +174,9 @@ func (p *Project) MoveToTrashed() {
 	p.trashedAt = &now
 }
 
-func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
-	p.updatedAt = updatedAt
+func (p *Project) MoveToUpdate() {
+	now := time.Now().UTC()
+	p.updatedAt = now
 }
 
 func (p *Project) IsTrashed() bool {

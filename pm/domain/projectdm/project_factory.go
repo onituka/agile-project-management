@@ -15,7 +15,6 @@ func GenProjectForCreate(
 	name Name,
 	leaderID userdm.UserID,
 	defaultAssigneeID userdm.UserID,
-	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Project, error) {
 	return newProject(
@@ -27,7 +26,7 @@ func GenProjectForCreate(
 		leaderID,
 		defaultAssigneeID,
 		nil,
-		createdAt,
+		time.Now().UTC(),
 		updatedAt,
 	)
 }

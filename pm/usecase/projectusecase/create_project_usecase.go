@@ -68,7 +68,6 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		leaderIDVo,
 		defaultAssigneeIDVo,
 		now,
-		now,
 	)
 	if err != nil {
 		return nil, err
