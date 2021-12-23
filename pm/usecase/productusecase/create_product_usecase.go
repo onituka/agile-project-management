@@ -49,7 +49,6 @@ func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProd
 		nameVo,
 		leaderIDVo,
 		now,
-		now,
 	)
 	if err != nil {
 		return nil, err
