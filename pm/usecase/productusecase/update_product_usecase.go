@@ -50,7 +50,7 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *UpdateProd
 
 	productDm.ChangeLeaderID(leaderIDVo)
 
-	productDm.MoveToUpdate()
+	productDm.ChangeUpdatedAt()
 
 	productDomainService := productdm.NewProductDomainService(u.productRepository)
 

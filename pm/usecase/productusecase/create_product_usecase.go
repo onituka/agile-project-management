@@ -42,13 +42,10 @@ func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProd
 		return nil, err
 	}
 
-	now := u.timeManager.Now()
-
 	productDm, err := productdm.GenProductForCreate(
 		groupIDVo,
 		nameVo,
 		leaderIDVo,
-		now,
 	)
 	if err != nil {
 		return nil, err
