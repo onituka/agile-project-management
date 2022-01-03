@@ -13,14 +13,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 )
 
 func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 	type fields struct {
 		productRepository *mockproductrepository.MockProductRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -164,7 +162,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				}
 			}
 
-			u := NewCreateProductUsecase(f.productRepository, f.timeManager)
+			u := NewCreateProductUsecase(f.productRepository)
 
 			got, err := u.CreateProduct(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {

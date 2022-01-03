@@ -13,14 +13,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 )
 
 func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 	type fields struct {
 		productRepository *mockproductrepository.MockProductRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -269,7 +267,6 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 
 			f := fields{
 				productRepository: mockproductrepository.NewMockProductRepository(gmctrl),
-				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -277,7 +274,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 				}
 			}
 
-			u := NewUpdateProductUsecase(f.productRepository, f.timeManager)
+			u := NewUpdateProductUsecase(f.productRepository)
 
 			got, err := u.UpdateProduct(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
