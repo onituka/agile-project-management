@@ -8,6 +8,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
@@ -36,7 +37,6 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 			name: "正常",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
@@ -80,11 +80,10 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.timeManager.EXPECT().Now().Return(now)
-				f.productRepository.EXPECT().UpdateProduct(ctx, productDm).Return(nil)
+				f.productRepository.EXPECT().UpdateProduct(ctx, gomock.Any()).Return(nil)
+				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(oldProductDm, nil)
 				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(productDm, nil)
-				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(oldProductDm, nil)
 
 				return nil
 			},
@@ -102,7 +101,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 				Name:      "プロジェクト管理ツール",
 				LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
 				CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-				UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				UpdatedAt: time.Now().UTC(),
 			},
 			wantErr: nil,
 		},
@@ -163,7 +162,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 					"プロジェクト管理ツール",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -201,7 +200,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 					"プロジェクト管理ツール",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -226,7 +225,6 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 			name: "DBエラー",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
@@ -240,7 +238,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 					"プロジェクト管理ツール",
 					"024d78d6-1d03-11ec-a478-0242ac184402",
 					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -248,7 +246,6 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(productDm, nil)
 				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(nil, apperr)
 
@@ -288,7 +285,8 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got); len(diff) != 0 {
+			opt := cmpopts.IgnoreFields(UpdateProductOutput{}, "UpdatedAt")
+			if diff := cmp.Diff(tt.want, got, opt); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
