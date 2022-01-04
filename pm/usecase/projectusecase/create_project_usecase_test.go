@@ -13,14 +13,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 )
 
 func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 	type fields struct {
 		projectRepository *mockprojectrepository.MockProjectRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -37,7 +35,6 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name: "正常",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
@@ -57,7 +54,6 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().CreateProject(ctx, gomock.Any()).Return(nil)
@@ -83,8 +79,8 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				Name:              "管理ツール1",
 				LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 				DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
-				CreatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-				UpdatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+				CreatedAt:         time.Now().UTC(),
+				UpdatedAt:         time.Now().UTC(),
 			},
 			wantErr: nil,
 		},
@@ -194,7 +190,6 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			name: "DBエラー",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				groupVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
@@ -209,7 +204,6 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, apperr)
 
 				return err
@@ -236,7 +230,6 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 			f := fields{
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
-				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -244,7 +237,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				}
 			}
 
-			u := NewCreateProjectUsecase(f.projectRepository, f.timeManager)
+			u := NewCreateProjectUsecase(f.projectRepository)
 
 			got, err := u.CreateProject(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
@@ -252,7 +245,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(CreateProjectOutput{}, "ID")); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(CreateProjectOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 

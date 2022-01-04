@@ -8,18 +8,17 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 )
 
 func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 	type fields struct {
 		projectRepository *mockprojectrepository.MockProjectRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -36,7 +35,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name: "正常",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
@@ -93,8 +91,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.timeManager.EXPECT().Now().Return(now)
-				f.projectRepository.EXPECT().UpdateProject(ctx, projectDm).Return(nil)
+				f.projectRepository.EXPECT().UpdateProject(ctx, gomock.Any()).Return(nil)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(oldProjectDm, nil)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
@@ -122,7 +119,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				TrashedAt:         nil,
 				CreatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-				UpdatedAt:         time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+				UpdatedAt:         time.Now().UTC(),
 			},
 			wantErr: nil,
 		},
@@ -189,7 +186,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"024d78d6-1d03-11ec-a478-9242ac180002",
 					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -233,7 +230,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"024d78d6-1d03-11ec-a478-9242ac180002",
 					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -277,7 +274,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"024d78d6-1d03-11ec-a478-9242ac180002",
 					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -321,7 +318,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"024d78d6-1d03-11ec-a478-9242ac180002",
 					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -348,7 +345,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			name: "DBエラー",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
@@ -366,7 +362,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					"024d78d6-1d03-11ec-a478-9242ac180002",
 					nil,
 					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
-					time.Date(2021, 11, 20, 0, 0, 0, 0, time.UTC),
+					time.Now().UTC(),
 				)
 				if err != nil {
 					return err
@@ -374,7 +370,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo).Return(projectDm, nil)
 				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
 
@@ -400,7 +395,6 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 			f := fields{
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
-				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -408,7 +402,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				}
 			}
 
-			u := NewUpdateProjectUsecase(f.projectRepository, f.timeManager)
+			u := NewUpdateProjectUsecase(f.projectRepository)
 
 			got, err := u.UpdateProject(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
@@ -416,7 +410,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(UpdateProjectOutput{}, "ID", "UpdatedAt")); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
