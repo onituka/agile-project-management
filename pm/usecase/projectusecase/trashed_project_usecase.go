@@ -34,7 +34,7 @@ func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedP
 		return nil, apperrors.Conflict
 	}
 
-	projectDm.MoveToTrashedAt()
+	projectDm.MoveToTrashed()
 
 	projectDm.ChangeUpdateAt()
 

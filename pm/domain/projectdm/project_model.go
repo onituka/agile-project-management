@@ -169,7 +169,7 @@ func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
 
-func (p *Project) MoveToTrashedAt() {
+func (p *Project) MoveToTrashed() {
 	now := time.Now().UTC()
 	p.trashedAt = &now
 }
