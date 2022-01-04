@@ -8,17 +8,16 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
-func newProductRouter(router *mux.Router, realTime timemanager.TimeManager) {
+func newProductRouter(router *mux.Router) {
 	productRepository := persistence.NewProductRepository()
 
-	createProductUsecase := productusecase.NewCreateProductUsecase(productRepository, realTime)
+	createProductUsecase := productusecase.NewCreateProductUsecase(productRepository)
 	createProductHandler := producthandler.NewCreateProductHandler(createProductUsecase)
 	router.HandleFunc("/products", createProductHandler.CreateProduct).Methods(http.MethodPost)
 
-	updateProductUsecase := productusecase.NewUpdateProductUsecase(productRepository, realTime)
+	updateProductUsecase := productusecase.NewUpdateProductUsecase(productRepository)
 	updateProductHandler := producthandler.NewUpdateProductHandler(updateProductUsecase)
 	router.HandleFunc("/products/{productID}", updateProductHandler.UpdateProduct).Methods(http.MethodPut)
 

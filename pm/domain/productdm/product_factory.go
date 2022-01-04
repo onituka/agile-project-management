@@ -11,15 +11,15 @@ func GenProductForCreate(
 	groupID groupdm.GroupID,
 	name Name,
 	leaderID userdm.UserID,
-	createdAt time.Time,
-	updatedAt time.Time,
 ) (*Product, error) {
+	now := time.Now().UTC()
+
 	return newProduct(
 		NewProductIDForCreate(),
 		groupID,
 		name,
 		leaderID,
-		createdAt,
-		updatedAt,
+		now,
+		now,
 	)
 }

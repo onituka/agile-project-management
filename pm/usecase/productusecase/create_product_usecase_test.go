@@ -13,14 +13,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/mocktime"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 )
 
 func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 	type fields struct {
 		productRepository *mockproductrepository.MockProductRepository
-		timeManager       *mocktime.MockTimeManager
 	}
 	type args struct {
 		ctx context.Context
@@ -37,7 +35,6 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			name: "正常",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
@@ -52,7 +49,6 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.productRepository.EXPECT().CreateProduct(ctx, gomock.Any()).Return(nil)
 
@@ -71,8 +67,8 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 				Name:      "プロジェクト管理ツール",
 				LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
-				CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-				UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				CreatedAt: time.Now().UTC(),
+				UpdatedAt: time.Now().UTC(),
 			},
 			wantErr: nil,
 		},
@@ -122,7 +118,6 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			name: "DBエラー",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				now := time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC)
 				var err error
 
 				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
@@ -137,7 +132,6 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
-				f.timeManager.EXPECT().Now().Return(now)
 				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 
 				return err
@@ -161,7 +155,6 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 
 			f := fields{
 				productRepository: mockproductrepository.NewMockProductRepository(gmctrl),
-				timeManager:       mocktime.NewMockTimeManager(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -169,7 +162,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				}
 			}
 
-			u := NewCreateProductUsecase(f.productRepository, f.timeManager)
+			u := NewCreateProductUsecase(f.productRepository)
 
 			got, err := u.CreateProduct(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
@@ -177,7 +170,8 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(CreateProductOutput{}, "ID")); len(diff) != 0 {
+			opt := cmpopts.IgnoreFields(CreateProductOutput{}, "ID", "CreatedAt", "UpdatedAt")
+			if diff := cmp.Diff(tt.want, got, opt); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 

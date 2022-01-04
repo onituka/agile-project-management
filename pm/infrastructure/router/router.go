@@ -30,7 +30,7 @@ func Run() error {
 
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
-	newProductRouter(router, realTime)
+	newProductRouter(router)
 	newProjectRouter(router, realTime)
 
 	srv := &http.Server{
