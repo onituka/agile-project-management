@@ -109,6 +109,7 @@ func (p *Product) ChangeLeaderID(leaderID userdm.UserID) {
 	p.leaderID = leaderID
 }
 
-func (p *Product) ChangeUpdatedAt(updatedAt time.Time) {
-	p.updatedAt = updatedAt
+func (p *Product) ChangeUpdatedAt() {
+	now := time.Now().UTC()
+	p.updatedAt = now
 }

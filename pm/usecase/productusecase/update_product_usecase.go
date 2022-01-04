@@ -6,7 +6,6 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type UpdateProductUsecase interface {
@@ -15,13 +14,11 @@ type UpdateProductUsecase interface {
 
 type updateProductUsecase struct {
 	productRepository productdm.ProductRepository
-	timeManager       timemanager.TimeManager
 }
 
-func NewUpdateProductUsecase(ProductRepository productdm.ProductRepository, timeManager timemanager.TimeManager) *updateProductUsecase {
+func NewUpdateProductUsecase(ProductRepository productdm.ProductRepository) *updateProductUsecase {
 	return &updateProductUsecase{
 		productRepository: ProductRepository,
-		timeManager:       timeManager,
 	}
 }
 
@@ -50,7 +47,7 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *UpdateProd
 
 	productDm.ChangeLeaderID(leaderIDVo)
 
-	productDm.ChangeUpdatedAt(u.timeManager.Now())
+	productDm.ChangeUpdatedAt()
 
 	productDomainService := productdm.NewProductDomainService(u.productRepository)
 
