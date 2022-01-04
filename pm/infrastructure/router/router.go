@@ -15,13 +15,11 @@ import (
 	"github.com/onituka/agile-project-management/project-management/config"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/middleware"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
-	"github.com/onituka/agile-project-management/project-management/usecase/clock"
 )
 
 func Run() error {
 	router := mux.NewRouter()
 
-	realTime := clock.NewRealTime()
 	conn, err := rdb.NewDB()
 	if err != nil {
 		return err
@@ -31,7 +29,7 @@ func Run() error {
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
 	newProductRouter(router)
-	newProjectRouter(router, realTime)
+	newProjectRouter(router)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),
