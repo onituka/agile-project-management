@@ -34,9 +34,9 @@ func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedP
 		return nil, apperrors.Conflict
 	}
 
-	projectDm.MoveToTrashed()
+	projectDm.MoveToTrashedAt()
 
-	projectDm.MoveToUpdate()
+	projectDm.ChangeUpdateAt()
 
 	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
 		return nil, err

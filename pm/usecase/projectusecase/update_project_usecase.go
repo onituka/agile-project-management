@@ -61,7 +61,7 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *UpdateProj
 
 	projectDm.ChangeDefaultAssigneeID(defaultAssigneeID)
 
-	projectDm.MoveToUpdate()
+	projectDm.ChangeUpdateAt()
 
 	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
