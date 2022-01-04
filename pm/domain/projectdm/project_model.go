@@ -169,18 +169,14 @@ func (p *Project) ChangeDefaultAssigneeID(defaultAssigneeID userdm.UserID) {
 	p.defaultAssigneeID = defaultAssigneeID
 }
 
-func (p *Project) ChangeTrashedAt(trashedAt *time.Time) error {
-	if trashedAt == nil {
-		return apperrors.InternalServerError
-	}
-
-	p.trashedAt = trashedAt
-
-	return nil
+func (p *Project) MoveToTrashed() {
+	now := time.Now().UTC()
+	p.trashedAt = &now
 }
 
-func (p *Project) ChangeUpdatedAt(updatedAt time.Time) {
-	p.updatedAt = updatedAt
+func (p *Project) ChangeUpdateAt() {
+	now := time.Now().UTC()
+	p.updatedAt = now
 }
 
 func (p *Project) IsTrashed() bool {

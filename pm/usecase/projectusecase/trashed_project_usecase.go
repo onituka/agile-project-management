@@ -5,7 +5,6 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type TrashedProjectUsecase interface {
@@ -14,13 +13,11 @@ type TrashedProjectUsecase interface {
 
 type trashedProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
-	timeManager       timemanager.TimeManager
 }
 
-func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *trashedProjectUsecase {
+func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository) *trashedProjectUsecase {
 	return &trashedProjectUsecase{
 		projectRepository: TrashedProjectRepository,
-		timeManager:       timeManager,
 	}
 }
 
@@ -37,13 +34,9 @@ func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedP
 		return nil, apperrors.Conflict
 	}
 
-	now := u.timeManager.Now()
+	projectDm.MoveToTrashed()
 
-	if err = projectDm.ChangeTrashedAt(&now); err != nil {
-		return nil, err
-	}
-
-	projectDm.ChangeUpdatedAt(now)
+	projectDm.ChangeUpdateAt()
 
 	if err = u.projectRepository.UpdateProject(ctx, projectDm); err != nil {
 		return nil, err
