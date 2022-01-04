@@ -6,7 +6,6 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type UpdateProjectUsecase interface {
@@ -15,13 +14,11 @@ type UpdateProjectUsecase interface {
 
 type updateProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
-	timeManager       timemanager.TimeManager
 }
 
-func NewUpdateProjectUsecase(UpdateProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *updateProjectUsecase {
+func NewUpdateProjectUsecase(UpdateProjectRepository projectdm.ProjectRepository) *updateProjectUsecase {
 	return &updateProjectUsecase{
 		projectRepository: UpdateProjectRepository,
-		timeManager:       timeManager,
 	}
 }
 

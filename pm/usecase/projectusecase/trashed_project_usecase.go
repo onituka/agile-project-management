@@ -5,7 +5,6 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type TrashedProjectUsecase interface {
@@ -14,13 +13,11 @@ type TrashedProjectUsecase interface {
 
 type trashedProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
-	timeManager       timemanager.TimeManager
 }
 
-func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *trashedProjectUsecase {
+func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository) *trashedProjectUsecase {
 	return &trashedProjectUsecase{
 		projectRepository: TrashedProjectRepository,
-		timeManager:       timeManager,
 	}
 }
 

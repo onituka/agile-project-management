@@ -8,17 +8,16 @@ import (
 	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
-func newProjectRouter(router *mux.Router, realTime timemanager.TimeManager) {
+func newProjectRouter(router *mux.Router) {
 	projectRepository := persistence.NewProjectRepository()
 
-	createProjectUsecase := projectusecase.NewCreateProjectUsecase(projectRepository, realTime)
+	createProjectUsecase := projectusecase.NewCreateProjectUsecase(projectRepository)
 	createProjectHandler := projecthandler.NewCreateProjectHandler(createProjectUsecase)
 	router.HandleFunc("/projects", createProjectHandler.CreateProject).Methods(http.MethodPost)
 
-	updateProjectUsecase := projectusecase.NewUpdateProjectUsecase(projectRepository, realTime)
+	updateProjectUsecase := projectusecase.NewUpdateProjectUsecase(projectRepository)
 	updateProjectHandler := projecthandler.NewUpdateProjectHandler(updateProjectUsecase)
 	router.HandleFunc("/projects/{projectID}", updateProjectHandler.UpdateProject).Methods(http.MethodPut)
 
@@ -30,7 +29,7 @@ func newProjectRouter(router *mux.Router, realTime timemanager.TimeManager) {
 	fetchProjectsHandler := projecthandler.NewFetchProjectsHandler(fetchProjectsUsecase)
 	router.HandleFunc("/projects", fetchProjectsHandler.FetchProjects).Methods(http.MethodGet)
 
-	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository, realTime)
+	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository)
 	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)
 	router.HandleFunc("/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
 }

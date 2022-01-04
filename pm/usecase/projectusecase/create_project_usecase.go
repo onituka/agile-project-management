@@ -8,7 +8,6 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
-	"github.com/onituka/agile-project-management/project-management/usecase/timemanager"
 )
 
 type CreateProjectUsecase interface {
@@ -17,13 +16,11 @@ type CreateProjectUsecase interface {
 
 type createProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
-	timeManager       timemanager.TimeManager
 }
 
-func NewCreateProjectUsecase(CreateProjectRepository projectdm.ProjectRepository, timeManager timemanager.TimeManager) *createProjectUsecase {
+func NewCreateProjectUsecase(CreateProjectRepository projectdm.ProjectRepository) *createProjectUsecase {
 	return &createProjectUsecase{
 		projectRepository: CreateProjectRepository,
-		timeManager:       timeManager,
 	}
 }
 
@@ -58,8 +55,6 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		return nil, err
 	}
 
-	now := u.timeManager.Now()
-
 	projectDm, err := projectdm.GenProjectForCreate(
 		productIDVo,
 		groupIDVo,
@@ -67,7 +62,6 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		nameVo,
 		leaderIDVo,
 		defaultAssigneeIDVo,
-		now,
 	)
 	if err != nil {
 		return nil, err
