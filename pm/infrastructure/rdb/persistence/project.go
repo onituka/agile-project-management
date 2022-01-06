@@ -7,7 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
-	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/datasource"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence/datasource"
 )
 
 type projectRepository struct{}

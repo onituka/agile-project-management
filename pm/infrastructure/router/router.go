@@ -14,7 +14,7 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/config"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/middleware"
-	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence/rdb"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 )
 
 func Run() error {
