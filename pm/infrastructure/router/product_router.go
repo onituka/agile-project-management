@@ -5,7 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/onituka/agile-project-management/project-management/infrastructure/persistence"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
