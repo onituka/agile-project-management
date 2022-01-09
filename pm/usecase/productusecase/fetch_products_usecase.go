@@ -3,40 +3,56 @@ package productusecase
 import (
 	"context"
 
-	"github.com/onituka/agile-project-management/project-management/domain/productdm"
+	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productqueryservice"
 )
 
 type FetchProductsUsecase interface {
-	FetchProducts(ctx context.Context) (FetchProductsOutput, error)
+	FetchProducts(ctx context.Context, in *productinput.FetchProductsInput) (*productoutput.FetchProductsOutput, error)
 }
 
 type fetchProductsUsecase struct {
-	productRepository productdm.ProductRepository
+	productsQueryService productqueryservice.ProductsQueryService
 }
 
-func NewFetchProductsUsecase(FetchProductsRepository productdm.ProductRepository) *fetchProductsUsecase {
+func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.ProductsQueryService) *fetchProductsUsecase {
 	return &fetchProductsUsecase{
-		productRepository: FetchProductsRepository,
+		productsQueryService: FetchProductsQueryService,
 	}
 }
 
-func (u *fetchProductsUsecase) FetchProducts(ctx context.Context) (FetchProductsOutput, error) {
-	productsDm, err := u.productRepository.FetchProducts(ctx)
+func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinput.FetchProductsInput) (*productoutput.FetchProductsOutput, error) {
+	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
 	}
 
-	productsDto := make(FetchProductsOutput, len(productsDm))
-	for i, productDm := range productsDm {
-		productsDto[i] = &Product{
-			ID:        productDm.ID().Value(),
-			GroupID:   productDm.GroupID().Value(),
-			Name:      productDm.Name().Value(),
-			LeaderID:  productDm.LeaderID().Value(),
-			CreatedAt: productDm.CreatedAt(),
-			UpdatedAt: productDm.UpdatedAt(),
-		}
+	if in.Page <= 0 || in.Limit <= 0 {
+		return nil, apperrors.InvalidParameter
 	}
 
-	return productsDto, nil
+	totalCount, err := u.productsQueryService.CountProducts(ctx, groupIDVo)
+	if err != nil {
+		return nil, err
+	} else if totalCount == 0 {
+		return &productoutput.FetchProductsOutput{
+			TotalCount: 0,
+			Products:   make([]*productoutput.ProductOutput, 0),
+		}, nil
+	}
+
+	offset := in.Page*in.Limit - in.Limit
+
+	productsDto, err := u.productsQueryService.FetchProducts(ctx, groupIDVo, in.Limit, offset)
+	if err != nil {
+		return nil, err
+	}
+
+	return &productoutput.FetchProductsOutput{
+		TotalCount: totalCount,
+		Products:   productsDto,
+	}, nil
 }

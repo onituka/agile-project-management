@@ -9,7 +9,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/config"
 )
 
-func execFromCtx(ctx context.Context) (sqlx.ExtContext, error) {
+func ExecFromCtx(ctx context.Context) (sqlx.ExtContext, error) {
 	val := ctx.Value(config.DBKey)
 	if val == nil {
 		return nil, apperrors.InternalServerError

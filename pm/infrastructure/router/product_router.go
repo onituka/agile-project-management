@@ -6,12 +6,14 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/query"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
 )
 
 func newProductRouter(router *mux.Router) {
 	productRepository := persistence.NewProductRepository()
+	productsQueryService := query.NewProductsQueryServiceImpl()
 
 	createProductUsecase := productusecase.NewCreateProductUsecase(productRepository)
 	createProductHandler := producthandler.NewCreateProductHandler(createProductUsecase)
@@ -25,7 +27,7 @@ func newProductRouter(router *mux.Router) {
 	fetchProductByIDHandler := producthandler.NewFetchProductByIDHandler(fetchProductByIDUsecase)
 	router.HandleFunc("/products/{productID}", fetchProductByIDHandler.FetchProductByID).Methods(http.MethodGet)
 
-	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productRepository)
+	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productsQueryService)
 	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
-	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Methods(http.MethodGet)
+	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }

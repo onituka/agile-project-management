@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	productusecase "github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	productinput "github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	productoutput "github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 // MockFetchProductByIDUsecase is a mock of FetchProductByIDUsecase interface.
@@ -36,10 +37,10 @@ func (m *MockFetchProductByIDUsecase) EXPECT() *MockFetchProductByIDUsecaseMockR
 }
 
 // FetchProductByID mocks base method.
-func (m *MockFetchProductByIDUsecase) FetchProductByID(ctx context.Context, in *productusecase.FetchProductByIDInput) (*productusecase.FetchProductByIDOutput, error) {
+func (m *MockFetchProductByIDUsecase) FetchProductByID(ctx context.Context, in *productinput.FetchProductByIDInput) (*productoutput.FetchProductByIDOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProductByID", ctx, in)
-	ret0, _ := ret[0].(*productusecase.FetchProductByIDOutput)
+	ret0, _ := ret[0].(*productoutput.FetchProductByIDOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

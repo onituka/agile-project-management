@@ -13,7 +13,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler/mockproductusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 func TestCreateProductHandlerCreateProduct(t *testing.T) {
@@ -31,13 +32,13 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctX := context.Background()
 
-				in := &productusecase.CreateProductInput{
+				in := &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
-				out := &productusecase.CreateProductOutput{
+				out := &productoutput.CreateProductOutput{
 					ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:      "プロジェクト管理ツール",
@@ -60,7 +61,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecase.CreateProductInput{
+				in := &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac1800020",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -76,7 +77,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecase.CreateProductInput{
+				in := &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -93,7 +94,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := context.Background()
 
-				in := &productusecase.CreateProductInput{
+				in := &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
