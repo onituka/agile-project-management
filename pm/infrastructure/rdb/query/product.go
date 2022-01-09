@@ -5,7 +5,7 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
-	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
@@ -16,7 +16,7 @@ func NewProductsQueryServiceImpl() *productsQueryServiceImpl {
 }
 
 func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit int, offset int) ([]*productoutput.ProductOutput, error) {
-	conn, err := persistence.ExecFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID gr
 }
 
 func (r *productsQueryServiceImpl) CountProducts(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
-	conn, err := persistence.ExecFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
 	}
