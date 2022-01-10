@@ -15,10 +15,10 @@ type FetchProductsUsecase interface {
 }
 
 type fetchProductsUsecase struct {
-	productsQueryService productqueryservice.ProductsQueryService
+	productsQueryService productqueryservice.ProductQueryService
 }
 
-func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.ProductsQueryService) *fetchProductsUsecase {
+func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.ProductQueryService) *fetchProductsUsecase {
 	return &fetchProductsUsecase{
 		productsQueryService: FetchProductsQueryService,
 	}
