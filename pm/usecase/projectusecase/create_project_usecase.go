@@ -8,10 +8,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 type CreateProjectUsecase interface {
-	CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error)
+	CreateProject(ctx context.Context, in *projectinput.CreateProjectInput) (*projectoutput.CreateProjectOutput, error)
 }
 
 type createProjectUsecase struct {
@@ -24,7 +26,7 @@ func NewCreateProjectUsecase(CreateProjectRepository projectdm.ProjectRepository
 	}
 }
 
-func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProjectInput) (*CreateProjectOutput, error) {
+func (u *createProjectUsecase) CreateProject(ctx context.Context, in *projectinput.CreateProjectInput) (*projectoutput.CreateProjectOutput, error) {
 	productIDVo, err := productdm.NewProductID(in.ProductID)
 	if err != nil {
 		return nil, err
@@ -80,7 +82,7 @@ func (u *createProjectUsecase) CreateProject(ctx context.Context, in *CreateProj
 		return nil, err
 	}
 
-	return &CreateProjectOutput{
+	return &projectoutput.CreateProjectOutput{
 		ID:                projectDm.ID().Value(),
 		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),

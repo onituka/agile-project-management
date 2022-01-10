@@ -4,10 +4,12 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 type FetchProjectByIDUsecase interface {
-	FetchProjectByID(ctx context.Context, in *FetchProjectByIDInput) (*FetchProjectByIDOutput, error)
+	FetchProjectByID(ctx context.Context, in *projectinput.FetchProjectByIDInput) (*projectoutput.FetchProjectByIDOutput, error)
 }
 
 type fetchProjectByIDUsecase struct {
@@ -20,7 +22,7 @@ func NewFetchProjectByIDUsecase(FetchProjectByIDRepository projectdm.ProjectRepo
 	}
 }
 
-func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *FetchProjectByIDInput) (*FetchProjectByIDOutput, error) {
+func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *projectinput.FetchProjectByIDInput) (*projectoutput.FetchProjectByIDOutput, error) {
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
@@ -31,7 +33,7 @@ func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *Fetc
 		return nil, err
 	}
 
-	return &FetchProjectByIDOutput{
+	return &projectoutput.FetchProjectByIDOutput{
 		ID:                projectDm.ID().Value(),
 		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),

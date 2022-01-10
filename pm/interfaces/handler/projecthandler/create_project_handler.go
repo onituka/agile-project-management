@@ -8,6 +8,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 )
 
 type createProjectHandler struct {
@@ -21,7 +22,7 @@ func NewCreateProjectHandler(createProjectUsecase projectusecase.CreateProjectUs
 }
 
 func (h *createProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
-	var in projectusecase.CreateProjectInput
+	var in projectinput.CreateProjectInput
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
