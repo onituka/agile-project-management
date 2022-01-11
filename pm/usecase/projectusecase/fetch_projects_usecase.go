@@ -30,6 +30,10 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
+	if in.Page <= 0 || in.Limit <= 0 {
+		return nil, apperrors.InvalidParameter
+	}
+
 	totalCount, err := u.projectQueryService.CountProjects(ctx, productIDVo)
 	if err != nil {
 		return nil, err
@@ -38,10 +42,6 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 			TotalCount: 0,
 			Projects:   make([]*projectoutput.ProjectOutput, 0),
 		}, nil
-	}
-
-	if in.Page <= 0 || in.Limit <= 0 {
-		return nil, apperrors.InvalidParameter
 	}
 
 	offset := in.Page*in.Limit - in.Limit
