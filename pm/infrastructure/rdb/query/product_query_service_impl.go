@@ -15,7 +15,7 @@ func NewProductsQueryServiceImpl() *productsQueryServiceImpl {
 	return &productsQueryServiceImpl{}
 }
 
-func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit int, offset int) ([]*productoutput.ProductOutput, error) {
+func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err

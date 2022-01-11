@@ -22,14 +22,14 @@ func NewFetchProductsHandler(fetchProductsUsecase productusecase.FetchProductsUs
 }
 
 func (h *fetchProductsHandler) FetchProducts(w http.ResponseWriter, r *http.Request) {
-	page, err := strconv.Atoi(r.URL.Query().Get("page"))
+	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, apperrors.InvalidParameter)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
 		return
 	}
 
-	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	limit, err := strconv.ParseUint(r.URL.Query().Get("limit"), 10, 32)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, apperrors.InvalidParameter)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)
@@ -39,8 +39,8 @@ func (h *fetchProductsHandler) FetchProducts(w http.ResponseWriter, r *http.Requ
 	// TODO: 今後JWTにてGroupIDを認証する為、現時点ではGroupIDを指定のものとする
 	in := &productinput.FetchProductsInput{
 		GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-		Page:    page,
-		Limit:   limit,
+		Page:    uint32(page),
+		Limit:   uint32(limit),
 	}
 
 	out, err := h.productUsecase.FetchProducts(r.Context(), in)
