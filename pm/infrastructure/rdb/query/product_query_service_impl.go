@@ -66,7 +66,7 @@ func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID gr
 	return productsDto, nil
 }
 
-func (r *productsQueryServiceImpl) CountProducts(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
+func (r *productsQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err

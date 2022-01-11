@@ -34,7 +34,7 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.productsQueryService.CountProducts(ctx, groupIDVo)
+	totalCount, err := u.productsQueryService.CountProductsByGroupID(ctx, groupIDVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
