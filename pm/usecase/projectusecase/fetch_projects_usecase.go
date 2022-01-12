@@ -15,12 +15,12 @@ type FetchProjectsUsecase interface {
 }
 
 type fetchProjectsUsecase struct {
-	projectQueryService projectqueryservice.ProjectQueryService
+	projectsQueryService projectqueryservice.ProjectQueryService
 }
 
 func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQueryService) *fetchProjectsUsecase {
 	return &fetchProjectsUsecase{
-		projectQueryService: projectQueryService,
+		projectsQueryService: projectQueryService,
 	}
 }
 
@@ -34,7 +34,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, productIDVo)
+	totalCount, err := u.projectsQueryService.CountProjectsByProductID(ctx, productIDVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -46,7 +46,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectsDto, err := u.projectQueryService.FetchProjects(ctx, productIDVo, uint32(in.Limit), uint32(offset))
+	projectsDto, err := u.projectsQueryService.FetchProjects(ctx, productIDVo, uint32(in.Limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}
