@@ -34,7 +34,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.projectQueryService.CountProjects(ctx, productIDVo)
+	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, productIDVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {

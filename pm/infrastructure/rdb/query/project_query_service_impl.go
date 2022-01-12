@@ -70,7 +70,7 @@ func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.Pr
 	return projectsDto, nil
 }
 
-func (r *projectQuery) CountProjects(ctx context.Context, productID productdm.ProductID) (totalCount int, err error) {
+func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID productdm.ProductID) (totalCount int, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
@@ -82,7 +82,9 @@ func (r *projectQuery) CountProjects(ctx context.Context, productID productdm.Pr
          FROM
            projects
          WHERE
-           product_id = ?`
+           product_id = ?
+         AND 
+           trashed_at IS NULL`
 
 	if err = conn.QueryRowxContext(ctx, query, productID.Value()).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError

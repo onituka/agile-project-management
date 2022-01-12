@@ -9,5 +9,5 @@ import (
 
 type ProjectQueryService interface {
 	FetchProjects(ctx context.Context, productID productdm.ProductID, limit int, offset int) ([]*projectoutput.ProjectOutput, error)
-	CountProjects(ctx context.Context, productID productdm.ProductID) (totalCount int, err error)
+	CountProjectsByProductID(ctx context.Context, productID productdm.ProductID) (totalCount int, err error)
 }
