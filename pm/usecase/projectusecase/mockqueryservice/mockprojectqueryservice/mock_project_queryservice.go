@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
@@ -37,7 +36,7 @@ func (m *MockProjectQueryService) EXPECT() *MockProjectQueryServiceMockRecorder 
 }
 
 // CountProjectsByProductID mocks base method.
-func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID productdm.ProductID) (int, error) {
+func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID string) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProjectsByProductID", ctx, productID)
 	ret0, _ := ret[0].(int)
@@ -52,7 +51,7 @@ func (mr *MockProjectQueryServiceMockRecorder) CountProjectsByProductID(ctx, pro
 }
 
 // FetchProjects mocks base method.
-func (m *MockProjectQueryService) FetchProjects(ctx context.Context, productID productdm.ProductID, limit, offset uint32) ([]*projectoutput.ProjectOutput, error) {
+func (m *MockProjectQueryService) FetchProjects(ctx context.Context, productID string, limit, offset uint32) ([]*projectoutput.ProjectOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProjects", ctx, productID, limit, offset)
 	ret0, _ := ret[0].([]*projectoutput.ProjectOutput)

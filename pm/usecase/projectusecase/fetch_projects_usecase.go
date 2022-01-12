@@ -26,7 +26,6 @@ func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQuer
 
 func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
 	if _, err := productdm.NewProductID(in.ProductID); err != nil {
-
 		return nil, err
 	}
 

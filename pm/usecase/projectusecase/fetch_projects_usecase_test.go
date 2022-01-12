@@ -10,7 +10,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockqueryservice/mockprojectqueryservice"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -36,12 +35,9 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			name: "正常",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				var err error
 
-				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
+				productID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
+
 				limit := uint32(2)
 				offset := uint32(0)
 				totalCount := 4
@@ -73,8 +69,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					},
 				}
 
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(projectDtos, nil)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productID).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().FetchProjects(ctx, productID, limit, offset).Return(projectDtos, nil)
 
 				return nil
 			},
@@ -121,16 +117,12 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			name: "正常(プロジェクトが存在しない場合)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				var err error
 
-				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
+				productID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 
 				totalCount := 0
 
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productID).Return(totalCount, nil)
 
 				return nil
 			},
@@ -194,16 +186,12 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			name: "DB不正(CountProjectsByProductID)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				var err error
 
-				productIDVO, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
+				productID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 
 				apperr := apperrors.InternalServerError
 
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVO).Return(0, apperr)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productID).Return(0, apperr)
 
 				return nil
 			},
@@ -222,20 +210,16 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			name: "DB不正(FetchProjects)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
-				var err error
 
-				productIDVO, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
+				productID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 				limit := uint32(2)
 				offset := uint32(0)
 				totalcount := 3
 
 				apperr := apperrors.InternalServerError
 
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVO).Return(totalcount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVO, limit, offset).Return(nil, apperr)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productID).Return(totalcount, nil)
+				f.projectQueryService.EXPECT().FetchProjects(ctx, productID, limit, offset).Return(nil, apperr)
 
 				return nil
 			},
