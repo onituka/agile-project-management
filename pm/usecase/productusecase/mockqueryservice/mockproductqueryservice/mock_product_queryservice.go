@@ -9,7 +9,6 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	groupdm "github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	productoutput "github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
@@ -37,7 +36,7 @@ func (m *MockProductQueryService) EXPECT() *MockProductQueryServiceMockRecorder 
 }
 
 // CountProductsByGroupID mocks base method.
-func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (int, error) {
+func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID string) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProductsByGroupID", ctx, groupID)
 	ret0, _ := ret[0].(int)
@@ -52,7 +51,7 @@ func (mr *MockProductQueryServiceMockRecorder) CountProductsByGroupID(ctx, group
 }
 
 // FetchProducts mocks base method.
-func (m *MockProductQueryService) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit, offset uint32) ([]*productoutput.ProductOutput, error) {
+func (m *MockProductQueryService) FetchProducts(ctx context.Context, groupID string, limit, offset uint32) ([]*productoutput.ProductOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProducts", ctx, groupID, limit, offset)
 	ret0, _ := ret[0].([]*productoutput.ProductOutput)
