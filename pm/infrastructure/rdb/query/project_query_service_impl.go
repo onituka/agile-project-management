@@ -15,7 +15,7 @@ func NewProjectQuery() *projectQuery {
 	return &projectQuery{}
 }
 
-func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.ProductID, limit int, offset int) ([]*projectoutput.ProjectOutput, error) {
+func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.ProductID, limit uint32, offset uint32) ([]*projectoutput.ProjectOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err

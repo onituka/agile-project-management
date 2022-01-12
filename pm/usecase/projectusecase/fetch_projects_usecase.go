@@ -30,7 +30,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
-	if in.Page <= 0 || in.Limit <= 0 {
+	if in.Page <= 0 || in.Limit <= 0 || in.Limit > 50 {
 		return nil, apperrors.InvalidParameter
 	}
 
@@ -46,7 +46,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectsDto, err := u.projectQueryService.FetchProjects(ctx, productIDVo, in.Limit, offset)
+	projectsDto, err := u.projectQueryService.FetchProjects(ctx, productIDVo, uint32(in.Limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}

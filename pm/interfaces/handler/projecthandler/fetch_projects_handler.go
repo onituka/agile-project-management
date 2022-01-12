@@ -22,14 +22,14 @@ func NewFetchProjectsHandler(fetchProjectsUsecase projectusecase.FetchProjectsUs
 }
 
 func (h *fetchProjectsHandler) FetchProjects(w http.ResponseWriter, r *http.Request) {
-	page, err := strconv.Atoi(r.URL.Query().Get("page"))
+	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
 
-	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	limit, err := strconv.ParseUint(r.URL.Query().Get("limit"), 10, 32)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
@@ -38,8 +38,8 @@ func (h *fetchProjectsHandler) FetchProjects(w http.ResponseWriter, r *http.Requ
 	//TODO: 今後JWTにてProductIDを認証する為、現時点ではProductIDを指定のものとする
 	in := projectinput.FetchProjectsInput{
 		ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		Page:      page,
-		Limit:     limit,
+		Page:      uint32(page),
+		Limit:     uint32(limit),
 	}
 
 	out, err := h.projectUsecase.FetchProjects(r.Context(), &in)
