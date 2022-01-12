@@ -25,8 +25,8 @@ func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQuer
 }
 
 func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
-	productIDVo, err := productdm.NewProductID(in.ProductID)
-	if err != nil {
+	if _, err := productdm.NewProductID(in.ProductID); err != nil {
+
 		return nil, err
 	}
 
@@ -34,7 +34,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, productIDVo)
+	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, in.ProductID)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -46,7 +46,7 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectsDto, err := u.projectQueryService.FetchProjects(ctx, productIDVo, uint32(in.Limit), uint32(offset))
+	projectsDto, err := u.projectQueryService.FetchProjects(ctx, in.ProductID, uint32(in.Limit), uint32(offset))
 	if err != nil {
 		return nil, err
 	}

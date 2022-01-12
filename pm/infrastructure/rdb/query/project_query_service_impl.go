@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
@@ -15,7 +14,7 @@ func NewProjectQuery() *projectQuery {
 	return &projectQuery{}
 }
 
-func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.ProductID, limit uint32, offset uint32) ([]*projectoutput.ProjectOutput, error) {
+func (r *projectQuery) FetchProjects(ctx context.Context, productID string, limit uint32, offset uint32) ([]*projectoutput.ProjectOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -47,7 +46,7 @@ func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.Pr
 	rows, err := conn.QueryxContext(
 		ctx,
 		query,
-		productID.Value(),
+		productID,
 		limit,
 		offset,
 	)
@@ -70,7 +69,7 @@ func (r *projectQuery) FetchProjects(ctx context.Context, productID productdm.Pr
 	return projectsDto, nil
 }
 
-func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID productdm.ProductID) (totalCount int, err error) {
+func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID string) (totalCount int, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
@@ -86,7 +85,7 @@ func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID p
          AND 
            trashed_at IS NULL`
 
-	if err = conn.QueryRowxContext(ctx, query, productID.Value()).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
