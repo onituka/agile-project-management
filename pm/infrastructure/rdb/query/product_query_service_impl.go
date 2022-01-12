@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
-	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
@@ -15,7 +14,7 @@ func NewProductQueryServiceImpl() *productQueryServiceImpl {
 	return &productQueryServiceImpl{}
 }
 
-func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
+func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID string, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID gro
 	rows, err := conn.QueryxContext(
 		ctx,
 		query,
-		groupID.Value(),
+		groupID,
 		limit,
 		offset,
 	)
@@ -66,7 +65,7 @@ func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID gro
 	return productsDto, nil
 }
 
-func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
+func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID string) (totalCount int, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
@@ -80,7 +79,7 @@ func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, gr
          WHERE
            group_id = ?`
 
-	if err = conn.QueryRowxContext(ctx, query, groupID.Value()).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, groupID).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
