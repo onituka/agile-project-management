@@ -14,6 +14,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestCreateProjectUsecaseCreateProject(t *testing.T) {
@@ -22,13 +24,13 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		in  *CreateProjectInput
+		in  *projectinput.CreateProjectInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *CreateProjectOutput
+		want        *projectoutput.CreateProjectOutput
 		wantErr     error
 	}{
 		{
@@ -62,7 +64,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					KeyName:           "AAA",
@@ -71,7 +73,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				},
 			},
-			want: &CreateProjectOutput{
+			want: &projectoutput.CreateProjectOutput{
 				ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 				ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -89,7 +91,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "invalid product id",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -106,7 +108,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "invalid group id",
 					KeyName:           "AAA",
@@ -123,7 +125,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
@@ -140,7 +142,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -157,7 +159,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -174,7 +176,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -210,7 +212,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProjectInput{
+				in: &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -245,7 +247,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(CreateProjectOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(projectoutput.CreateProjectOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 

@@ -14,6 +14,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
@@ -22,13 +24,13 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		in  *UpdateProjectInput
+		in  *projectinput.UpdateProjectInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *UpdateProjectOutput
+		want        *projectoutput.UpdateProjectOutput
 		wantErr     error
 	}{
 		{
@@ -101,7 +103,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -109,7 +111,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				},
 			},
-			want: &UpdateProjectOutput{
+			want: &projectoutput.UpdateProjectOutput{
 				ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 				ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -128,7 +130,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "invalid project id",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -158,7 +160,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
 			},
@@ -198,7 +200,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "invalid keyName",
 					Name:              "管理ツール1",
@@ -242,7 +244,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "A",
@@ -286,7 +288,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -330,7 +332,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -377,7 +379,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &UpdateProjectInput{
+				in: &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
@@ -410,7 +412,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(UpdateProjectOutput{}, "ID", "UpdatedAt")); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(projectoutput.UpdateProjectOutput{}, "ID", "UpdatedAt")); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
