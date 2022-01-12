@@ -58,7 +58,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			name:       "400-2-グループID不正",
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
 				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac1800020",
@@ -74,7 +74,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			name:       "409-プロダクト名重複",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
 				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -91,7 +91,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			name:       "500-DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
 				in := &productusecase.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",

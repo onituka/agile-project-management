@@ -12,7 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
@@ -20,68 +21,164 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 		fetchProjectsUsecase *mockprojectusecase.MockFetchProjectsUsecase
 	}
 	tests := []struct {
-		name        string
-		fileSuffix  string
-		prepareMock func(f *fields)
+		name           string
+		fileSuffix     string
+		prepareMock    func(f *fields)
+		prepareRequest func(r *http.Request)
 	}{
 		{
-			name:       "200-1-正常",
+			name:       "正常",
 			fileSuffix: "200-1",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				out := projectusecase.FetchProjectsOutput{
-					&projectusecase.Project{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
-						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
-						KeyName:           "AAA",
-						Name:              "管理ツール1",
-						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
-						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
-						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
-					},
-					&projectusecase.Project{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180003",
-						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
-						KeyName:           "BBB",
-						Name:              "管理ツール2",
-						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
-						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
-						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
+				in := &projectinput.FetchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Page:      1,
+					Limit:     2,
+				}
+
+				trashedAt := time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC)
+
+				out := &projectoutput.FetchProjectsOutput{
+					TotalCount: 2,
+					Projects: []*projectoutput.ProjectOutput{
+						{
+							ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+							ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+							GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+							KeyName:           "AAA",
+							Name:              "管理ツール1",
+							LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+							TrashedAt:         &trashedAt,
+							CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
+							UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
+						},
+						{
+							ID:                "024d71d6-1d03-11ec-a478-0242ac180003",
+							ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+							GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+							KeyName:           "BBB",
+							Name:              "管理ツール2",
+							LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+							TrashedAt:         &trashedAt,
+							CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
+							UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
+						},
 					},
 				}
 
-				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx).Return(out, nil)
+				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(out, nil)
+			},
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
 			},
 		},
 		{
-			name:       "200-2-正常",
+			name:       "正常(プロダクトが存在しない場合)",
 			fileSuffix: "200-2",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				out := make(projectusecase.FetchProjectsOutput, 0)
+				in := &projectinput.FetchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Page:      1,
+					Limit:     2,
+				}
 
-				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx).Return(out, nil)
+				out := &projectoutput.FetchProjectsOutput{
+					TotalCount: 0,
+					Projects:   make([]*projectoutput.ProjectOutput, 0),
+				}
+
+				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(out, nil)
+			},
+
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
 			},
 		},
 		{
-			name:       "500-DBエラー",
+			name:        "クエリパラメータ文字列によるpage不正",
+			fileSuffix:  "400-1",
+			prepareMock: nil,
+
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "test")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
+			},
+		},
+		{
+			name:        "クエリパラメータ文字列によるlimit不正",
+			fileSuffix:  "400-2",
+			prepareMock: nil,
+
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "test")
+				r.URL.RawQuery = q.Encode()
+			},
+		},
+		{
+			name:       "usecaseでの400エラー(page値不正)",
+			fileSuffix: "400-3",
+			prepareMock: func(f *fields) {
+				ctx := context.TODO()
+
+				in := &projectinput.FetchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Page:      1,
+					Limit:     2,
+				}
+
+				err := apperrors.InvalidParameter
+
+				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(nil, err)
+			},
+
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
+			},
+		},
+		{
+			name:       "usecaseでの500エラー(DBエラー)",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
+
+				in := &projectinput.FetchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Page:      1,
+					Limit:     2,
+				}
 
 				err := apperrors.InternalServerError
 
-				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx).Return(nil, err)
+				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(nil, err)
+			},
+
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
 			},
 		},
 	}
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gmctrl := gomock.NewController(t)
@@ -96,8 +193,12 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 
 			h := NewFetchProjectsHandler(f.fetchProjectsUsecase)
 
-			r := httptest.NewRequest(http.MethodPost, "/projects", nil)
+			r := httptest.NewRequest(http.MethodGet, "/projects", nil)
 			w := httptest.NewRecorder()
+
+			if tt.prepareRequest != nil {
+				tt.prepareRequest(r)
+			}
 
 			h.FetchProjects(w, r)
 
