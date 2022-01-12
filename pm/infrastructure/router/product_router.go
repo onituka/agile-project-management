@@ -13,7 +13,7 @@ import (
 
 func newProductRouter(router *mux.Router) {
 	productRepository := persistence.NewProductRepository()
-	productsQueryService := query.NewProductsQueryServiceImpl()
+	productQueryService := query.NewProductQueryServiceImpl()
 
 	createProductUsecase := productusecase.NewCreateProductUsecase(productRepository)
 	createProductHandler := producthandler.NewCreateProductHandler(createProductUsecase)
@@ -27,7 +27,7 @@ func newProductRouter(router *mux.Router) {
 	fetchProductByIDHandler := producthandler.NewFetchProductByIDHandler(fetchProductByIDUsecase)
 	router.HandleFunc("/products/{productID}", fetchProductByIDHandler.FetchProductByID).Methods(http.MethodGet)
 
-	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productsQueryService)
+	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productQueryService)
 	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
 	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }

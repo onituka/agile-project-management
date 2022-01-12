@@ -9,13 +9,13 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
-type productsQueryServiceImpl struct{}
+type productQueryServiceImpl struct{}
 
-func NewProductsQueryServiceImpl() *productsQueryServiceImpl {
-	return &productsQueryServiceImpl{}
+func NewProductQueryServiceImpl() *productQueryServiceImpl {
+	return &productQueryServiceImpl{}
 }
 
-func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
+func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (r *productsQueryServiceImpl) FetchProducts(ctx context.Context, groupID gr
 	return productsDto, nil
 }
 
-func (r *productsQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
+func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (totalCount int, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err

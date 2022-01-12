@@ -15,12 +15,12 @@ type FetchProductsUsecase interface {
 }
 
 type fetchProductsUsecase struct {
-	productsQueryService productqueryservice.ProductQueryService
+	productQueryService productqueryservice.ProductQueryService
 }
 
 func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.ProductQueryService) *fetchProductsUsecase {
 	return &fetchProductsUsecase{
-		productsQueryService: FetchProductsQueryService,
+		productQueryService: FetchProductsQueryService,
 	}
 }
 
@@ -34,7 +34,7 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.productsQueryService.CountProductsByGroupID(ctx, groupIDVo)
+	totalCount, err := u.productQueryService.CountProductsByGroupID(ctx, groupIDVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -46,7 +46,7 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 
 	offset := in.Page*in.Limit - in.Limit
 
-	productsDto, err := u.productsQueryService.FetchProducts(ctx, groupIDVo, in.Limit, offset)
+	productsDto, err := u.productQueryService.FetchProducts(ctx, groupIDVo, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}
