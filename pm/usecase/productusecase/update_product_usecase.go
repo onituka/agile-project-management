@@ -6,10 +6,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 type UpdateProductUsecase interface {
-	UpdateProduct(ctx context.Context, in *UpdateProductInput) (*UpdateProductOutput, error)
+	UpdateProduct(ctx context.Context, in *productinput.UpdateProductInput) (*productoutput.UpdateProductOutput, error)
 }
 
 type updateProductUsecase struct {
@@ -22,7 +24,7 @@ func NewUpdateProductUsecase(ProductRepository productdm.ProductRepository) *upd
 	}
 }
 
-func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *UpdateProductInput) (*UpdateProductOutput, error) {
+func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *productinput.UpdateProductInput) (*productoutput.UpdateProductOutput, error) {
 	productIDVo, err := productdm.NewProductID(in.ID)
 	if err != nil {
 		return nil, err
@@ -62,7 +64,7 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *UpdateProd
 		return nil, err
 	}
 
-	return &UpdateProductOutput{
+	return &productoutput.UpdateProductOutput{
 		ID:        productDm.ID().Value(),
 		GroupID:   productDm.GroupID().Value(),
 		Name:      productDm.Name().Value(),

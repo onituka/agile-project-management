@@ -7,6 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence/datasource"
 )
 
@@ -17,7 +18,7 @@ func NewProjectRepository() *projectRepository {
 }
 
 func (r *projectRepository) CreateProject(ctx context.Context, project *projectdm.Project) error {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return err
 	}
@@ -60,7 +61,7 @@ func (r *projectRepository) CreateProject(ctx context.Context, project *projectd
 }
 
 func (r *projectRepository) UpdateProject(ctx context.Context, project *projectdm.Project) error {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return err
 	}
@@ -96,7 +97,7 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
 }
 
 func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +150,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 }
 
 func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +202,7 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
 }
 
 func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context, groupID groupdm.GroupID, keyName projectdm.KeyName) (*projectdm.Project, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -255,7 +256,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndKeyName(ctx context.Context,
 }
 
 func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, name projectdm.Name) (*projectdm.Project, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -309,7 +310,7 @@ func (r *projectRepository) FetchProjectByGroupIDAndName(ctx context.Context, gr
 }
 
 func (r *projectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Project, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}

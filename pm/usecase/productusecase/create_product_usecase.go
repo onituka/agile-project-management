@@ -7,10 +7,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 type CreateProductUsecase interface {
-	CreateProduct(ctx context.Context, in *CreateProductInput) (*CreateProductOutput, error)
+	CreateProduct(ctx context.Context, in *productinput.CreateProductInput) (*productoutput.CreateProductOutput, error)
 }
 
 type createProductUsecase struct {
@@ -23,7 +25,7 @@ func NewCreateProductUsecase(ProductRepository productdm.ProductRepository) *cre
 	}
 }
 
-func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProductInput) (*CreateProductOutput, error) {
+func (u *createProductUsecase) CreateProduct(ctx context.Context, in *productinput.CreateProductInput) (*productoutput.CreateProductOutput, error) {
 	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -61,7 +63,7 @@ func (u *createProductUsecase) CreateProduct(ctx context.Context, in *CreateProd
 		return nil, err
 	}
 
-	return &CreateProductOutput{
+	return &productoutput.CreateProductOutput{
 		ID:        productDm.ID().Value(),
 		GroupID:   productDm.GroupID().Value(),
 		Name:      productDm.Name().Value(),

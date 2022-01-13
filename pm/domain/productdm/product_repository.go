@@ -12,5 +12,4 @@ type ProductRepository interface {
 	FetchProductByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, Name Name) (*Product, error)
 	FetchProductByIDForUpdate(ctx context.Context, id ProductID) (*Product, error)
 	FetchProductByID(ctx context.Context, id ProductID) (*Product, error)
-	FetchProducts(ctx context.Context) ([]*Product, error)
 }

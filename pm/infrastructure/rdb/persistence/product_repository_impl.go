@@ -7,6 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence/datasource"
 )
 
@@ -17,7 +18,7 @@ func NewProductRepository() *productRepository {
 }
 
 func (r *productRepository) CreateProduct(ctx context.Context, product *productdm.Product) error {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return err
 	}
@@ -52,7 +53,7 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *productd
 }
 
 func (r *productRepository) UpdateProduct(ctx context.Context, product *productdm.Product) error {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return err
 	}
@@ -82,7 +83,7 @@ func (r *productRepository) UpdateProduct(ctx context.Context, product *productd
 }
 
 func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id productdm.ProductID) (*productdm.Product, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +128,7 @@ func (r *productRepository) FetchProductByIDForUpdate(ctx context.Context, id pr
 }
 
 func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.ProductID) (*productdm.Product, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +172,7 @@ func (r *productRepository) FetchProductByID(ctx context.Context, id productdm.P
 }
 
 func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, groupID groupdm.GroupID, Name productdm.Name) (*productdm.Product, error) {
-	conn, err := execFromCtx(ctx)
+	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -214,53 +215,4 @@ func (r *productRepository) FetchProductByGroupIDAndName(ctx context.Context, gr
 	}
 
 	return productDm, nil
-}
-
-func (r *productRepository) FetchProducts(ctx context.Context) ([]*productdm.Product, error) {
-	conn, err := execFromCtx(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	query := `
-         SELECT 
-           id,
-           group_id,
-           name,
-           leader_id,
-           created_at,
-           updated_at
-         FROM
-           products`
-
-	rows, err := conn.QueryxContext(ctx, query)
-	if err != nil {
-		return nil, apperrors.InternalServerError
-	}
-
-	defer rows.Close()
-
-	var productDms []*productdm.Product
-	for rows.Next() {
-		var productDto datasource.Product
-		if err = rows.StructScan(&productDto); err != nil {
-			return nil, apperrors.InternalServerError
-		}
-
-		productDm, err := productdm.Reconstruct(
-			productDto.ID,
-			productDto.GroupID,
-			productDto.Name,
-			productDto.LeaderID,
-			productDto.CreatedAt,
-			productDto.UpdatedAt,
-		)
-		if err != nil {
-			return nil, err
-		}
-
-		productDms = append(productDms, productDm)
-	}
-
-	return productDms, nil
 }

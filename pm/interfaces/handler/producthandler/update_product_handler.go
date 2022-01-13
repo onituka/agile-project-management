@@ -10,6 +10,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
 )
 
 type updateProductHandler struct {
@@ -37,7 +38,7 @@ func (h *updateProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	in := productusecase.UpdateProductInput{
+	in := productinput.UpdateProductInput{
 		ID: productID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {

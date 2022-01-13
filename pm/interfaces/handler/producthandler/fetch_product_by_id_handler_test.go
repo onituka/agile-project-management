@@ -12,7 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler/mockproductusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
@@ -33,11 +34,11 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.FetchProductByIDInput{
+				in := &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
-				out := &productusecase.FetchProductByIDOutput{
+				out := &productoutput.FetchProductByIDOutput{
 					ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:      "プロジェクト管理ツール",
@@ -62,7 +63,7 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxx",
 				}).Context()
 
-				in := &productusecase.FetchProductByIDInput{
+				in := &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxx",
 				}
 
@@ -84,7 +85,7 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a0",
 				}).Context()
 
-				in := &productusecase.FetchProductByIDInput{
+				in := &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a0",
 				}
 
@@ -106,7 +107,7 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.FetchProductByIDInput{
+				in := &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 

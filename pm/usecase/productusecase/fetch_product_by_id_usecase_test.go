@@ -12,6 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
@@ -20,13 +22,13 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		in  *FetchProductByIDInput
+		in  *productinput.FetchProductByIDInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *FetchProductByIDOutput
+		want        *productoutput.FetchProductByIDOutput
 		wantErr     error
 	}{
 		{
@@ -58,11 +60,11 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProductByIDInput{
+				in: &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want: &FetchProductByIDOutput{
+			want: &productoutput.FetchProductByIDOutput{
 				ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 				Name:      "プロジェクト管理ツール",
@@ -77,7 +79,7 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProductByIDInput{
+				in: &productinput.FetchProductByIDInput{
 					ID: "invalid product id",
 				},
 			},
@@ -103,7 +105,7 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProductByIDInput{
+				in: &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
@@ -141,7 +143,7 @@ func TestFetchProductByIDUsecaseFetchProductByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProductByIDInput{
+				in: &productinput.FetchProductByIDInput{
 					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
