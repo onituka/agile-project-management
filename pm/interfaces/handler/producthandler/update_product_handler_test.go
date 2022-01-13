@@ -13,7 +13,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/producthandler/mockproductusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
@@ -34,13 +35,13 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.UpdateProductInput{
+				in := &productinput.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
-				out := &productusecase.UpdateProductOutput{
+				out := &productoutput.UpdateProductOutput{
 					ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:      "プロジェクト管理ツール",
@@ -70,7 +71,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
 				}).Context()
 
-				in := &productusecase.UpdateProductInput{
+				in := &productinput.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -93,7 +94,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.UpdateProductInput{
+				in := &productinput.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -116,7 +117,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.UpdateProductInput{
+				in := &productinput.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -139,7 +140,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
-				in := &productusecase.UpdateProductInput{
+				in := &productinput.UpdateProductInput{
 					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",

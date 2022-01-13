@@ -8,6 +8,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
 )
 
 type createProductHandler struct {
@@ -21,7 +22,7 @@ func NewCreateProductHandler(createProductUsecase productusecase.CreateProductUs
 }
 
 func (h *createProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
-	var in productusecase.CreateProductInput
+	var in productinput.CreateProductInput
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)

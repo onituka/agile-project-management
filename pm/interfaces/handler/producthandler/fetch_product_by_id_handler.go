@@ -9,6 +9,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
 )
 
 type fetchProductByIDHandler struct {
@@ -36,7 +37,7 @@ func (h *fetchProductByIDHandler) FetchProductByID(w http.ResponseWriter, r *htt
 		return
 	}
 
-	in := productusecase.FetchProductByIDInput{
+	in := productinput.FetchProductByIDInput{
 		ID: productID,
 	}
 

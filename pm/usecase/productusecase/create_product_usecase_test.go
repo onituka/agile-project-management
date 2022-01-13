@@ -14,6 +14,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 func TestCreateProductUsecaseCreateProduct(t *testing.T) {
@@ -22,13 +24,13 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		in  *CreateProductInput
+		in  *productinput.CreateProductInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *CreateProductOutput
+		want        *productoutput.CreateProductOutput
 		wantErr     error
 	}{
 		{
@@ -56,13 +58,13 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProductInput{
+				in: &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
-			want: &CreateProductOutput{
+			want: &productoutput.CreateProductOutput{
 				ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 				Name:      "プロジェクト管理ツール",
@@ -77,7 +79,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProductInput{
+				in: &productinput.CreateProductInput{
 					GroupID:  "invalid group id",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -91,7 +93,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProductInput{
+				in: &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "A",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -105,7 +107,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProductInput{
+				in: &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "invalid leader id",
@@ -138,7 +140,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &CreateProductInput{
+				in: &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -170,7 +172,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				return
 			}
 
-			opt := cmpopts.IgnoreFields(CreateProductOutput{}, "ID", "CreatedAt", "UpdatedAt")
+			opt := cmpopts.IgnoreFields(productoutput.CreateProductOutput{}, "ID", "CreatedAt", "UpdatedAt")
 			if diff := cmp.Diff(tt.want, got, opt); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}

@@ -4,10 +4,12 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 type FetchProductByIDUsecase interface {
-	FetchProductByID(ctx context.Context, in *FetchProductByIDInput) (*FetchProductByIDOutput, error)
+	FetchProductByID(ctx context.Context, in *productinput.FetchProductByIDInput) (*productoutput.FetchProductByIDOutput, error)
 }
 
 type fetchProductByIDUsecase struct {
@@ -20,7 +22,7 @@ func NewFetchProductByIDUsecase(FetchProductByIDRepository productdm.ProductRepo
 	}
 }
 
-func (u *fetchProductByIDUsecase) FetchProductByID(ctx context.Context, in *FetchProductByIDInput) (*FetchProductByIDOutput, error) {
+func (u *fetchProductByIDUsecase) FetchProductByID(ctx context.Context, in *productinput.FetchProductByIDInput) (*productoutput.FetchProductByIDOutput, error) {
 	productIDVo, err := productdm.NewProductID(in.ID)
 	if err != nil {
 		return nil, err
@@ -31,7 +33,7 @@ func (u *fetchProductByIDUsecase) FetchProductByID(ctx context.Context, in *Fetc
 		return nil, err
 	}
 
-	return &FetchProductByIDOutput{
+	return &productoutput.FetchProductByIDOutput{
 		ID:        productDm.ID().Value(),
 		GroupID:   productDm.GroupID().Value(),
 		Name:      productDm.Name().Value(),

@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	productusecase "github.com/onituka/agile-project-management/project-management/usecase/productusecase"
+	productinput "github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
+	productoutput "github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
 // MockCreateProductUsecase is a mock of CreateProductUsecase interface.
@@ -36,10 +37,10 @@ func (m *MockCreateProductUsecase) EXPECT() *MockCreateProductUsecaseMockRecorde
 }
 
 // CreateProduct mocks base method.
-func (m *MockCreateProductUsecase) CreateProduct(ctx context.Context, in *productusecase.CreateProductInput) (*productusecase.CreateProductOutput, error) {
+func (m *MockCreateProductUsecase) CreateProduct(ctx context.Context, in *productinput.CreateProductInput) (*productoutput.CreateProductOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateProduct", ctx, in)
-	ret0, _ := ret[0].(*productusecase.CreateProductOutput)
+	ret0, _ := ret[0].(*productoutput.CreateProductOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -10,6 +10,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/kelseyhightower/envconfig v1.4.0
+	github.com/lib/pq v1.10.4 // indirect
 	github.com/rs/cors v1.8.0
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 )
