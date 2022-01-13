@@ -5,10 +5,12 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 type TrashedProjectUsecase interface {
-	TrashedProject(ctx context.Context, in *TrashedProjectIDInput) (*TrashedProjectOutPut, error)
+	TrashedProject(ctx context.Context, in *projectinput.TrashedProjectIDInput) (*projectoutput.TrashedProjectOutPut, error)
 }
 
 type trashedProjectUsecase struct {
@@ -21,7 +23,7 @@ func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectReposito
 	}
 }
 
-func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedProjectIDInput) (*TrashedProjectOutPut, error) {
+func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *projectinput.TrashedProjectIDInput) (*projectoutput.TrashedProjectOutPut, error) {
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
@@ -42,7 +44,7 @@ func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *TrashedP
 		return nil, err
 	}
 
-	return &TrashedProjectOutPut{
+	return &projectoutput.TrashedProjectOutPut{
 		ID:                projectDm.ID().Value(),
 		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),

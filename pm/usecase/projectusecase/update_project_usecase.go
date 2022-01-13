@@ -6,10 +6,12 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 type UpdateProjectUsecase interface {
-	UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error)
+	UpdateProject(ctx context.Context, in *projectinput.UpdateProjectInput) (*projectoutput.UpdateProjectOutput, error)
 }
 
 type updateProjectUsecase struct {
@@ -22,7 +24,7 @@ func NewUpdateProjectUsecase(UpdateProjectRepository projectdm.ProjectRepository
 	}
 }
 
-func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *UpdateProjectInput) (*UpdateProjectOutput, error) {
+func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *projectinput.UpdateProjectInput) (*projectoutput.UpdateProjectOutput, error) {
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
@@ -76,7 +78,7 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *UpdateProj
 		return nil, err
 	}
 
-	return &UpdateProjectOutput{
+	return &projectoutput.UpdateProjectOutput{
 		ID:                projectDm.ID().Value(),
 		ProductID:         projectDm.ProductID().Value(),
 		GroupID:           projectDm.GroupID().Value(),

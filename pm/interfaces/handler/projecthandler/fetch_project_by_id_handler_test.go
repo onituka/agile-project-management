@@ -12,7 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
@@ -33,11 +34,11 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.FetchProjectByIDInput{
+				in := &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
-				out := &projectusecase.FetchProjectByIDOutput{
+				out := &projectoutput.FetchProjectByIDOutput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -65,7 +66,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}).Context()
 
-				in := &projectusecase.FetchProjectByIDInput{
+				in := &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}
 
@@ -87,7 +88,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.FetchProjectByIDInput{
+				in := &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
@@ -109,7 +110,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.FetchProjectByIDInput{
+				in := &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 

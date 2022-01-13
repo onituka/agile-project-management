@@ -12,6 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
@@ -20,13 +22,13 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 	}
 	type args struct {
 		ctx context.Context
-		in  *FetchProjectByIDInput
+		in  *projectinput.FetchProjectByIDInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *FetchProjectByIDOutput
+		want        *projectoutput.FetchProjectByIDOutput
 		wantErr     error
 	}{
 		{
@@ -62,11 +64,11 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProjectByIDInput{
+				in: &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
 			},
-			want: &FetchProjectByIDOutput{
+			want: &projectoutput.FetchProjectByIDOutput{
 				ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 				ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -85,7 +87,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProjectByIDInput{
+				in: &projectinput.FetchProjectByIDInput{
 					ID: "invalid project id",
 				},
 			},
@@ -111,7 +113,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProjectByIDInput{
+				in: &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
 			},
@@ -137,7 +139,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &FetchProjectByIDInput{
+				in: &projectinput.FetchProjectByIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				},
 			},

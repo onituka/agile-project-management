@@ -6,12 +6,14 @@ import (
 	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence"
+	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/query"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
 )
 
 func newProjectRouter(router *mux.Router) {
 	projectRepository := persistence.NewProjectRepository()
+	projectQuery := query.NewProjectQuery()
 
 	createProjectUsecase := projectusecase.NewCreateProjectUsecase(projectRepository)
 	createProjectHandler := projecthandler.NewCreateProjectHandler(createProjectUsecase)
@@ -25,9 +27,9 @@ func newProjectRouter(router *mux.Router) {
 	fetchProjectByIDHandler := projecthandler.NewFetchProjectByIDHandler(fetchProjectByIDUsecase)
 	router.HandleFunc("/projects/{projectID}", fetchProjectByIDHandler.FetchProjectByID).Methods(http.MethodGet)
 
-	fetchProjectsUsecase := projectusecase.NewFetchProjectsUsecase(projectRepository)
+	fetchProjectsUsecase := projectusecase.NewFetchProjectsUsecase(projectQuery)
 	fetchProjectsHandler := projecthandler.NewFetchProjectsHandler(fetchProjectsUsecase)
-	router.HandleFunc("/projects", fetchProjectsHandler.FetchProjects).Methods(http.MethodGet)
+	router.HandleFunc("/projects", fetchProjectsHandler.FetchProjects).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 
 	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository)
 	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)

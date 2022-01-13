@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	projectusecase "github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	projectinput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 // MockTrashedProjectUsecase is a mock of TrashedProjectUsecase interface.
@@ -36,10 +37,10 @@ func (m *MockTrashedProjectUsecase) EXPECT() *MockTrashedProjectUsecaseMockRecor
 }
 
 // TrashedProject mocks base method.
-func (m *MockTrashedProjectUsecase) TrashedProject(ctx context.Context, in *projectusecase.TrashedProjectIDInput) (*projectusecase.TrashedProjectOutPut, error) {
+func (m *MockTrashedProjectUsecase) TrashedProject(ctx context.Context, in *projectinput.TrashedProjectIDInput) (*projectoutput.TrashedProjectOutPut, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "TrashedProject", ctx, in)
-	ret0, _ := ret[0].(*projectusecase.TrashedProjectOutPut)
+	ret0, _ := ret[0].(*projectoutput.TrashedProjectOutPut)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

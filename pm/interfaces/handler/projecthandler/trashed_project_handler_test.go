@@ -12,7 +12,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
@@ -33,13 +34,13 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.TrashedProjectIDInput{
+				in := &projectinput.TrashedProjectIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 
 				trashedAt := time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC)
 
-				out := &projectusecase.TrashedProjectOutPut{
+				out := &projectoutput.TrashedProjectOutPut{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -68,7 +69,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}).Context()
 
-				in := &projectusecase.TrashedProjectIDInput{
+				in := &projectinput.TrashedProjectIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac1800023",
 				}
 				err := apperrors.InvalidParameter
@@ -89,7 +90,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.TrashedProjectIDInput{
+				in := &projectinput.TrashedProjectIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.NotFound
@@ -110,7 +111,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.TrashedProjectIDInput{
+				in := &projectinput.TrashedProjectIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.Conflict
@@ -131,7 +132,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
-				in := &projectusecase.TrashedProjectIDInput{
+				in := &projectinput.TrashedProjectIDInput{
 					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.InternalServerError

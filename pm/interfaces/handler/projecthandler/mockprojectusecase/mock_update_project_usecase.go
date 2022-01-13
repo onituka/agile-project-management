@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	projectusecase "github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	projectinput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 // MockUpdateProjectUsecase is a mock of UpdateProjectUsecase interface.
@@ -36,10 +37,10 @@ func (m *MockUpdateProjectUsecase) EXPECT() *MockUpdateProjectUsecaseMockRecorde
 }
 
 // UpdateProject mocks base method.
-func (m *MockUpdateProjectUsecase) UpdateProject(ctx context.Context, in *projectusecase.UpdateProjectInput) (*projectusecase.UpdateProjectOutput, error) {
+func (m *MockUpdateProjectUsecase) UpdateProject(ctx context.Context, in *projectinput.UpdateProjectInput) (*projectoutput.UpdateProjectOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateProject", ctx, in)
-	ret0, _ := ret[0].(*projectusecase.UpdateProjectOutput)
+	ret0, _ := ret[0].(*projectoutput.UpdateProjectOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

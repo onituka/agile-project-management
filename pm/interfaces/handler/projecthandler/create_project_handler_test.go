@@ -13,7 +13,8 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
-	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 func TestCreateProjectHandlerCreateProject(t *testing.T) {
@@ -29,9 +30,9 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 			name:       "200-正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				in := &projectusecase.CreateProjectInput{
+				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -40,7 +41,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 				}
 
-				out := &projectusecase.CreateProjectOutput{
+				out := &projectoutput.CreateProjectOutput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -64,9 +65,9 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 			name:       "400-2-キー名不正",
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				in := &projectusecase.CreateProjectInput{
+				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "1AAA",
@@ -84,9 +85,9 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 			name:       "409-キー名重複",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				in := &projectusecase.CreateProjectInput{
+				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
@@ -104,9 +105,9 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 			name:       "500-DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
-				ctx := context.Background()
+				ctx := context.TODO()
 
-				in := &projectusecase.CreateProjectInput{
+				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",

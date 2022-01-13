@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	projectusecase "github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	projectinput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 // MockFetchProjectByIDUsecase is a mock of FetchProjectByIDUsecase interface.
@@ -36,10 +37,10 @@ func (m *MockFetchProjectByIDUsecase) EXPECT() *MockFetchProjectByIDUsecaseMockR
 }
 
 // FetchProjectByID mocks base method.
-func (m *MockFetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *projectusecase.FetchProjectByIDInput) (*projectusecase.FetchProjectByIDOutput, error) {
+func (m *MockFetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *projectinput.FetchProjectByIDInput) (*projectoutput.FetchProjectByIDOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProjectByID", ctx, in)
-	ret0, _ := ret[0].(*projectusecase.FetchProjectByIDOutput)
+	ret0, _ := ret[0].(*projectoutput.FetchProjectByIDOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

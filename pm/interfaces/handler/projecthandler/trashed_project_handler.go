@@ -9,6 +9,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 )
 
 type trashedProjectHandler struct {
@@ -36,7 +37,7 @@ func (h *trashedProjectHandler) TrashedProject(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	in := projectusecase.TrashedProjectIDInput{
+	in := projectinput.TrashedProjectIDInput{
 		ID: projectID,
 	}
 

@@ -10,6 +10,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 )
 
 type updateProjectHandler struct {
@@ -36,7 +37,7 @@ func (h *updateProjectHandler) UpdateProject(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	in := projectusecase.UpdateProjectInput{
+	in := projectinput.UpdateProjectInput{
 		ID: projectID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {

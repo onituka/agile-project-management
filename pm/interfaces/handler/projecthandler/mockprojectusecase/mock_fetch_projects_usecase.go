@@ -9,7 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	projectusecase "github.com/onituka/agile-project-management/project-management/usecase/projectusecase"
+	projectinput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
+	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
 // MockFetchProjectsUsecase is a mock of FetchProjectsUsecase interface.
@@ -36,16 +37,16 @@ func (m *MockFetchProjectsUsecase) EXPECT() *MockFetchProjectsUsecaseMockRecorde
 }
 
 // FetchProjects mocks base method.
-func (m *MockFetchProjectsUsecase) FetchProjects(ctx context.Context) (projectusecase.FetchProjectsOutput, error) {
+func (m *MockFetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchProjects", ctx)
-	ret0, _ := ret[0].(projectusecase.FetchProjectsOutput)
+	ret := m.ctrl.Call(m, "FetchProjects", ctx, in)
+	ret0, _ := ret[0].(*projectoutput.FetchProjectsOutput)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchProjects indicates an expected call of FetchProjects.
-func (mr *MockFetchProjectsUsecaseMockRecorder) FetchProjects(ctx interface{}) *gomock.Call {
+func (mr *MockFetchProjectsUsecaseMockRecorder) FetchProjects(ctx, in interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjects", reflect.TypeOf((*MockFetchProjectsUsecase)(nil).FetchProjects), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjects", reflect.TypeOf((*MockFetchProjectsUsecase)(nil).FetchProjects), ctx, in)
 }
