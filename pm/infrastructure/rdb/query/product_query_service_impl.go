@@ -141,7 +141,7 @@ func (r *productQueryServiceImpl) SearchProducts(ctx context.Context, groupID st
 	return productsDto, nil
 }
 
-func (r *productQueryServiceImpl) CountProductsByName(ctx context.Context, groupID string, name string) (totalCount int, err error) {
+func (r *productQueryServiceImpl) CountProductsByName(ctx context.Context, groupID string, name string) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
