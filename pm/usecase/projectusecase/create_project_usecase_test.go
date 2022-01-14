@@ -12,7 +12,9 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -21,6 +23,7 @@ import (
 func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 	type fields struct {
 		projectRepository *mockprojectrepository.MockProjectRepository
+		productRepository *mockproductrepository.MockProductRepository
 	}
 	type args struct {
 		ctx context.Context
@@ -44,6 +47,11 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 					return err
 				}
 
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
 				keyNameVo, err := projectdm.NewKeyName("AAA")
 				if err != nil {
 					return err
@@ -56,6 +64,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().CreateProject(ctx, gomock.Any()).Return(nil)
@@ -104,8 +113,51 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "グループID不正",
-			prepareMock: nil,
+			name: "プロダクトが存在しない",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, apperr)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &projectinput.CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					KeyName:           "AAA",
+					Name:              "管理ツール1",
+					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.NotFound,
+		},
+		{
+			name: "グループID不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.CreateProjectInput{
@@ -120,9 +172,22 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
+
 		{
-			name:        "keyName不正",
-			prepareMock: nil,
+			name: "keyName不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.CreateProjectInput{
@@ -138,8 +203,20 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "プロジェクト名不正",
-			prepareMock: nil,
+			name: "プロジェクト名不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.CreateProjectInput{
@@ -155,8 +232,20 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "leaderID不正",
-			prepareMock: nil,
+			name: "leaderID不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.CreateProjectInput{
@@ -172,8 +261,20 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "defaultAssigneeID不正",
-			prepareMock: nil,
+			name: "defaultAssigneeID不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.CreateProjectInput{
@@ -199,6 +300,11 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 					return err
 				}
 
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
 				keyNameVo, err := projectdm.NewKeyName("AAA")
 				if err != nil {
 					return err
@@ -206,6 +312,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupVo, keyNameVo).Return(nil, apperr)
 
 				return err
@@ -232,6 +339,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 
 			f := fields{
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
+				productRepository: mockproductrepository.NewMockProductRepository(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -239,7 +347,7 @@ func TestCreateProjectUsecaseCreateProject(t *testing.T) {
 				}
 			}
 
-			u := NewCreateProjectUsecase(f.projectRepository)
+			u := NewCreateProjectUsecase(f.projectRepository, f.productRepository)
 
 			got, err := u.CreateProject(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {

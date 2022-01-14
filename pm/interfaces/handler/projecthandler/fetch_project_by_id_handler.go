@@ -29,6 +29,14 @@ func (h *fetchProjectByIDHandler) FetchProjectByID(w http.ResponseWriter, r *htt
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
+
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
 	projectID, ok := rv["projectID"]
 	if !ok {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
@@ -37,7 +45,8 @@ func (h *fetchProjectByIDHandler) FetchProjectByID(w http.ResponseWriter, r *htt
 	}
 
 	in := projectinput.FetchProjectByIDInput{
-		ID: projectID,
+		ID:        projectID,
+		ProductID: productID,
 	}
 
 	out, err := h.projectUsecase.FetchProjectByID(r.Context(), &in)

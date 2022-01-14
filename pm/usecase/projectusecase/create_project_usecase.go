@@ -18,17 +18,23 @@ type CreateProjectUsecase interface {
 
 type createProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
+	productRepository productdm.ProductRepository
 }
 
-func NewCreateProjectUsecase(CreateProjectRepository projectdm.ProjectRepository) *createProjectUsecase {
+func NewCreateProjectUsecase(createProjectRepository projectdm.ProjectRepository, productRepository productdm.ProductRepository) *createProjectUsecase {
 	return &createProjectUsecase{
-		projectRepository: CreateProjectRepository,
+		projectRepository: createProjectRepository,
+		productRepository: productRepository,
 	}
 }
 
 func (u *createProjectUsecase) CreateProject(ctx context.Context, in *projectinput.CreateProjectInput) (*projectoutput.CreateProjectOutput, error) {
 	productIDVo, err := productdm.NewProductID(in.ProductID)
 	if err != nil {
+		return nil, err
+	}
+
+	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
 	}
 

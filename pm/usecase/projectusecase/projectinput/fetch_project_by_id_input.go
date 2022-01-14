@@ -1,5 +1,6 @@
 package projectinput
 
 type FetchProjectByIDInput struct {
-	ID string
+	ID        string
+	ProductID string
 }

@@ -34,7 +34,7 @@ func (s *projectDomainService) ExistsProjectForCreate(ctx context.Context, proje
 
 // TODO: シンプルなロジックにリファクタ
 func (s *projectDomainService) ExistUniqueProjectForUpdate(ctx context.Context, projectDm *Project) (bool, error) {
-	oldProjectDm, err := s.projectRepository.FetchProjectByID(ctx, projectDm.ID())
+	oldProjectDm, err := s.projectRepository.FetchProjectByID(ctx, projectDm.ID(), projectDm.productID)
 	if err != nil {
 		return false, apperrors.InternalServerError
 	}

@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
+
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
@@ -22,22 +24,36 @@ func NewFetchProjectsHandler(fetchProjectsUsecase projectusecase.FetchProjectsUs
 }
 
 func (h *fetchProjectsHandler) FetchProjects(w http.ResponseWriter, r *http.Request) {
-	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
-	if err != nil {
+	rv := mux.Vars(r)
+	if rv == nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
 
-	limit, err := strconv.ParseUint(r.URL.Query().Get("limit"), 10, 32)
-	if err != nil {
+	productID, ok := rv["productID"]
+	if !ok {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
-	//TODO: 今後JWTにてProductIDを認証する為、現時点ではProductIDを指定のものとする
+
+	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
+	if err != nil {
+		handler.SetAppErrorToCtx(r, apperrors.InvalidParameter)
+		presenter.ErrorJSON(w, apperrors.InvalidParameter)
+		return
+	}
+
+	limit, err := strconv.ParseUint(r.URL.Query().Get("limit"), 10, 32)
+	if err != nil {
+		handler.SetAppErrorToCtx(r, apperrors.InvalidParameter)
+		presenter.ErrorJSON(w, apperrors.InvalidParameter)
+		return
+	}
+
 	in := projectinput.FetchProjectsInput{
-		ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+		ProductID: productID,
 		Page:      uint32(page),
 		Limit:     uint32(limit),
 	}

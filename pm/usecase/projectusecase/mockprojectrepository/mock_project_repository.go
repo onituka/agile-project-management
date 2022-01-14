@@ -10,6 +10,7 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	groupdm "github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectdm "github.com/onituka/agile-project-management/project-management/domain/projectdm"
 )
 
@@ -81,48 +82,33 @@ func (mr *MockProjectRepositoryMockRecorder) FetchProjectByGroupIDAndName(ctx, g
 }
 
 // FetchProjectByID mocks base method.
-func (m *MockProjectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
+func (m *MockProjectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID, productID productdm.ProductID) (*projectdm.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchProjectByID", ctx, id)
+	ret := m.ctrl.Call(m, "FetchProjectByID", ctx, id, productID)
 	ret0, _ := ret[0].(*projectdm.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchProjectByID indicates an expected call of FetchProjectByID.
-func (mr *MockProjectRepositoryMockRecorder) FetchProjectByID(ctx, id interface{}) *gomock.Call {
+func (mr *MockProjectRepositoryMockRecorder) FetchProjectByID(ctx, id, productID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectByID", reflect.TypeOf((*MockProjectRepository)(nil).FetchProjectByID), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectByID", reflect.TypeOf((*MockProjectRepository)(nil).FetchProjectByID), ctx, id, productID)
 }
 
 // FetchProjectByIDForUpdate mocks base method.
-func (m *MockProjectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
+func (m *MockProjectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID, productID productdm.ProductID) (*projectdm.Project, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchProjectByIDForUpdate", ctx, id)
+	ret := m.ctrl.Call(m, "FetchProjectByIDForUpdate", ctx, id, productID)
 	ret0, _ := ret[0].(*projectdm.Project)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // FetchProjectByIDForUpdate indicates an expected call of FetchProjectByIDForUpdate.
-func (mr *MockProjectRepositoryMockRecorder) FetchProjectByIDForUpdate(ctx, id interface{}) *gomock.Call {
+func (mr *MockProjectRepositoryMockRecorder) FetchProjectByIDForUpdate(ctx, id, productID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectByIDForUpdate", reflect.TypeOf((*MockProjectRepository)(nil).FetchProjectByIDForUpdate), ctx, id)
-}
-
-// FetchProjects mocks base method.
-func (m *MockProjectRepository) FetchProjects(ctx context.Context) ([]*projectdm.Project, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FetchProjects", ctx)
-	ret0, _ := ret[0].([]*projectdm.Project)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// FetchProjects indicates an expected call of FetchProjects.
-func (mr *MockProjectRepositoryMockRecorder) FetchProjects(ctx interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjects", reflect.TypeOf((*MockProjectRepository)(nil).FetchProjects), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectByIDForUpdate", reflect.TypeOf((*MockProjectRepository)(nil).FetchProjectByIDForUpdate), ctx, id, productID)
 }
 
 // UpdateProject mocks base method.

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/userdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
@@ -16,21 +17,32 @@ type UpdateProjectUsecase interface {
 
 type updateProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
+	productRepository productdm.ProductRepository
 }
 
-func NewUpdateProjectUsecase(UpdateProjectRepository projectdm.ProjectRepository) *updateProjectUsecase {
+func NewUpdateProjectUsecase(UpdateProjectRepository projectdm.ProjectRepository, productRepository productdm.ProductRepository) *updateProjectUsecase {
 	return &updateProjectUsecase{
 		projectRepository: UpdateProjectRepository,
+		productRepository: productRepository,
 	}
 }
 
 func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *projectinput.UpdateProjectInput) (*projectoutput.UpdateProjectOutput, error) {
+	productIDVo, err := productdm.NewProductID(in.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return nil, err
+	}
+
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo)
+	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo)
 	if err != nil {
 		return nil, err
 	}
