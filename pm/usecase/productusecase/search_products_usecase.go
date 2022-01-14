@@ -29,7 +29,7 @@ func (u *searchProductsUsecase) SearchProducts(ctx context.Context, in *producti
 		return nil, err
 	}
 
-	if in.Page <= 0 || in.Limit <= 0 || 50 < in.Limit {
+	if in.Page == 0 || in.Limit == 0 || 50 < in.Limit {
 		return nil, apperrors.InvalidParameter
 	}
 
