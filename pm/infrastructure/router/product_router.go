@@ -30,4 +30,8 @@ func newProductRouter(router *mux.Router) {
 	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productQueryService)
 	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
 	router.HandleFunc("/products", fetchProductsHandler.FetchProducts).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+
+	searchProductsUsecase := productusecase.NewSearchProductsUsecase(productQueryService)
+	searchProductsHandler := producthandler.NewSearchProductsHandler(searchProductsUsecase)
+	router.HandleFunc("/products/search/", searchProductsHandler.SearchProducts).Queries("name", "{name}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }
