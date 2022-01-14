@@ -38,6 +38,7 @@ func (h *searchProductsHandler) SearchProducts(w http.ResponseWriter, r *http.Re
 		return
 	}
 
+	// TODO: 今後JWTにてGroupIDを認証する為、現時点ではGroupIDを指定のものとする
 	in := &productinput.SearchProductsInput{
 		GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 		ProductName: name,
