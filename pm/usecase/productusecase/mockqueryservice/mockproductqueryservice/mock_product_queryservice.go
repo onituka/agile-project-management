@@ -36,10 +36,10 @@ func (m *MockProductQueryService) EXPECT() *MockProductQueryServiceMockRecorder 
 }
 
 // CountProductsByGroupID mocks base method.
-func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID string) (int, error) {
+func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID string) (uint32, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProductsByGroupID", ctx, groupID)
-	ret0, _ := ret[0].(int)
+	ret0, _ := ret[0].(uint32)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -48,6 +48,21 @@ func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, gr
 func (mr *MockProductQueryServiceMockRecorder) CountProductsByGroupID(ctx, groupID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountProductsByGroupID", reflect.TypeOf((*MockProductQueryService)(nil).CountProductsByGroupID), ctx, groupID)
+}
+
+// CountProductsByName mocks base method.
+func (m *MockProductQueryService) CountProductsByName(ctx context.Context, groupID, name string) (uint32, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountProductsByName", ctx, groupID, name)
+	ret0, _ := ret[0].(uint32)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountProductsByName indicates an expected call of CountProductsByName.
+func (mr *MockProductQueryServiceMockRecorder) CountProductsByName(ctx, groupID, name interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountProductsByName", reflect.TypeOf((*MockProductQueryService)(nil).CountProductsByName), ctx, groupID, name)
 }
 
 // FetchProducts mocks base method.
@@ -63,4 +78,19 @@ func (m *MockProductQueryService) FetchProducts(ctx context.Context, groupID str
 func (mr *MockProductQueryServiceMockRecorder) FetchProducts(ctx, groupID, limit, offset interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProducts", reflect.TypeOf((*MockProductQueryService)(nil).FetchProducts), ctx, groupID, limit, offset)
+}
+
+// SearchProducts mocks base method.
+func (m *MockProductQueryService) SearchProducts(ctx context.Context, groupID, name string, limit, offset uint32) ([]*productoutput.SearchProductOutput, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchProducts", ctx, groupID, name, limit, offset)
+	ret0, _ := ret[0].([]*productoutput.SearchProductOutput)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchProducts indicates an expected call of SearchProducts.
+func (mr *MockProductQueryServiceMockRecorder) SearchProducts(ctx, groupID, name, limit, offset interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchProducts", reflect.TypeOf((*MockProductQueryService)(nil).SearchProducts), ctx, groupID, name, limit, offset)
 }
