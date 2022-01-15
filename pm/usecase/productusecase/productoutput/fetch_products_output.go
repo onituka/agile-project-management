@@ -3,7 +3,7 @@ package productoutput
 import "time"
 
 type FetchProductsOutput struct {
-	TotalCount int              `json:"totalCount"`
+	TotalCount uint32           `json:"totalCount"`
 	Products   []*ProductOutput `json:"products"`
 }
 

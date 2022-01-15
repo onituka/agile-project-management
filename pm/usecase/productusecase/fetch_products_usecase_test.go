@@ -36,7 +36,7 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				totalCount := 2
+				totalCount := uint32(2)
 
 				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupID).Return(totalCount, nil)
 
@@ -103,7 +103,7 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				totalCount := 0
+				totalCount := uint32(0)
 
 				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupID).Return(totalCount, nil)
 
@@ -187,7 +187,7 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupID).Return(0, apperr)
+				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupID).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -208,7 +208,7 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				totalCount := 2
+				totalCount := uint32(2)
 
 				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupID).Return(totalCount, nil)
 
