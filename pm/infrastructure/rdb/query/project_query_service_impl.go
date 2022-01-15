@@ -69,7 +69,7 @@ func (r *projectQuery) FetchProjects(ctx context.Context, productID string, limi
 	return projectsDto, nil
 }
 
-func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID string) (totalCount int, err error) {
+func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID string) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
