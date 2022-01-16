@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - pm/swagger/**
+      - swagger/**
       - .github/workflows/swagger-notify.yaml
 
 jobs:
