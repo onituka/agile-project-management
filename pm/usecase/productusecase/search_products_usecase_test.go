@@ -64,8 +64,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(10),
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want: &productoutput.SearchProductsOutput{
@@ -101,8 +101,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(10),
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want: &productoutput.SearchProductsOutput{
@@ -119,8 +119,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "invalid group id",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(10),
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -134,8 +134,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(0),
-					Limit:       uint32(10),
+					Page:        0,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -149,8 +149,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(0),
+					Page:        1,
+					Limit:       0,
 				},
 			},
 			want:    nil,
@@ -164,8 +164,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(51),
+					Page:        1,
+					Limit:       51,
 				},
 			},
 			want:    nil,
@@ -190,8 +190,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(10),
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -221,8 +221,8 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				in: &productinput.SearchProductsInput{
 					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
 					ProductName: "プ",
-					Page:        uint32(1),
-					Limit:       uint32(10),
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
