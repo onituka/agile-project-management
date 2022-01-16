@@ -8,6 +8,14 @@ values
     ("4487c574-34c2-4fb3-9ca4-3a7c79c267a6", "024d78d6-1d03-11ec-a478-0242ac180002", "test", "024d78d6-1d03-11ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000"),
     ("5487c574-34c2-4fb3-9ca4-3a7c79c267a6", "124d78d6-1d03-11ec-a478-0242ac180002", "test2", "024d78d6-1d03-11ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000");
 
+-- product_notes table test data
+INSERT INTO product_notes
+    (id, product_id, title, content, created_by, updated_by, created_at, updated_at)
+values
+    ("52dfc0d0-748e-11ec-88fd-acde48001122", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "ノート", "note", "024d78d6-1d03-11ec-a478-0242ac184402", "024d78d6-1d03-11ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000"),
+    ("62dfc0d0-748e-11ec-88fd-acde48001122", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "test", "test", "024d78d6-1d03-11ec-a478-0242ac184402", "024d78d6-1d03-11ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000"),
+    ("72dfc0d0-748e-11ec-88fd-acde48001122", "4487c574-34c2-4fb3-9ca4-3a7c79c267a6", "test2", "note", "024d78d6-1d03-11ec-a478-0242ac184402", "024d78d6-1d03-11ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000");
+
 -- projects table test data
 INSERT INTO projects
     (id, product_id, group_id, key_name, name, leader_id, default_assignee_id, trashed_at, created_at, updated_at)
