@@ -25,7 +25,8 @@ func NewSearchProductsUsecase(SearchProductsQueryService productqueryservice.Pro
 }
 
 func (u *searchProductsUsecase) SearchProducts(ctx context.Context, in *productinput.SearchProductsInput) (*productoutput.SearchProductsOutput, error) {
-	if _, err := groupdm.NewGroupID(in.GroupID); err != nil {
+	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
+	if err != nil {
 		return nil, err
 	}
 
@@ -33,7 +34,7 @@ func (u *searchProductsUsecase) SearchProducts(ctx context.Context, in *producti
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.productQueryService.CountProductsByName(ctx, in.GroupID, in.ProductName)
+	totalCount, err := u.productQueryService.CountProductsByName(ctx, groupIDVo, in.ProductName)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -45,7 +46,7 @@ func (u *searchProductsUsecase) SearchProducts(ctx context.Context, in *producti
 
 	offset := in.Page*in.Limit - in.Limit
 
-	productsDto, err := u.productQueryService.SearchProducts(ctx, in.GroupID, in.ProductName, in.Limit, offset)
+	productsDto, err := u.productQueryService.SearchProducts(ctx, groupIDVo, in.ProductName, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}

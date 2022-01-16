@@ -10,6 +10,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockqueryservice/mockproductqueryservice"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
@@ -35,11 +36,14 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
-				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
@@ -55,7 +59,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 					},
 				}
 
-				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, productName, limit, offset).Return(productsDto, nil)
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupIDVo, productName, limit, offset).Return(productsDto, nil)
 
 				return nil
 			},
@@ -88,11 +92,14 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
-				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 				productName := "プ"
 				totalCount := uint32(0)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				return nil
 			},
@@ -176,12 +183,15 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
-				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 				productName := "プ"
 
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(uint32(0), apperr)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -202,18 +212,21 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
-				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				if err != nil {
+					return err
+				}
 				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
 
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, productName, limit, offset).Return(nil, apperr)
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupIDVo, productName, limit, offset).Return(nil, apperr)
 				return nil
 			},
 			args: args{

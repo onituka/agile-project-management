@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
@@ -87,7 +88,7 @@ func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, gr
 	return totalCount, nil
 }
 
-func (r *productQueryServiceImpl) SearchProducts(ctx context.Context, groupID string, name string, limit uint32, offset uint32) ([]*productoutput.SearchProductOutput, error) {
+func (r *productQueryServiceImpl) SearchProducts(ctx context.Context, groupID groupdm.GroupID, name string, limit uint32, offset uint32) ([]*productoutput.SearchProductOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -117,7 +118,7 @@ func (r *productQueryServiceImpl) SearchProducts(ctx context.Context, groupID st
 	rows, err := conn.QueryxContext(
 		ctx,
 		query,
-		groupID,
+		groupID.Value(),
 		fmt.Sprintf("%%%s%%", name),
 		limit,
 		offset,
@@ -141,7 +142,7 @@ func (r *productQueryServiceImpl) SearchProducts(ctx context.Context, groupID st
 	return productsDto, nil
 }
 
-func (r *productQueryServiceImpl) CountProductsByName(ctx context.Context, groupID string, name string) (totalCount uint32, err error) {
+func (r *productQueryServiceImpl) CountProductsByName(ctx context.Context, groupID groupdm.GroupID, name string) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
@@ -157,7 +158,7 @@ func (r *productQueryServiceImpl) CountProductsByName(ctx context.Context, group
         AND
           name LIKE ?`
 
-	if err = conn.QueryRowxContext(ctx, query, groupID, fmt.Sprintf("%%%s%%", name)).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, groupID.Value(), fmt.Sprintf("%%%s%%", name)).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
