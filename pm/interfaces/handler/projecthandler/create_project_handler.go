@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler"
 	"github.com/onituka/agile-project-management/project-management/interfaces/presenter"
@@ -22,7 +24,23 @@ func NewCreateProjectHandler(createProjectUsecase projectusecase.CreateProjectUs
 }
 
 func (h *createProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
-	var in projectinput.CreateProjectInput
+	rv := mux.Vars(r)
+	if rv == nil {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+	}
+
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
+	in := projectinput.CreateProjectInput{
+		ProductID: productID,
+	}
+
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, apperrors.InvalidParameter)

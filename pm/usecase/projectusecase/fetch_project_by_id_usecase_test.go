@@ -10,7 +10,9 @@ import (
 	"github.com/google/go-cmp/cmp"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/mockprojectrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -19,6 +21,7 @@ import (
 func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 	type fields struct {
 		projectRepository *mockprojectrepository.MockProjectRepository
+		productRepository *mockproductrepository.MockProductRepository
 	}
 	type args struct {
 		ctx context.Context
@@ -36,6 +39,11 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
 
 				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
@@ -58,14 +66,16 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 					return err
 				}
 
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(projectDm, nil)
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
 			want: &projectoutput.FetchProjectByIDOutput{
@@ -83,12 +93,13 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name:        "プロジェクトID不正",
+			name:        "プロダクトID不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectByIDInput{
-					ID: "invalid project id",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "invalid product id",
 				},
 			},
 			want:    nil,
@@ -100,6 +111,63 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.NotFound
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, apperr)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &projectinput.FetchProjectByIDInput{
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.NotFound,
+		},
+		{
+			name: "プロジェクトID不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &projectinput.FetchProjectByIDInput{
+					ID:        "invalid project id",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InvalidParameter,
+		},
+		{
+			name: "指定したIDでプロジェクトが存在しない",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
 				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
@@ -107,14 +175,16 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(nil, apperr)
 
 				return err
 			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
 			want:    nil,
@@ -126,6 +196,11 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
 				projectIDVo, err := projectdm.NewProjectID("024d71d6-1d03-11ec-a478-0242ac180002")
 				if err != nil {
 					return err
@@ -133,14 +208,16 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 
 				apperr := apperrors.InternalServerError
 
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo).Return(nil, apperr)
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(nil, apperr)
 
 				return err
 			},
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
 			want:    nil,
@@ -154,6 +231,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 
 			f := fields{
 				projectRepository: mockprojectrepository.NewMockProjectRepository(gmctrl),
+				productRepository: mockproductrepository.NewMockProductRepository(gmctrl),
 			}
 			if tt.prepareMock != nil {
 				if err := tt.prepareMock(&f); err != nil {
@@ -161,7 +239,7 @@ func TestFetchProjectByIDUsecaseFetchProjectByID(t *testing.T) {
 				}
 			}
 
-			u := NewFetchProjectByIDUsecase(f.projectRepository)
+			u := NewFetchProjectByIDUsecase(f.projectRepository, f.productRepository)
 
 			got, err := u.FetchProjectByID(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {

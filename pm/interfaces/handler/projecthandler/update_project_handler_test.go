@@ -28,15 +28,17 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 		prepareRequest func(r *http.Request)
 	}{
 		{
-			name:       "200-正常",
+			name:       "正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -60,19 +62,22 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "400-1-プロジェクトID不正",
+			name:       "プロジェクトID不正",
 			fileSuffix: "400-1",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
-					ID:                "024d71d6-1d03-11ec-a478-0242ac1800023",
+					ID:                "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -84,12 +89,13 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:        "400-2-jsonデコード失敗",
+			name:        "jsonデコード失敗",
 			fileSuffix:  "400-2",
 			prepareMock: nil,
 		},
@@ -99,10 +105,12 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "1AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -115,19 +123,22 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "404-IDが存在しない",
+			name:       "プロジェクトが存在しない",
 			fileSuffix: "404",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -140,19 +151,22 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "409-キー名重複",
+			name:       "キー名重複",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -165,19 +179,22 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "500-DBエラー",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.UpdateProjectInput{
 					ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID:         "024d78d6-1d03-11ec-a478-0242ac180002",
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -190,6 +207,7 @@ func TestUpdateProjectHandlerUpdateProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},

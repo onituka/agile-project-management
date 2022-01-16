@@ -1,7 +1,7 @@
 package projectinput
 
 type FetchProjectsInput struct {
-	ProductID string `json:"product_id"`
+	ProductID string
 	Page      uint32 `json:"page"`
 	Limit     uint32 `json:"limit"`
 }

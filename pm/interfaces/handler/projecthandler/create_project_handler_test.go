@@ -1,7 +1,6 @@
 package projecthandler
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -9,6 +8,7 @@ import (
 	"time"
 
 	"github.com/golang/mock/gomock"
+	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
@@ -22,15 +22,18 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 		createProjectUsecase *mockprojectusecase.MockCreateProjectUsecase
 	}
 	tests := []struct {
-		name        string
-		fileSuffix  string
-		prepareMock func(f *fields)
+		name           string
+		fileSuffix     string
+		prepareMock    func(f *fields)
+		prepareRequest func(r *http.Request)
 	}{
 		{
-			name:       "200-正常",
+			name:       "正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -55,17 +58,29 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 
 				f.createProjectUsecase.EXPECT().CreateProject(ctx, in).Return(out, nil)
 			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
 		},
 		{
-			name:        "400-1-jsonデコード失敗",
+			name:        "jsonデコード失敗",
 			fileSuffix:  "400-1",
 			prepareMock: nil,
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
 		},
 		{
-			name:       "400-2-キー名不正",
+			name:       "キー名不正",
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -80,12 +95,46 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 
 				f.createProjectUsecase.EXPECT().CreateProject(ctx, in).Return(nil, err)
 			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
 		},
 		{
-			name:       "409-キー名重複",
+			name:       "プロダクトが存在しない",
+			fileSuffix: "404",
+			prepareMock: func(f *fields) {
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
+
+				in := &projectinput.CreateProjectInput{
+					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
+					KeyName:           "AAA",
+					Name:              "管理ツール1",
+					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+				}
+
+				err := apperrors.NotFound
+
+				f.createProjectUsecase.EXPECT().CreateProject(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
+		},
+		{
+			name:       "キー名重複",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -100,12 +149,19 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 
 				f.createProjectUsecase.EXPECT().CreateProject(ctx, in).Return(nil, err)
 			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
 		},
 		{
-			name:       "500-DBエラー",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.CreateProjectInput{
 					ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -119,6 +175,11 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 				err := apperrors.InternalServerError
 
 				f.createProjectUsecase.EXPECT().CreateProject(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
 			},
 		},
 	}
@@ -137,8 +198,12 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 
 			h := NewCreateProjectHandler(f.createProjectUsecase)
 
-			r := httptest.NewRequest(http.MethodPost, "/projects", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
+			r := httptest.NewRequest(http.MethodPost, "/products/{productID}/projects", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
+
+			if tt.prepareRequest != nil {
+				tt.prepareRequest(r)
+			}
 
 			h.CreateProject(w, r)
 

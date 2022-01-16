@@ -14,24 +14,25 @@ import (
 func newProjectRouter(router *mux.Router) {
 	projectRepository := persistence.NewProjectRepository()
 	projectQuery := query.NewProjectQuery()
+	productRepository := persistence.NewProductRepository()
 
-	createProjectUsecase := projectusecase.NewCreateProjectUsecase(projectRepository)
+	createProjectUsecase := projectusecase.NewCreateProjectUsecase(projectRepository, productRepository)
 	createProjectHandler := projecthandler.NewCreateProjectHandler(createProjectUsecase)
-	router.HandleFunc("/projects", createProjectHandler.CreateProject).Methods(http.MethodPost)
+	router.HandleFunc("/products/{productID}/projects", createProjectHandler.CreateProject).Methods(http.MethodPost)
 
-	updateProjectUsecase := projectusecase.NewUpdateProjectUsecase(projectRepository)
+	updateProjectUsecase := projectusecase.NewUpdateProjectUsecase(projectRepository, productRepository)
 	updateProjectHandler := projecthandler.NewUpdateProjectHandler(updateProjectUsecase)
-	router.HandleFunc("/projects/{projectID}", updateProjectHandler.UpdateProject).Methods(http.MethodPut)
+	router.HandleFunc("/products/{productID}/projects/{projectID}", updateProjectHandler.UpdateProject).Methods(http.MethodPut)
 
-	fetchProjectByIDUsecase := projectusecase.NewFetchProjectByIDUsecase(projectRepository)
+	fetchProjectByIDUsecase := projectusecase.NewFetchProjectByIDUsecase(projectRepository, productRepository)
 	fetchProjectByIDHandler := projecthandler.NewFetchProjectByIDHandler(fetchProjectByIDUsecase)
-	router.HandleFunc("/projects/{projectID}", fetchProjectByIDHandler.FetchProjectByID).Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID}/projects/{projectID}", fetchProjectByIDHandler.FetchProjectByID).Methods(http.MethodGet)
 
-	fetchProjectsUsecase := projectusecase.NewFetchProjectsUsecase(projectQuery)
+	fetchProjectsUsecase := projectusecase.NewFetchProjectsUsecase(projectQuery, productRepository)
 	fetchProjectsHandler := projecthandler.NewFetchProjectsHandler(fetchProjectsUsecase)
-	router.HandleFunc("/projects", fetchProjectsHandler.FetchProjects).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID}/projects", fetchProjectsHandler.FetchProjects).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 
-	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository)
+	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository, productRepository)
 	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)
-	router.HandleFunc("/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
+	router.HandleFunc("/products/{productID}/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
 }

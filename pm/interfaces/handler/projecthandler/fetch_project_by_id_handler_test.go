@@ -27,15 +27,17 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 		prepareRequest func(r *http.Request)
 	}{
 		{
-			name:       "200-正常",
+			name:       "正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
 				out := &projectoutput.FetchProjectByIDOutput{
@@ -55,19 +57,22 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
 		},
 		{
-			name:       "400-プロジェクトID不正",
+			name:       "プロジェクトID不正",
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac1800023",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
 				err := apperrors.InvalidParameter
@@ -76,20 +81,23 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
 		},
 		{
-			name:       "404-IDが存在しない",
+			name:       "IDが存在しない",
 			fileSuffix: "404",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
 				err := apperrors.NotFound
@@ -99,19 +107,22 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
 		},
 		{
-			name:       "500-DBエラー",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &projectinput.FetchProjectByIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
 				err := apperrors.InternalServerError
@@ -121,6 +132,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
 		},
@@ -140,7 +152,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 
 			h := NewFetchProjectByIDHandler(f.fetchProjectByIDUsecase)
 
-			r := httptest.NewRequest(http.MethodGet, "/projects/{projectID}", nil)
+			r := httptest.NewRequest(http.MethodGet, "/products/{productID}/projects/{projectID}", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

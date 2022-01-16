@@ -16,21 +16,28 @@ type FetchProjectsUsecase interface {
 
 type fetchProjectsUsecase struct {
 	projectQueryService projectqueryservice.ProjectQueryService
+	productRepository   productdm.ProductRepository
 }
 
-func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQueryService) *fetchProjectsUsecase {
+func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQueryService, productRepository productdm.ProductRepository) *fetchProjectsUsecase {
 	return &fetchProjectsUsecase{
 		projectQueryService: projectQueryService,
+		productRepository:   productRepository,
 	}
 }
 
 func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
-	if _, err := productdm.NewProductID(in.ProductID); err != nil {
+	if in.Page <= 0 || in.Limit <= 0 || in.Limit > 50 {
+		return nil, apperrors.InvalidParameter
+	}
+
+	productIDVo, err := productdm.NewProductID(in.ProductID)
+	if err != nil {
 		return nil, err
 	}
 
-	if in.Page <= 0 || in.Limit <= 0 || in.Limit > 50 {
-		return nil, apperrors.InvalidParameter
+	if _, err := u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return nil, err
 	}
 
 	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, in.ProductID)

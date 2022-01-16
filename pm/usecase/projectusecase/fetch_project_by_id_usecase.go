@@ -3,6 +3,7 @@ package projectusecase
 import (
 	"context"
 
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -14,21 +15,32 @@ type FetchProjectByIDUsecase interface {
 
 type fetchProjectByIDUsecase struct {
 	projectRepository projectdm.ProjectRepository
+	productRepository productdm.ProductRepository
 }
 
-func NewFetchProjectByIDUsecase(FetchProjectByIDRepository projectdm.ProjectRepository) *fetchProjectByIDUsecase {
+func NewFetchProjectByIDUsecase(FetchProjectByIDRepository projectdm.ProjectRepository, productRepository productdm.ProductRepository) *fetchProjectByIDUsecase {
 	return &fetchProjectByIDUsecase{
 		projectRepository: FetchProjectByIDRepository,
+		productRepository: productRepository,
 	}
 }
 
 func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *projectinput.FetchProjectByIDInput) (*projectoutput.FetchProjectByIDOutput, error) {
+	productIDVo, err := productdm.NewProductID(in.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return nil, err
+	}
+
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByID(ctx, projectIDVo)
+	projectDm, err := u.projectRepository.FetchProjectByID(ctx, projectIDVo, productIDVo)
 	if err != nil {
 		return nil, err
 	}

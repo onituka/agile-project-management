@@ -1,5 +1,6 @@
 package projectinput
 
 type TrashedProjectIDInput struct {
-	ID string
+	ID        string
+	ProductID string
 }

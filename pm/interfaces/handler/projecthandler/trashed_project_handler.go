@@ -30,6 +30,13 @@ func (h *trashedProjectHandler) TrashedProject(w http.ResponseWriter, r *http.Re
 		return
 	}
 
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
 	projectID, ok := rv["projectID"]
 	if !ok {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
@@ -38,7 +45,8 @@ func (h *trashedProjectHandler) TrashedProject(w http.ResponseWriter, r *http.Re
 	}
 
 	in := projectinput.TrashedProjectIDInput{
-		ID: projectID,
+		ID:        projectID,
+		ProductID: productID,
 	}
 
 	out, err := h.projectUsecase.TrashedProject(r.Context(), &in)

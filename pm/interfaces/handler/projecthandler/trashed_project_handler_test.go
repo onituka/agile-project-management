@@ -27,15 +27,17 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 		prepareRequest func(r *http.Request)
 	}{
 		{
-			name:       "200-正常",
+			name:       "正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 
 				trashedAt := time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC)
@@ -58,19 +60,22 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "400-1-プロジェクトID不正",
-			fileSuffix: "400-1",
+			name:       "プロジェクトID不正",
+			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac1800023",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.InvalidParameter
 
@@ -78,20 +83,23 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac1800023",
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "404-IDが存在しない",
-			fileSuffix: "404",
+			name:       "IDが存在しない",
+			fileSuffix: "404-1",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.NotFound
 
@@ -100,19 +108,46 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "409-IDがすでにゴミ箱にある",
+			name:       "プロダクトが存在しない",
+			fileSuffix: "404-2",
+			prepareMock: func(f *fields) {
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
+				}).Context()
+
+				in := &projectinput.TrashedProjectIDInput{
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
+				}
+				err := apperrors.NotFound
+
+				f.trashedProjectUsecase.EXPECT().TrashedProject(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
+				})
+			},
+		},
+		{
+			name:       "プロジェクトがすでにゴミ箱にある",
 			fileSuffix: "409",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.Conflict
 
@@ -121,19 +156,22 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
 		{
-			name:       "500-DBエラー",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID: "024d71d6-1d03-11ec-a478-0242ac180002",
+					ID:        "024d71d6-1d03-11ec-a478-0242ac180002",
+					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.InternalServerError
 
@@ -142,6 +180,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002",
+					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},
 		},
@@ -160,7 +199,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 
 			h := NewTrashedProjectHandler(f.trashedProjectUsecase)
 
-			r := httptest.NewRequest(http.MethodPut, "/projects/024d71d6-1d03-11ec-a478-0242ac180002/trash-box", nil)
+			r := httptest.NewRequest(http.MethodPut, "/products/{productID}/projects/024d71d6-1d03-11ec-a478-0242ac180002/trash-box", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

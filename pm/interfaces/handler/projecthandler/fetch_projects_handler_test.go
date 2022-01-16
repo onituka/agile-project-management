@@ -1,13 +1,13 @@
 package projecthandler
 
 import (
-	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
 
 	"github.com/golang/mock/gomock"
+	"github.com/gorilla/mux"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/projecthandler/mockprojectusecase"
@@ -30,7 +30,9 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			name:       "正常",
 			fileSuffix: "200-1",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -73,6 +75,10 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(out, nil)
 			},
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+
 				q := r.URL.Query()
 				q.Set("page", "1")
 				q.Set("limit", "2")
@@ -83,7 +89,9 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			name:       "正常(プロダクトが存在しない場合)",
 			fileSuffix: "200-2",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -100,6 +108,10 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			},
 
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+
 				q := r.URL.Query()
 				q.Set("page", "1")
 				q.Set("limit", "2")
@@ -112,6 +124,10 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			prepareMock: nil,
 
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+
 				q := r.URL.Query()
 				q.Set("page", "test")
 				q.Set("limit", "2")
@@ -124,6 +140,10 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			prepareMock: nil,
 
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+
 				q := r.URL.Query()
 				q.Set("page", "1")
 				q.Set("limit", "test")
@@ -134,7 +154,9 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			name:       "usecaseでの400エラー(page値不正)",
 			fileSuffix: "400-3",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -148,6 +170,38 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			},
 
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+				q := r.URL.Query()
+				q.Set("page", "1")
+				q.Set("limit", "2")
+				r.URL.RawQuery = q.Encode()
+			},
+		},
+		{
+			name:       "プロダクトが存在しない",
+			fileSuffix: "404",
+			prepareMock: func(f *fields) {
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
+
+				in := &projectinput.FetchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Page:      1,
+					Limit:     2,
+				}
+
+				err := apperrors.NotFound
+
+				f.fetchProjectsUsecase.EXPECT().FetchProjects(ctx, in).Return(nil, err)
+			},
+
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
 				q := r.URL.Query()
 				q.Set("page", "1")
 				q.Set("limit", "2")
@@ -158,7 +212,9 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			name:       "usecaseでの500エラー(DBエラー)",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
-				ctx := context.TODO()
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
 
 				in := &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -172,6 +228,10 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			},
 
 			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+
 				q := r.URL.Query()
 				q.Set("page", "1")
 				q.Set("limit", "2")
@@ -193,7 +253,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 
 			h := NewFetchProjectsHandler(f.fetchProjectsUsecase)
 
-			r := httptest.NewRequest(http.MethodGet, "/projects", nil)
+			r := httptest.NewRequest(http.MethodGet, "/products/{productID}/projects", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

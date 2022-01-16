@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -15,21 +16,32 @@ type TrashedProjectUsecase interface {
 
 type trashedProjectUsecase struct {
 	projectRepository projectdm.ProjectRepository
+	productRepository productdm.ProductRepository
 }
 
-func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository) *trashedProjectUsecase {
+func NewTrashedProjectUsecase(TrashedProjectRepository projectdm.ProjectRepository, productRepository productdm.ProductRepository) *trashedProjectUsecase {
 	return &trashedProjectUsecase{
 		projectRepository: TrashedProjectRepository,
+		productRepository: productRepository,
 	}
 }
 
 func (u *trashedProjectUsecase) TrashedProject(ctx context.Context, in *projectinput.TrashedProjectIDInput) (*projectoutput.TrashedProjectOutPut, error) {
+	productIDVo, err := productdm.NewProductID(in.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return nil, err
+	}
+
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo)
+	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo)
 	if err != nil {
 		return nil, err
 	} else if projectDm.IsTrashed() {

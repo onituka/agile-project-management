@@ -30,6 +30,13 @@ func (h *updateProjectHandler) UpdateProject(w http.ResponseWriter, r *http.Requ
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
+	productID, ok := rv["productID"]
+	if !ok {
+		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
+		presenter.ErrorJSON(w, apperrors.InternalServerError)
+		return
+	}
+
 	projectID, ok := rv["projectID"]
 	if !ok {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
@@ -38,7 +45,8 @@ func (h *updateProjectHandler) UpdateProject(w http.ResponseWriter, r *http.Requ
 	}
 
 	in := projectinput.UpdateProjectInput{
-		ID: projectID,
+		ID:        projectID,
+		ProductID: productID,
 	}
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		handler.SetAppErrorToCtx(r, err)

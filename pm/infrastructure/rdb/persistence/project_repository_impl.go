@@ -6,6 +6,7 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/groupdm"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb/persistence/datasource"
@@ -96,7 +97,7 @@ func (r *projectRepository) UpdateProject(ctx context.Context, project *projectd
 	return nil
 }
 
-func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id projectdm.ProjectID, productID productdm.ProductID) (*projectdm.Project, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -118,11 +119,13 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
            projects
          WHERE
            id = ?
+         AND
+           product_id = ?
          FOR UPDATE`
 
 	var projectDto datasource.Project
 
-	if err := conn.QueryRowxContext(ctx, query, id.Value()).StructScan(&projectDto); err != nil {
+	if err := conn.QueryRowxContext(ctx, query, id.Value(), productID.Value()).StructScan(&projectDto); err != nil {
 		if apperrors.Is(err, sql.ErrNoRows) {
 			return nil, apperrors.NotFound
 		}
@@ -149,7 +152,7 @@ func (r *projectRepository) FetchProjectByIDForUpdate(ctx context.Context, id pr
 	return projectDm, nil
 }
 
-func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID) (*projectdm.Project, error) {
+func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.ProjectID, productID productdm.ProductID) (*projectdm.Project, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -170,11 +173,13 @@ func (r *projectRepository) FetchProjectByID(ctx context.Context, id projectdm.P
          FROM
            projects
          WHERE
-           id = ?`
+           id = ?
+         AND
+           product_id = ?`
 
 	var projectDto datasource.Project
 
-	if err := conn.QueryRowxContext(ctx, query, id.Value()).StructScan(&projectDto); err != nil {
+	if err := conn.QueryRowxContext(ctx, query, id.Value(), productID.Value()).StructScan(&projectDto); err != nil {
 		if apperrors.Is(err, sql.ErrNoRows) {
 			return nil, apperrors.NotFound
 		}
