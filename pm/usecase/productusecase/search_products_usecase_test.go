@@ -36,10 +36,10 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				ProductName := "プ"
+				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, ProductName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
@@ -55,7 +55,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 					},
 				}
 
-				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, ProductName, limit, offset).Return(productsDto, nil)
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, productName, limit, offset).Return(productsDto, nil)
 
 				return nil
 			},
@@ -89,10 +89,10 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				ProductName := "プ"
+				productName := "プ"
 				totalCount := uint32(0)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, ProductName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
 
 				return nil
 			},
@@ -177,11 +177,11 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				ProductName := "プ"
+				productName := "プ"
 
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, ProductName).Return(uint32(0), apperr)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -203,17 +203,17 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				groupID := "024d78d6-1d03-11ec-a478-0242ac180002"
-				ProductName := "プ"
+				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, ProductName).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupID, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
 
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, ProductName, limit, offset).Return(nil, apperr)
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupID, productName, limit, offset).Return(nil, apperr)
 				return nil
 			},
 			args: args{
