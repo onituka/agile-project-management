@@ -16,19 +16,19 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productoutput"
 )
 
-func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
+func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 	type fields struct {
 		productqueryservice *mockproductqueryservice.MockProductQueryService
 	}
 	type args struct {
 		ctx context.Context
-		in  *productinput.FetchProductsInput
+		in  *productinput.SearchProductsInput
 	}
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *productoutput.FetchProductsOutput
+		want        *productoutput.SearchProductsOutput
 		wantErr     error
 	}{
 		{
@@ -41,22 +41,15 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 					return err
 				}
 
+				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupIDVo).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
 
-				productsDto := []*productoutput.ProductOutput{
-					{
-						ID:        "4487c574-34c2-4fb3-9ca4-3a7c79c267a6",
-						GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
-						Name:      "test",
-						LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
-						CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-						UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-					},
+				productsDto := []*productoutput.SearchProductOutput{
 					{
 						ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -67,29 +60,22 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 					},
 				}
 
-				f.productqueryservice.EXPECT().FetchProducts(ctx, groupIDVo, limit, offset).Return(productsDto, nil)
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupIDVo, productName, limit, offset).Return(productsDto, nil)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
 				},
 			},
-			want: &productoutput.FetchProductsOutput{
+			want: &productoutput.SearchProductsOutput{
 				TotalCount: 2,
-				Products: []*productoutput.ProductOutput{
-					{
-						ID:        "4487c574-34c2-4fb3-9ca4-3a7c79c267a6",
-						GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
-						Name:      "test",
-						LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
-						CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-						UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-					},
+				Products: []*productoutput.SearchProductOutput{
 					{
 						ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -103,7 +89,7 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "正常(プロダクトが存在しない場合)",
+			name: "正常(該当するプロダクト名が存在しない場合)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -112,23 +98,25 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 					return err
 				}
 
+				productName := "プ"
 				totalCount := uint32(0)
 
-				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupIDVo).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
 				},
 			},
-			want: &productoutput.FetchProductsOutput{
+			want: &productoutput.SearchProductsOutput{
 				TotalCount: 0,
-				Products:   make([]*productoutput.ProductOutput, 0),
+				Products:   make([]*productoutput.SearchProductOutput, 0),
 			},
 			wantErr: nil,
 		},
@@ -137,10 +125,11 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "invalid group id",
-					Page:    1,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "invalid group id",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -151,10 +140,11 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    0,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        0,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -165,10 +155,11 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   0,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       0,
 				},
 			},
 			want:    nil,
@@ -179,17 +170,18 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   51,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       51,
 				},
 			},
 			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "DBエラー(CountProductsメソッド実行時エラー)",
+			name: "DBエラー(CountProductsByNameメソッド実行時エラー)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -198,25 +190,28 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 					return err
 				}
 
+				productName := "プ"
+
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupIDVo).Return(uint32(0), apperr)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(uint32(0), apperr)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
 			wantErr: apperrors.InternalServerError,
 		},
 		{
-			name: "DBエラー(FetchProductsメソッド実行時エラー)",
+			name: "DBエラー(SearchProductsメソッド実行時エラー)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -225,25 +220,26 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 					return err
 				}
 
+				productName := "プ"
 				totalCount := uint32(2)
 
-				f.productqueryservice.EXPECT().CountProductsByGroupID(ctx, groupIDVo).Return(totalCount, nil)
+				f.productqueryservice.EXPECT().CountProductsByName(ctx, groupIDVo, productName).Return(totalCount, nil)
 
 				limit := uint32(10)
 				offset := uint32(0)
 
 				apperr := apperrors.InternalServerError
 
-				f.productqueryservice.EXPECT().FetchProducts(ctx, groupIDVo, limit, offset).Return(nil, apperr)
-
+				f.productqueryservice.EXPECT().SearchProducts(ctx, groupIDVo, productName, limit, offset).Return(nil, apperr)
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    1,
-					Limit:   10,
+				in: &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
 				},
 			},
 			want:    nil,
@@ -263,11 +259,11 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				}
 			}
 
-			u := NewFetchProductsUsecase(f.productqueryservice)
+			u := NewSearchProductsUsecase(f.productqueryservice)
 
-			got, err := u.FetchProducts(tt.args.ctx, tt.args.in)
+			got, err := u.SearchProducts(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
-				t.Errorf("FetchProducts() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SearchProducts() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 

@@ -2,12 +2,12 @@ package productoutput
 
 import "time"
 
-type FetchProductsOutput struct {
-	TotalCount uint32           `json:"totalCount"`
-	Products   []*ProductOutput `json:"products"`
+type SearchProductsOutput struct {
+	TotalCount uint32                 `json:"totalCount"`
+	Products   []*SearchProductOutput `json:"products"`
 }
 
-type ProductOutput struct {
+type SearchProductOutput struct {
 	ID        string    `json:"id"        db:"id"`
 	GroupID   string    `json:"groupID"   db:"group_id"`
 	Name      string    `json:"name"      db:"name"`
