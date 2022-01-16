@@ -10,21 +10,21 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/productqueryservice"
 )
 
-type FetchProductsUsecase interface {
-	FetchProducts(ctx context.Context, in *productinput.FetchProductsInput) (*productoutput.FetchProductsOutput, error)
+type SearchProductsUsecase interface {
+	SearchProducts(ctx context.Context, in *productinput.SearchProductsInput) (*productoutput.SearchProductsOutput, error)
 }
 
-type fetchProductsUsecase struct {
+type searchProductsUsecase struct {
 	productQueryService productqueryservice.ProductQueryService
 }
 
-func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.ProductQueryService) *fetchProductsUsecase {
-	return &fetchProductsUsecase{
-		productQueryService: FetchProductsQueryService,
+func NewSearchProductsUsecase(SearchProductsQueryService productqueryservice.ProductQueryService) *searchProductsUsecase {
+	return &searchProductsUsecase{
+		productQueryService: SearchProductsQueryService,
 	}
 }
 
-func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinput.FetchProductsInput) (*productoutput.FetchProductsOutput, error) {
+func (u *searchProductsUsecase) SearchProducts(ctx context.Context, in *productinput.SearchProductsInput) (*productoutput.SearchProductsOutput, error) {
 	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
 	if err != nil {
 		return nil, err
@@ -34,24 +34,24 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.productQueryService.CountProductsByGroupID(ctx, groupIDVo)
+	totalCount, err := u.productQueryService.CountProductsByName(ctx, groupIDVo, in.ProductName)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
-		return &productoutput.FetchProductsOutput{
+		return &productoutput.SearchProductsOutput{
 			TotalCount: 0,
-			Products:   make([]*productoutput.ProductOutput, 0),
+			Products:   make([]*productoutput.SearchProductOutput, 0),
 		}, nil
 	}
 
 	offset := in.Page*in.Limit - in.Limit
 
-	productsDto, err := u.productQueryService.FetchProducts(ctx, groupIDVo, in.Limit, offset)
+	productsDto, err := u.productQueryService.SearchProducts(ctx, groupIDVo, in.ProductName, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}
 
-	return &productoutput.FetchProductsOutput{
+	return &productoutput.SearchProductsOutput{
 		TotalCount: totalCount,
 		Products:   productsDto,
 	}, nil
