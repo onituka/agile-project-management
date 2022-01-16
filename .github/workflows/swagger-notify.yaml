@@ -1,10 +1,8 @@
 name: Swagger change notification
 on:
-# TODO: 動作確認の為、トリガーをpull_requestとする。
-#  push:
-#    branches:
-#      - main
-  pull_request:
+  push:
+    branches:
+      - main
     paths:
       - pm/swagger/**
       - .github/workflows/swagger-notify.yaml
@@ -22,7 +20,7 @@ jobs:
         with:
           status: ${{ job.status }}
           author_name: Swagger更新通知
-          fields: repo,pullRequest,commit,author
+          fields: repo,commit,pullRequest,author
           text: '<https://github.com/onituka/agile-project-management/tree/main/swagger|Swaggerフォルダ>'
           mention: 'here'
           if_mention: 'success'
