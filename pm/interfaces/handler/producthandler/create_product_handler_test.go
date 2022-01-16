@@ -30,7 +30,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			name:       "200-正常",
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
-				ctX := context.Background()
+				ctx := context.TODO()
 
 				in := &productinput.CreateProductInput{
 					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
@@ -47,7 +47,7 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 					UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 				}
 
-				f.createProductUsecase.EXPECT().CreateProduct(ctX, in).Return(out, nil)
+				f.createProductUsecase.EXPECT().CreateProduct(ctx, in).Return(out, nil)
 			},
 		},
 		{
