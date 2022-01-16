@@ -70,8 +70,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(10),
+					Page:    1,
+					Limit:   10,
 				},
 			},
 			want: &productoutput.FetchProductsOutput{
@@ -113,8 +113,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(10),
+					Page:    1,
+					Limit:   10,
 				},
 			},
 			want: &productoutput.FetchProductsOutput{
@@ -130,8 +130,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "invalid group id",
-					Page:    uint32(1),
-					Limit:   uint32(10),
+					Page:    1,
+					Limit:   10,
 				},
 			},
 			want:    nil,
@@ -144,8 +144,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(0),
-					Limit:   uint32(10),
+					Page:    0,
+					Limit:   10,
 				},
 			},
 			want:    nil,
@@ -158,8 +158,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(0),
+					Page:    1,
+					Limit:   0,
 				},
 			},
 			want:    nil,
@@ -172,8 +172,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(51),
+					Page:    1,
+					Limit:   51,
 				},
 			},
 			want:    nil,
@@ -195,8 +195,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(10),
+					Page:    1,
+					Limit:   10,
 				},
 			},
 			want:    nil,
@@ -225,8 +225,8 @@ func TestFetchProductsUsecaseFetchProducts(t *testing.T) {
 				ctx: context.TODO(),
 				in: &productinput.FetchProductsInput{
 					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
-					Page:    uint32(1),
-					Limit:   uint32(10),
+					Page:    1,
+					Limit:   10,
 				},
 			},
 			want:    nil,
