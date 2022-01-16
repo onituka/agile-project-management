@@ -24,7 +24,7 @@ lint:
 
 test:
 	@GO_ENV="local" LOCAL_SERVER_PORT=8080 LOCAL_CORS_ALLOWED_ORIGINS="http://localhost:3000" LOCAL_MYSQL_DSN="root:root@tcp(127.0.0.1:3336)/test_db?parseTime=true" \
-	go test -race -v ./... | $(COLORIZE_PASS) | $(COLORIZE_FAIL)
+	go test -race ./... | $(COLORIZE_PASS) | $(COLORIZE_FAIL)
 
 # goldenテストデータを更新
 test-update:
