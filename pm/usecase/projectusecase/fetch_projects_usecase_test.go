@@ -48,7 +48,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 
 				limit := uint32(2)
 				offset := uint32(0)
-				totalCount := 4
+				totalCount := uint32(4)
 
 				projectDtos := []*projectoutput.ProjectOutput{
 					{
@@ -87,8 +87,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 			want: &projectoutput.FetchProjectsOutput{
@@ -135,7 +135,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 
 				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 
-				totalCount := 0
+				totalCount := uint32(0)
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalCount, nil)
@@ -146,8 +146,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 			want: &projectoutput.FetchProjectsOutput{
@@ -163,8 +163,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 
@@ -192,8 +192,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 			want:    nil,
@@ -242,7 +242,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(0, apperr)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -250,8 +250,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 			want:    nil,
@@ -270,12 +270,12 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 				limit := uint32(2)
 				offset := uint32(0)
-				totalcount := 3
+				totalCount := uint32(3)
 
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalcount, nil)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalCount, nil)
 				f.projectQueryService.EXPECT().FetchProjects(ctx, InputProductID, limit, offset).Return(nil, apperr)
 
 				return nil
@@ -284,8 +284,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				ctx: context.TODO(),
 				in: &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      uint32(1),
-					Limit:     uint32(2),
+					Page:      1,
+					Limit:     2,
 				},
 			},
 			want:    nil,

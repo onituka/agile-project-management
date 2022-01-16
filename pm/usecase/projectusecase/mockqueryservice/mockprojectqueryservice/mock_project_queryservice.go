@@ -36,10 +36,10 @@ func (m *MockProjectQueryService) EXPECT() *MockProjectQueryServiceMockRecorder 
 }
 
 // CountProjectsByProductID mocks base method.
-func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID string) (int, error) {
+func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID string) (uint32, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProjectsByProductID", ctx, productID)
-	ret0, _ := ret[0].(int)
+	ret0, _ := ret[0].(uint32)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
