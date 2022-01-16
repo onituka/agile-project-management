@@ -16,7 +16,7 @@ func NewProductQueryServiceImpl() *productQueryServiceImpl {
 	return &productQueryServiceImpl{}
 }
 
-func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID string, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
+func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit uint32, offset uint32) ([]*productoutput.ProductOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID str
 	return productsDto, nil
 }
 
-func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID string) (totalCount uint32, err error) {
+func (r *productQueryServiceImpl) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err

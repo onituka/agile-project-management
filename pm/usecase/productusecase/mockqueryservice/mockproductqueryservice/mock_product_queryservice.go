@@ -37,7 +37,7 @@ func (m *MockProductQueryService) EXPECT() *MockProductQueryServiceMockRecorder 
 }
 
 // CountProductsByGroupID mocks base method.
-func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID string) (uint32, error) {
+func (m *MockProductQueryService) CountProductsByGroupID(ctx context.Context, groupID groupdm.GroupID) (uint32, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProductsByGroupID", ctx, groupID)
 	ret0, _ := ret[0].(uint32)
@@ -67,7 +67,7 @@ func (mr *MockProductQueryServiceMockRecorder) CountProductsByName(ctx, groupID,
 }
 
 // FetchProducts mocks base method.
-func (m *MockProductQueryService) FetchProducts(ctx context.Context, groupID string, limit, offset uint32) ([]*productoutput.ProductOutput, error) {
+func (m *MockProductQueryService) FetchProducts(ctx context.Context, groupID groupdm.GroupID, limit, offset uint32) ([]*productoutput.ProductOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProducts", ctx, groupID, limit, offset)
 	ret0, _ := ret[0].([]*productoutput.ProductOutput)

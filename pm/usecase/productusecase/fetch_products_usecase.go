@@ -25,7 +25,8 @@ func NewFetchProductsUsecase(FetchProductsQueryService productqueryservice.Produ
 }
 
 func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinput.FetchProductsInput) (*productoutput.FetchProductsOutput, error) {
-	if _, err := groupdm.NewGroupID(in.GroupID); err != nil {
+	groupIDVo, err := groupdm.NewGroupID(in.GroupID)
+	if err != nil {
 		return nil, err
 	}
 
@@ -33,7 +34,7 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 		return nil, apperrors.InvalidParameter
 	}
 
-	totalCount, err := u.productQueryService.CountProductsByGroupID(ctx, in.GroupID)
+	totalCount, err := u.productQueryService.CountProductsByGroupID(ctx, groupIDVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -45,7 +46,7 @@ func (u *fetchProductsUsecase) FetchProducts(ctx context.Context, in *productinp
 
 	offset := in.Page*in.Limit - in.Limit
 
-	productsDto, err := u.productQueryService.FetchProducts(ctx, in.GroupID, in.Limit, offset)
+	productsDto, err := u.productQueryService.FetchProducts(ctx, groupIDVo, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}

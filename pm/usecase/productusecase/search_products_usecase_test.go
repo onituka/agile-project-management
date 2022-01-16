@@ -40,6 +40,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				if err != nil {
 					return err
 				}
+
 				productName := "プ"
 				totalCount := uint32(2)
 
@@ -96,6 +97,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				if err != nil {
 					return err
 				}
+
 				productName := "プ"
 				totalCount := uint32(0)
 
@@ -187,6 +189,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				if err != nil {
 					return err
 				}
+
 				productName := "プ"
 
 				apperr := apperrors.InternalServerError
@@ -216,6 +219,7 @@ func TestSearchProductsUsecaseSearchProducts(t *testing.T) {
 				if err != nil {
 					return err
 				}
+
 				productName := "プ"
 				totalCount := uint32(2)
 
