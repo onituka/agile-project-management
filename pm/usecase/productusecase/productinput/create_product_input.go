@@ -1,7 +1,7 @@
 package productinput
 
 type CreateProductInput struct {
-	GroupID  string `json:"groupID"`
+	GroupID  string
 	Name     string `json:"name"`
 	LeaderID string `json:"leaderID"`
 }

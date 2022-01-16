@@ -51,25 +51,9 @@ func TestCreateProductHandlerCreateProduct(t *testing.T) {
 			},
 		},
 		{
-			name:        "400-1-jsonデコード失敗",
-			fileSuffix:  "400-1",
+			name:        "400-jsonデコード失敗",
+			fileSuffix:  "400",
 			prepareMock: nil,
-		},
-		{
-			name:       "400-2-グループID不正",
-			fileSuffix: "400-2",
-			prepareMock: func(f *fields) {
-				ctx := context.TODO()
-
-				in := &productinput.CreateProductInput{
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac1800020",
-					Name:     "プロジェクト管理ツール",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
-				}
-				err := apperrors.InvalidParameter
-
-				f.createProductUsecase.EXPECT().CreateProduct(ctx, in).Return(nil, err)
-			},
 		},
 		{
 			name:       "409-プロダクト名重複",
