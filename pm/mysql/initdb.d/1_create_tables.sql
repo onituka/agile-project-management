@@ -6,9 +6,10 @@ CREATE TABLE products
     group_id   CHAR(36)    NOT NULL,
     name       VARCHAR(80) NOT NULL,
     leader_id  CHAR(36)    NOT NULL,
-    created_at DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
+    created_at DATETIME    NOT NULL,
+    updated_at DATETIME    NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uq_name(group_id, name)
 );
 
 CREATE TABLE projects
