@@ -29,6 +29,7 @@ func Run() error {
 	router.Use(middleware.DBMiddlewareFunc(conn))
 
 	newProductRouter(router)
+	newProductNoteRouter(router)
 	newProjectRouter(router)
 
 	srv := &http.Server{
