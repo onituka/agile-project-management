@@ -16,6 +16,7 @@ CREATE TABLE product_notes
 (
     id         CHAR(36) NOT NULL,
     product_id CHAR(36) NOT NULL,
+    group_id   CHAR(36)    NOT NULL,
     title      VARCHAR(255)  NOT NULL,
     content    TEXT COLLATE utf8_unicode_ci,
     created_by CHAR(36) NOT NULL,
