@@ -1,0 +1,30 @@
+name: Swagger change notification
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - swagger/**
+      - .github/workflows/swagger-notify.yaml
+
+jobs:
+  notify:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Swagger notify
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: Swagger更新通知
+          fields: repo,commit,pullRequest,author
+          text: '<https://github.com/onituka/agile-project-management/tree/main/swagger|Swaggerフォルダ>'
+          mention: 'here'
+          if_mention: 'success'
+          channel: '#swagger_notify'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
