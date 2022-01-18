@@ -44,8 +44,6 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
-				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
-
 				limit := uint32(2)
 				offset := uint32(0)
 				totalCount := uint32(4)
@@ -78,8 +76,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, InputProductID, limit, offset).Return(projectDtos, nil)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(projectDtos, nil)
 
 				return nil
 			},
@@ -133,12 +131,10 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
-				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
-
 				totalCount := uint32(0)
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
 
 				return nil
 			},
@@ -237,12 +233,10 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
-				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
-
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(uint32(0), apperr)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -267,7 +261,6 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
-				InputProductID := "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
 				limit := uint32(2)
 				offset := uint32(0)
 				totalCount := uint32(3)
@@ -275,8 +268,8 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, InputProductID).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, InputProductID, limit, offset).Return(nil, apperr)
+				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(nil, apperr)
 
 				return nil
 			},

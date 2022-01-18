@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/config"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
@@ -27,7 +28,7 @@ func NewSearchProjectsUsecase(projectQueryService projectqueryservice.ProjectQue
 }
 
 func (u *searchProjectsUsecase) SearchProjects(ctx context.Context, in *projectinput.SearchProjectsInput) (*projectoutput.SearchProjectsOutput, error) {
-	if in.Page == 0 || in.Limit == 0 || in.Limit > 50 {
+	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPage {
 		return nil, apperrors.InvalidParameter
 	}
 

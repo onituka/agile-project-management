@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectoutput "github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
@@ -35,8 +36,23 @@ func (m *MockProjectQueryService) EXPECT() *MockProjectQueryServiceMockRecorder 
 	return m.recorder
 }
 
+// CountProjectsByKeyNameAndName mocks base method.
+func (m *MockProjectQueryService) CountProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyWord string) (uint32, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountProjectsByKeyNameAndName", ctx, productID, keyWord)
+	ret0, _ := ret[0].(uint32)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountProjectsByKeyNameAndName indicates an expected call of CountProjectsByKeyNameAndName.
+func (mr *MockProjectQueryServiceMockRecorder) CountProjectsByKeyNameAndName(ctx, productID, keyWord interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountProjectsByKeyNameAndName", reflect.TypeOf((*MockProjectQueryService)(nil).CountProjectsByKeyNameAndName), ctx, productID, keyWord)
+}
+
 // CountProjectsByProductID mocks base method.
-func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID string) (uint32, error) {
+func (m *MockProjectQueryService) CountProjectsByProductID(ctx context.Context, productID productdm.ProductID) (uint32, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProjectsByProductID", ctx, productID)
 	ret0, _ := ret[0].(uint32)
@@ -51,7 +67,7 @@ func (mr *MockProjectQueryServiceMockRecorder) CountProjectsByProductID(ctx, pro
 }
 
 // FetchProjects mocks base method.
-func (m *MockProjectQueryService) FetchProjects(ctx context.Context, productID string, limit, offset uint32) ([]*projectoutput.ProjectOutput, error) {
+func (m *MockProjectQueryService) FetchProjects(ctx context.Context, productID productdm.ProductID, limit, offset uint32) ([]*projectoutput.ProjectOutput, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FetchProjects", ctx, productID, limit, offset)
 	ret0, _ := ret[0].([]*projectoutput.ProjectOutput)
@@ -63,4 +79,19 @@ func (m *MockProjectQueryService) FetchProjects(ctx context.Context, productID s
 func (mr *MockProjectQueryServiceMockRecorder) FetchProjects(ctx, productID, limit, offset interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjects", reflect.TypeOf((*MockProjectQueryService)(nil).FetchProjects), ctx, productID, limit, offset)
+}
+
+// SearchProjects mocks base method.
+func (m *MockProjectQueryService) SearchProjects(ctx context.Context, productID productdm.ProductID, keyWord string, limit, offset uint32) ([]*projectoutput.SearchProjectOutput, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchProjects", ctx, productID, keyWord, limit, offset)
+	ret0, _ := ret[0].([]*projectoutput.SearchProjectOutput)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchProjects indicates an expected call of SearchProjects.
+func (mr *MockProjectQueryServiceMockRecorder) SearchProjects(ctx, productID, keyWord, limit, offset interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchProjects", reflect.TypeOf((*MockProjectQueryService)(nil).SearchProjects), ctx, productID, keyWord, limit, offset)
 }
