@@ -28,7 +28,7 @@ func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQuer
 }
 
 func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
-	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPage {
+	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPerPage {
 		return nil, apperrors.InvalidParameter
 	}
 

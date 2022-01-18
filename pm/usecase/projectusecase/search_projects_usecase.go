@@ -28,7 +28,7 @@ func NewSearchProjectsUsecase(projectQueryService projectqueryservice.ProjectQue
 }
 
 func (u *searchProjectsUsecase) SearchProjects(ctx context.Context, in *projectinput.SearchProjectsInput) (*projectoutput.SearchProjectsOutput, error) {
-	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPage {
+	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPerPage {
 		return nil, apperrors.InvalidParameter
 	}
 
