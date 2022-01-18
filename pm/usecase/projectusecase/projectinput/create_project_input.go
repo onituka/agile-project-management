@@ -2,7 +2,7 @@ package projectinput
 
 type CreateProjectInput struct {
 	ProductID         string
-	GroupID           string `json:"groupID"`
+	GroupID           string
 	KeyName           string `json:"keyName"`
 	Name              string `json:"name"`
 	LeaderID          string `json:"leaderID"`
