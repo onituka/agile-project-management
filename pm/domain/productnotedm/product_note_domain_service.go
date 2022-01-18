@@ -26,3 +26,25 @@ func (s *productNoteDomainService) ExistsProductNoteForCreate(ctx context.Contex
 
 	return false, err
 }
+
+func (s *productNoteDomainService) ExistsProductNoteForUpdate(ctx context.Context, productNoteDm *ProductNote) (bool, error) {
+	oldProductNoteDm, err := s.productNoteRepository.FetchProductNoteByID(ctx, productNoteDm.ID(), productNoteDm.productID)
+	if err != nil {
+		return false, err
+	}
+
+	productNoteDmByTitle, err := s.productNoteRepository.FetchProductNoteByProductIDAndTitle(ctx, productNoteDm.productID, productNoteDm.Title())
+	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
+		return false, err
+	}
+
+	if productNoteDmByTitle != nil {
+		if productNoteDm.Title().Equals(oldProductNoteDm.Title()) {
+			return false, apperrors.NotFound
+		}
+
+		return true, nil
+	}
+
+	return false, apperrors.NotFound
+}

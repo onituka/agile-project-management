@@ -143,3 +143,24 @@ func (p *ProductNote) CreatedAt() time.Time {
 func (p *ProductNote) UpdatedAt() time.Time {
 	return p.updatedAt
 }
+
+func (p *ProductNote) ChangeTitle(title Title) {
+	p.title = title
+}
+
+func (p *ProductNote) ChangeContent(content Content) {
+	p.content = content
+}
+
+func (p *ProductNote) ChangeCreatedBy(createdBy userdm.UserID) {
+	p.createdBy = createdBy
+}
+
+func (p *ProductNote) ChangeUpdatedBy(updatedBy userdm.UserID) {
+	p.updatedBy = updatedBy
+}
+
+func (p *ProductNote) ChangeUpdateAt() {
+	now := time.Now().UTC()
+	p.updatedAt = now
+}

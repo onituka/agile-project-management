@@ -50,6 +50,36 @@ func (mr *MockProductNoteRepositoryMockRecorder) CreateProductNote(ctx, productN
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProductNote", reflect.TypeOf((*MockProductNoteRepository)(nil).CreateProductNote), ctx, productNote)
 }
 
+// FetchProductNoteByID mocks base method.
+func (m *MockProductNoteRepository) FetchProductNoteByID(ctx context.Context, id productnotedm.ProductNoteID, productID productdm.ProductID) (*productnotedm.ProductNote, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FetchProductNoteByID", ctx, id, productID)
+	ret0, _ := ret[0].(*productnotedm.ProductNote)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FetchProductNoteByID indicates an expected call of FetchProductNoteByID.
+func (mr *MockProductNoteRepositoryMockRecorder) FetchProductNoteByID(ctx, id, productID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProductNoteByID", reflect.TypeOf((*MockProductNoteRepository)(nil).FetchProductNoteByID), ctx, id, productID)
+}
+
+// FetchProductNoteByIDForUpdate mocks base method.
+func (m *MockProductNoteRepository) FetchProductNoteByIDForUpdate(ctx context.Context, id productnotedm.ProductNoteID, productID productdm.ProductID) (*productnotedm.ProductNote, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FetchProductNoteByIDForUpdate", ctx, id, productID)
+	ret0, _ := ret[0].(*productnotedm.ProductNote)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FetchProductNoteByIDForUpdate indicates an expected call of FetchProductNoteByIDForUpdate.
+func (mr *MockProductNoteRepositoryMockRecorder) FetchProductNoteByIDForUpdate(ctx, id, productID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProductNoteByIDForUpdate", reflect.TypeOf((*MockProductNoteRepository)(nil).FetchProductNoteByIDForUpdate), ctx, id, productID)
+}
+
 // FetchProductNoteByProductIDAndTitle mocks base method.
 func (m *MockProductNoteRepository) FetchProductNoteByProductIDAndTitle(ctx context.Context, productID productdm.ProductID, Title productnotedm.Title) (*productnotedm.ProductNote, error) {
 	m.ctrl.T.Helper()
@@ -63,4 +93,18 @@ func (m *MockProductNoteRepository) FetchProductNoteByProductIDAndTitle(ctx cont
 func (mr *MockProductNoteRepositoryMockRecorder) FetchProductNoteByProductIDAndTitle(ctx, productID, Title interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProductNoteByProductIDAndTitle", reflect.TypeOf((*MockProductNoteRepository)(nil).FetchProductNoteByProductIDAndTitle), ctx, productID, Title)
+}
+
+// UpdateProductNote mocks base method.
+func (m *MockProductNoteRepository) UpdateProductNote(ctx context.Context, productNote *productnotedm.ProductNote) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProductNote", ctx, productNote)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProductNote indicates an expected call of UpdateProductNote.
+func (mr *MockProductNoteRepositoryMockRecorder) UpdateProductNote(ctx, productNote interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProductNote", reflect.TypeOf((*MockProductNoteRepository)(nil).UpdateProductNote), ctx, productNote)
 }
