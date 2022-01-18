@@ -9,7 +9,7 @@ import (
 type Title string
 
 func NewTitle(title string) (Title, error) {
-	if l := utf8.RuneCountInString(title); l < 2 || l > 80 {
+	if l := utf8.RuneCountInString(title); l < 2 || l > 255 {
 		return "", apperrors.InvalidParameter
 	}
 
