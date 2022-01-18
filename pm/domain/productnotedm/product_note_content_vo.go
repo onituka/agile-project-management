@@ -9,7 +9,7 @@ import (
 type Content string
 
 func NewContent(content string) (Content, error) {
-	if l := utf8.RuneCountInString(content); l <= 0 {
+	if l := utf8.RuneCountInString(content); l == 0 {
 		return "", apperrors.InvalidParameter
 	}
 
