@@ -1,3 +1,3 @@
 package config
 
-const LimitPage = 50
+const LimitPerPage = 50
