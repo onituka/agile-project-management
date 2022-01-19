@@ -44,7 +44,9 @@ func (u *updateProductNoteUsecase) UpdateProductNote(ctx context.Context, in *pr
 		return nil, err
 	}
 
-	productNoteDm, err := u.productNoteRepository.FetchProductNoteByIDForUpdate(ctx, productNoteIDVo, productIDVo)
+	productNoteDomainService := productnotedm.NewProductNoteDomainService(u.productNoteRepository)
+
+	productNoteDm, err := productNoteDomainService.ExistsProductNoteByIDForUpdate(ctx, productNoteIDVo, productIDVo)
 	if err != nil {
 		return nil, err
 	}
@@ -78,8 +80,6 @@ func (u *updateProductNoteUsecase) UpdateProductNote(ctx context.Context, in *pr
 	productNoteDm.ChangeUpdatedBy(UpdatedByVo)
 
 	productNoteDm.ChangeUpdateAt()
-
-	productNoteDomainService := productnotedm.NewProductNoteDomainService(u.productNoteRepository)
 
 	exist, err := productNoteDomainService.ExistsProductNoteForUpdate(ctx, productNoteDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {

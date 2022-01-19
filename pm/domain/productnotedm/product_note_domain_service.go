@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 )
 
 type productNoteDomainService struct {
@@ -14,6 +15,10 @@ func NewProductNoteDomainService(productNoteRepository ProductNoteRepository) *p
 	return &productNoteDomainService{
 		productNoteRepository: productNoteRepository,
 	}
+}
+
+func (s *productNoteDomainService) ExistsProductNoteByIDForUpdate(ctx context.Context, productNoteIDVo ProductNoteID, productIDVo productdm.ProductID) (*ProductNote, error) {
+	return s.productNoteRepository.FetchProductNoteByIDForUpdate(ctx, productNoteIDVo, productIDVo)
 }
 
 func (s *productNoteDomainService) ExistsProductNoteForCreate(ctx context.Context, productNoteDm *ProductNote) (bool, error) {
