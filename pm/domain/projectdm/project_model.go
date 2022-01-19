@@ -174,6 +174,10 @@ func (p *Project) MoveToTrashed() {
 	p.trashedAt = &now
 }
 
+func (p *Project) MoveFromTrashed() {
+	p.trashedAt = nil
+}
+
 func (p *Project) ChangeUpdateAt() {
 	now := time.Now().UTC()
 	p.updatedAt = now
@@ -181,4 +185,8 @@ func (p *Project) ChangeUpdateAt() {
 
 func (p *Project) IsTrashed() bool {
 	return p.trashedAt != nil
+}
+
+func (p *Project) IsNotTrashed() bool {
+	return p.trashedAt == nil
 }
