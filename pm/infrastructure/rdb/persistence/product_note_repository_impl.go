@@ -135,7 +135,6 @@ func (r *productNoteRepository) FetchProductNoteByProductIDAndTitle(ctx context.
 		productNoteDto.CreatedAt,
 		productNoteDto.UpdatedAt,
 	)
-
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +188,6 @@ func (r *productNoteRepository) FetchProductNoteByIDForUpdate(ctx context.Contex
 		productNoteDto.CreatedAt,
 		productNoteDto.UpdatedAt,
 	)
-
 	if err != nil {
 		return nil, err
 	}
@@ -242,7 +240,6 @@ func (r *productNoteRepository) FetchProductNoteByID(ctx context.Context, id pro
 		productNoteDto.CreatedAt,
 		productNoteDto.UpdatedAt,
 	)
-
 	if err != nil {
 		return nil, err
 	}
