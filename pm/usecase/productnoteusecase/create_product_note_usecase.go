@@ -34,7 +34,9 @@ func (u *createProductNoteUsecase) CreateProductNote(ctx context.Context, in *pr
 		return nil, err
 	}
 
-	if _, err := u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
+
+	if _, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
 	}
 
