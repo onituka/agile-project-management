@@ -17,21 +17,21 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
-func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
+func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 	type fields struct {
 		projectQueryService *mockprojectqueryservice.MockProjectQueryService
 		productRepository   *mockproductrepository.MockProductRepository
 	}
 	type args struct {
 		ctx context.Context
-		in  *projectinput.FetchProjectsInput
+		in  *projectinput.SearchProjectsInput
 	}
 	trashedAt := time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC)
 	tests := []struct {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *projectoutput.FetchProjectsOutput
+		want        *projectoutput.SearchProjectsOutput
 		wantErr     error
 	}{
 		{
@@ -44,16 +44,17 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
+				keyWord := "A"
 				limit := uint32(2)
 				offset := uint32(0)
-				totalCount := uint32(4)
+				totalCount := uint32(2)
 
-				projectDtos := []*projectoutput.ProjectOutput{
+				projectsDto := []*projectoutput.SearchProjectOutput{
 					{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
-						KeyName:           "AAA",
+						KeyName:           "A",
 						Name:              "管理ツール1",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
@@ -66,7 +67,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
-						Name:              "管理ツール2",
+						Name:              "管理ツールA",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 						TrashedAt:         &trashedAt,
@@ -76,27 +77,28 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(projectDtos, nil)
+				f.projectQueryService.EXPECT().CountProjectsByKeyNameAndName(ctx, productIDVo, keyWord).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().SearchProjects(ctx, productIDVo, keyWord, limit, offset).Return(projectsDto, nil)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
 			},
-			want: &projectoutput.FetchProjectsOutput{
-				TotalCount: 4,
-				Projects: []*projectoutput.ProjectOutput{
+			want: &projectoutput.SearchProjectsOutput{
+				TotalCount: 2,
+				Projects: []*projectoutput.SearchProjectOutput{
 					{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
-						KeyName:           "AAA",
+						KeyName:           "A",
 						Name:              "管理ツール1",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
@@ -109,7 +111,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
-						Name:              "管理ツール2",
+						Name:              "管理ツールA",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
 						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
 						TrashedAt:         &trashedAt,
@@ -120,6 +122,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			},
 			wantErr: nil,
 		},
+
 		{
 			name: "正常(プロジェクトが存在しない場合)",
 			prepareMock: func(f *fields) error {
@@ -131,24 +134,60 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
+				keyWord := "A"
 				totalCount := uint32(0)
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().CountProjectsByKeyNameAndName(ctx, productIDVo, keyWord).Return(totalCount, nil)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
 			},
-			want: &projectoutput.FetchProjectsOutput{
+			want: &projectoutput.SearchProjectsOutput{
 				TotalCount: 0,
-				Projects:   make([]*projectoutput.ProjectOutput, 0),
+				Projects:   make([]*projectoutput.SearchProjectOutput, 0),
+			},
+			wantErr: nil,
+		},
+		{
+			name: "正常(検索にヒットしなかった場合)",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				keyWord := "A"
+				totalCount := uint32(0)
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.projectQueryService.EXPECT().CountProjectsByKeyNameAndName(ctx, productIDVo, keyWord).Return(totalCount, nil)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &projectinput.SearchProjectsInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
+					Page:      1,
+					Limit:     2,
+				},
+			},
+			want: &projectoutput.SearchProjectsOutput{
+				TotalCount: 0,
+				Projects:   make([]*projectoutput.SearchProjectOutput, 0),
 			},
 			wantErr: nil,
 		},
@@ -157,8 +196,9 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
@@ -186,8 +226,9 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
@@ -200,8 +241,9 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      uint32(0),
 					Limit:     uint32(2),
 				},
@@ -214,8 +256,9 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      uint32(1),
 					Limit:     uint32(0),
 				},
@@ -224,7 +267,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "DB不正(CountProjectsByProductID)",
+			name: "DB不正(CountProjectsByKeyNameAndName)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -233,17 +276,20 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
+				keyWord := "A"
+
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(uint32(0), apperr)
+				f.projectQueryService.EXPECT().CountProjectsByKeyNameAndName(ctx, productIDVo, keyWord).Return(uint32(0), apperr)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
@@ -252,7 +298,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			wantErr: apperrors.InternalServerError,
 		},
 		{
-			name: "DB不正(FetchProjects)",
+			name: "DB不正(SearchProjects)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -261,6 +307,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 					return err
 				}
 
+				keyWord := "A"
 				limit := uint32(2)
 				offset := uint32(0)
 				totalCount := uint32(3)
@@ -268,15 +315,16 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(nil, apperr)
+				f.projectQueryService.EXPECT().CountProjectsByKeyNameAndName(ctx, productIDVo, keyWord).Return(totalCount, nil)
+				f.projectQueryService.EXPECT().SearchProjects(ctx, productIDVo, keyWord, limit, offset).Return(nil, apperr)
 
 				return nil
 			},
 			args: args{
 				ctx: context.TODO(),
-				in: &projectinput.FetchProjectsInput{
+				in: &projectinput.SearchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
 				},
@@ -298,11 +346,11 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				}
 			}
 
-			u := NewFetchProjectsUsecase(f.projectQueryService, f.productRepository)
+			u := NewSearchProjectsUsecase(f.projectQueryService, f.productRepository)
 
-			got, err := u.FetchProjects(tt.args.ctx, tt.args.in)
+			got, err := u.SearchProjects(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
-				t.Errorf("FetchProjects() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("SearchProjects() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 

@@ -11,23 +11,23 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectqueryservice"
 )
 
-type FetchProjectsUsecase interface {
-	FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error)
+type SearchProjectsUsecase interface {
+	SearchProjects(ctx context.Context, in *projectinput.SearchProjectsInput) (*projectoutput.SearchProjectsOutput, error)
 }
 
-type fetchProjectsUsecase struct {
+type searchProjectsUsecase struct {
 	projectQueryService projectqueryservice.ProjectQueryService
 	productRepository   productdm.ProductRepository
 }
 
-func NewFetchProjectsUsecase(projectQueryService projectqueryservice.ProjectQueryService, productRepository productdm.ProductRepository) *fetchProjectsUsecase {
-	return &fetchProjectsUsecase{
+func NewSearchProjectsUsecase(projectQueryService projectqueryservice.ProjectQueryService, productRepository productdm.ProductRepository) *searchProjectsUsecase {
+	return &searchProjectsUsecase{
 		projectQueryService: projectQueryService,
 		productRepository:   productRepository,
 	}
 }
 
-func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinput.FetchProjectsInput) (*projectoutput.FetchProjectsOutput, error) {
+func (u *searchProjectsUsecase) SearchProjects(ctx context.Context, in *projectinput.SearchProjectsInput) (*projectoutput.SearchProjectsOutput, error) {
 	if in.Page == 0 || in.Limit == 0 || in.Limit > config.LimitPerPage {
 		return nil, apperrors.InvalidParameter
 	}
@@ -41,24 +41,24 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
-	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, productIDVo)
+	totalCount, err := u.projectQueryService.CountProjectsByKeyNameAndName(ctx, productIDVo, in.KeyWord)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
-		return &projectoutput.FetchProjectsOutput{
+		return &projectoutput.SearchProjectsOutput{
 			TotalCount: 0,
-			Projects:   make([]*projectoutput.ProjectOutput, 0),
+			Projects:   make([]*projectoutput.SearchProjectOutput, 0),
 		}, nil
 	}
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectsDto, err := u.projectQueryService.FetchProjects(ctx, productIDVo, uint32(in.Limit), uint32(offset))
+	projectsDto, err := u.projectQueryService.SearchProjects(ctx, productIDVo, in.KeyWord, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}
 
-	return &projectoutput.FetchProjectsOutput{
+	return &projectoutput.SearchProjectsOutput{
 		TotalCount: totalCount,
 		Projects:   projectsDto,
 	}, nil
