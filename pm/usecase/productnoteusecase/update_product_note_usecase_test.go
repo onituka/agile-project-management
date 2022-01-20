@@ -282,211 +282,212 @@ func TestUpdateProductNoteUsecaseUpdateProductNote(t *testing.T) {
 			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
-		//{
-		//	name: "コンテンツ不正",
-		//	prepareMock: func(f *fields) error {
-		//		ctx := context.TODO()
-		//		var err error
-		//
-		//		productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteDm, err := productnotedm.Reconstruct(
-		//			"52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			"024d78d6-1d03-11ec-a478-0242ac180002",
-		//			"ノート",
-		//			"note",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//		)
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//
-		//		return nil
-		//	},
-		//	args: args{
-		//		ctx: context.TODO(),
-		//		in: &productnoteinput.UpdateProductNoteInput{
-		//			ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			Title:     "ノート",
-		//			Content:   "",
-		//			CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//			UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//		},
-		//	},
-		//	want:    nil,
-		//	wantErr: apperrors.InvalidParameter,
-		//},
-		//{
-		//	name: "createdBy不正",
-		//	prepareMock: func(f *fields) error {
-		//		ctx := context.TODO()
-		//		var err error
-		//
-		//		productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteDm, err := productnotedm.Reconstruct(
-		//			"52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			"024d78d6-1d03-11ec-a478-0242ac180002",
-		//			"ノート",
-		//			"note",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//		)
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//
-		//		return nil
-		//	},
-		//	args: args{
-		//		ctx: context.TODO(),
-		//		in: &productnoteinput.UpdateProductNoteInput{
-		//			ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			Title:     "ノート",
-		//			Content:   "note",
-		//			CreatedBy: "invalid created By",
-		//			UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//		},
-		//	},
-		//	want:    nil,
-		//	wantErr: apperrors.InvalidParameter,
-		//},
-		//{
-		//	name: "updatedBy不正",
-		//	prepareMock: func(f *fields) error {
-		//		ctx := context.TODO()
-		//		var err error
-		//
-		//		productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteDm, err := productnotedm.Reconstruct(
-		//			"52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			"024d78d6-1d03-11ec-a478-0242ac180002",
-		//			"ノート",
-		//			"note",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//		)
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//
-		//		return nil
-		//	},
-		//	args: args{
-		//		ctx: context.TODO(),
-		//		in: &productnoteinput.UpdateProductNoteInput{
-		//			ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			Title:     "ノート",
-		//			Content:   "note",
-		//			CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//			UpdatedBy: "invalid update By",
-		//		},
-		//	},
-		//	want:    nil,
-		//	wantErr: apperrors.InvalidParameter,
-		//},
-		//{
-		//	name: "DBエラー",
-		//	prepareMock: func(f *fields) error {
-		//		ctx := context.TODO()
-		//		var err error
-		//
-		//		productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		productNoteDm, err := productnotedm.Reconstruct(
-		//			"52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			"024d78d6-1d03-11ec-a478-0242ac180002",
-		//			"ノート",
-		//			"note",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			"024d78d6-1d03-11ec-a478-0242ac184402",
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//			time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
-		//		)
-		//		if err != nil {
-		//			return err
-		//		}
-		//
-		//		apperr := apperrors.InternalServerError
-		//
-		//		f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
-		//		f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(nil, apperr)
-		//
-		//		return nil
-		//	},
-		//	args: args{
-		//		ctx: context.TODO(),
-		//		in: &productnoteinput.UpdateProductNoteInput{
-		//			ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-		//			ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-		//			Title:     "ノート",
-		//			Content:   "note",
-		//			CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//			UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-		//		},
-		//	},
-		//	want:    nil,
-		//	wantErr: apperrors.InternalServerError,
-		//},
+		{
+			name: "コンテンツ不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				if err != nil {
+					return err
+				}
+
+				productNoteDm, err := productnotedm.Reconstruct(
+					"52dfc0d0-748e-11ec-88fd-acde48001122",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					"024d78d6-1d03-11ec-a478-0242ac180002",
+					"ノート",
+					"note",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				)
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+				f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &productnoteinput.UpdateProductNoteInput{
+					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Title:     "ノート",
+					Content:   "",
+					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InvalidParameter,
+		},
+		{
+			name: "createdBy不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				if err != nil {
+					return err
+				}
+
+				productNoteDm, err := productnotedm.Reconstruct(
+					"52dfc0d0-748e-11ec-88fd-acde48001122",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					"024d78d6-1d03-11ec-a478-0242ac180002",
+					"ノート",
+					"note",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				)
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+				f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &productnoteinput.UpdateProductNoteInput{
+					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Title:     "ノート",
+					Content:   "note",
+					CreatedBy: "invalid created By",
+					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InvalidParameter,
+		},
+		{
+			name: "updatedBy不正",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				if err != nil {
+					return err
+				}
+
+				productNoteDm, err := productnotedm.Reconstruct(
+					"52dfc0d0-748e-11ec-88fd-acde48001122",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					"024d78d6-1d03-11ec-a478-0242ac180002",
+					"ノート",
+					"note",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				)
+				if err != nil {
+					return err
+				}
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+				f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &productnoteinput.UpdateProductNoteInput{
+					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Title:     "ノート",
+					Content:   "note",
+					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UpdatedBy: "invalid update By",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InvalidParameter,
+		},
+		{
+			name: "DBエラー",
+			prepareMock: func(f *fields) error {
+				ctx := context.TODO()
+				var err error
+
+				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
+				if err != nil {
+					return err
+				}
+
+				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				if err != nil {
+					return err
+				}
+
+				productNoteDm, err := productnotedm.Reconstruct(
+					"52dfc0d0-748e-11ec-88fd-acde48001122",
+					"4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					"024d78d6-1d03-11ec-a478-0242ac180002",
+					"ノート",
+					"note",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					"024d78d6-1d03-11ec-a478-0242ac184402",
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+					time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
+				)
+				if err != nil {
+					return err
+				}
+
+				apperr := apperrors.InternalServerError
+
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+				f.productNoteRepository.EXPECT().FetchProductNoteByIDForUpdate(ctx, productNoteID, productIDVo).Return(productNoteDm, nil)
+				f.productNoteRepository.EXPECT().FetchProductNoteByID(ctx, productNoteID, productIDVo).Return(nil, apperr)
+
+				return nil
+			},
+			args: args{
+				ctx: context.TODO(),
+				in: &productnoteinput.UpdateProductNoteInput{
+					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					Title:     "ノート",
+					Content:   "note",
+					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+				},
+			},
+			want:    nil,
+			wantErr: apperrors.InternalServerError,
+		},
 	}
 
 	for _, tt := range tests {
