@@ -29,8 +29,13 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *productinp
 	if err != nil {
 		return nil, err
 	}
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
 
-	productDm, err := u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo)
+	if _, err = productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return nil, err
+	}
+
+	productDm, err := u.productRepository.FetchProductByID(ctx, productIDVo)
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +55,6 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *productinp
 	productDm.ChangeLeaderID(leaderIDVo)
 
 	productDm.ChangeUpdatedAt()
-
-	productDomainService := productdm.NewProductDomainService(u.productRepository)
 
 	exist, err := productDomainService.ExistsProductForUpdate(ctx, productDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {

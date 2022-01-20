@@ -27,6 +27,14 @@ func (s *productDomainService) ExistsProductForCreate(ctx context.Context, produ
 	return false, err
 }
 
+func (s *productDomainService) ExistsProductByIDForUpdate(ctx context.Context, productIDVo ProductID) (bool, error) {
+	if _, err := s.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
 func (s *productDomainService) ExistsProductForUpdate(ctx context.Context, productDm *Product) (bool, error) {
 	oldProductDm, err := s.productRepository.FetchProductByID(ctx, productDm.ID())
 	if err != nil {
