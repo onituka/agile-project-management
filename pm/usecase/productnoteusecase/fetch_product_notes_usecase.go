@@ -55,7 +55,7 @@ func (u *fetchProductNotesUsecase) FetchProductNotes(ctx context.Context, in *pr
 
 	offset := in.Page*in.Limit - in.Limit
 
-	productnotesDto, err := u.productnoteQueryService.FetchProductNotes(ctx, productIDVo, uint32(in.Limit), uint32(offset))
+	productnotesDto, err := u.productnoteQueryService.FetchProductNotes(ctx, productIDVo, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}
