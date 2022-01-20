@@ -39,4 +39,8 @@ func newProjectRouter(router *mux.Router) {
 	trashedProjectUsecase := projectusecase.NewTrashedProjectUsecase(projectRepository, productRepository)
 	trashedProjectHandler := projecthandler.NewTrashedProjectHandler(trashedProjectUsecase)
 	router.HandleFunc("/products/{productID}/projects/{projectID}/trash-box", trashedProjectHandler.TrashedProject).Methods(http.MethodPut)
+
+	restoreFromTrashProjectUsecase := projectusecase.NewRestoreFromTrashProjectUsecase(projectRepository, productRepository)
+	restoreFromTrashProjectHandler := projecthandler.NewRestoreFromTrashProjectHandler(restoreFromTrashProjectUsecase)
+	router.HandleFunc("/products/{productID}/projects/{projectID}/restore/trash-box", restoreFromTrashProjectHandler.RestoreFromTrashProject).Methods(http.MethodPut)
 }
