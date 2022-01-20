@@ -17,10 +17,6 @@ func NewProductNoteDomainService(productNoteRepository ProductNoteRepository) *p
 	}
 }
 
-func (s *productNoteDomainService) ExistsProductNoteByIDForUpdate(ctx context.Context, productNoteIDVo ProductNoteID, productIDVo productdm.ProductID) (*ProductNote, error) {
-	return s.productNoteRepository.FetchProductNoteByIDForUpdate(ctx, productNoteIDVo, productIDVo)
-}
-
 func (s *productNoteDomainService) ExistsProductNoteForCreate(ctx context.Context, productNoteDm *ProductNote) (bool, error) {
 	existingProductNoteDm, err := s.productNoteRepository.FetchProductNoteByProductIDAndTitle(ctx, productNoteDm.ProductID(), productNoteDm.Title())
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
@@ -30,6 +26,14 @@ func (s *productNoteDomainService) ExistsProductNoteForCreate(ctx context.Contex
 	}
 
 	return false, err
+}
+
+func (s *productNoteDomainService) ExistsProductNoteByIDForUpdate(ctx context.Context, productNoteIDVo ProductNoteID, productIDVo productdm.ProductID) (bool, error) {
+	if _, err := s.productNoteRepository.FetchProductNoteByIDForUpdate(ctx, productNoteIDVo, productIDVo); err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 func (s *productNoteDomainService) ExistsProductNoteForUpdate(ctx context.Context, productNoteDm *ProductNote) (bool, error) {

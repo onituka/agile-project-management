@@ -80,10 +80,15 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 
 				apperr := apperrors.NotFound
 
-				f.productRepository.EXPECT().UpdateProduct(ctx, gomock.Any()).Return(nil)
-				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(oldProductDm, nil)
-				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(productDm, nil)
+
+				gomock.InOrder(
+					f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(productDm, nil),
+					f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(oldProductDm, nil),
+				)
+
+				f.productRepository.EXPECT().FetchProductByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
+				f.productRepository.EXPECT().UpdateProduct(ctx, gomock.Any()).Return(nil)
 
 				return nil
 			},
@@ -169,6 +174,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(productDm, nil)
+				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(productDm, nil)
 
 				return nil
 			},
@@ -207,6 +213,7 @@ func TestUpdateProductUsecaseUpdateProduct(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(productDm, nil)
+				f.productRepository.EXPECT().FetchProductByID(ctx, productIDVo).Return(productDm, nil)
 
 				return nil
 			},
