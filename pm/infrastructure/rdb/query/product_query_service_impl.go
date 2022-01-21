@@ -44,7 +44,7 @@ func (r *productQueryServiceImpl) FetchProducts(ctx context.Context, groupID gro
 	rows, err := conn.QueryxContext(
 		ctx,
 		query,
-		groupID,
+		groupID.Value(),
 		limit,
 		offset,
 	)

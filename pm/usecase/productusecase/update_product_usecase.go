@@ -31,8 +31,10 @@ func (u *updateProductUsecase) UpdateProduct(ctx context.Context, in *productinp
 	}
 	productDomainService := productdm.NewProductDomainService(u.productRepository)
 
-	if _, err = productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
+	if exist, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	productDm, err := u.productRepository.FetchProductByID(ctx, productIDVo)
