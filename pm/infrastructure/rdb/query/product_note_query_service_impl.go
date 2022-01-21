@@ -46,7 +46,7 @@ func (r *productNoteQueryServiceImpl) FetchProductNotes(ctx context.Context, pro
 	rows, err := conn.QueryxContext(
 		ctx,
 		query,
-		productID,
+		productID.Value(),
 		limit,
 		offset,
 	)
