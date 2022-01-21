@@ -33,8 +33,12 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
-	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
+
+	if exist, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
@@ -42,7 +46,15 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
-	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo)
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	if exist, err := projectDomainService.ExistsProjectByIDForUpdate(ctx, projectIDVo, productIDVo); err != nil {
+		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
+	}
+
+	projectDm, err := u.projectRepository.FetchProjectByID(ctx, projectIDVo, productIDVo)
 	if err != nil {
 		return nil, err
 	}
@@ -76,8 +88,6 @@ func (u *updateProjectUsecase) UpdateProject(ctx context.Context, in *projectinp
 	projectDm.ChangeDefaultAssigneeID(defaultAssigneeID)
 
 	projectDm.ChangeUpdateAt()
-
-	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
 
 	exist, err := projectDomainService.ExistUniqueProjectForUpdate(ctx, projectDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {

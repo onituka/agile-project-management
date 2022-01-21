@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 )
 
 type projectDomainService struct {
@@ -32,9 +33,17 @@ func (s *projectDomainService) ExistsProjectForCreate(ctx context.Context, proje
 	return false, err
 }
 
+func (s *projectDomainService) ExistsProjectByIDForUpdate(ctx context.Context, projectIDVo ProjectID, productIDVo productdm.ProductID) (bool, error) {
+	if _, err := s.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo); err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
 // TODO: シンプルなロジックにリファクタ
 func (s *projectDomainService) ExistUniqueProjectForUpdate(ctx context.Context, projectDm *Project) (bool, error) {
-	oldProjectDm, err := s.projectRepository.FetchProjectByID(ctx, projectDm.ID(), projectDm.productID)
+	oldProjectDm, err := s.projectRepository.FetchProjectByID(ctx, projectDm.ID(), projectDm.ProductID())
 	if err != nil {
 		return false, apperrors.InternalServerError
 	}

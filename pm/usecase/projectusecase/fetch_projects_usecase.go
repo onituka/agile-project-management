@@ -37,8 +37,12 @@ func (u *fetchProjectsUsecase) FetchProjects(ctx context.Context, in *projectinp
 		return nil, err
 	}
 
-	if _, err := u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
+
+	if exist, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	totalCount, err := u.projectQueryService.CountProjectsByProductID(ctx, productIDVo)
