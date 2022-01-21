@@ -49,3 +49,25 @@ CREATE TABLE projects
         REFERENCES products(id)
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
+
+CREATE TABLE project_notes
+(
+    id         CHAR(36)     NOT NULL,
+    product_id CHAR(36)     NOT NULL,
+    project_id CHAR(36)     NOT NULL,
+    group_id   CHAR(36)     NOT NULL,
+    title      VARCHAR(255) NOT NULL,
+    content    TEXT COLLATE utf8_unicode_ci,
+    created_by CHAR(36)     NOT NULL,
+    updated_by CHAR(36)     NOT NULL,
+    created_at DATETIME     NOT NULL,
+    updated_at DATETIME     NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE uq_title(project_id, title),
+    FOREIGN KEY fk_product_notes_product_id(product_id)
+        REFERENCES products(id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY fk_project_notes_project_id(project_id)
+        REFERENCES projects(id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT
+);
