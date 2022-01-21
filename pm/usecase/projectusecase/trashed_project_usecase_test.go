@@ -68,9 +68,14 @@ func TestTrashedProjectUsecaseTrashedProject(t *testing.T) {
 					return err
 				}
 
-				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo)
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err),
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil),
+				)
+
 				f.projectRepository.EXPECT().UpdateProject(ctx, gomock.Any()).Return(nil)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -229,7 +234,12 @@ func TestTrashedProjectUsecaseTrashedProject(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err),
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil),
+				)
+
 				f.projectRepository.EXPECT().UpdateProject(ctx, projectDm).Return(apperr)
 
 				return nil
