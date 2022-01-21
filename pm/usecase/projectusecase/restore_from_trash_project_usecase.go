@@ -32,13 +32,25 @@ func (u *restoreFromTrashProjectUsecase) RestoreFromTrashProject(ctx context.Con
 		return nil, err
 	}
 
-	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
+
+	if exist, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	projectIDVo, err := projectdm.NewProjectID(in.ID)
 	if err != nil {
 		return nil, err
+	}
+
+	projectDomainService := projectdm.NewProjectDomainService(u.projectRepository)
+
+	if exist, err := projectDomainService.ExistsProjectByIDForUpdate(ctx, projectIDVo, productIDVo); err != nil {
+		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	projectDm, err := u.projectRepository.FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo)

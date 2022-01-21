@@ -3,6 +3,7 @@ package projectusecase
 import (
 	"context"
 
+	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
@@ -31,8 +32,12 @@ func (u *fetchProjectByIDUsecase) FetchProjectByID(ctx context.Context, in *proj
 		return nil, err
 	}
 
-	if _, err = u.productRepository.FetchProductByIDForUpdate(ctx, productIDVo); err != nil {
+	productDomainService := productdm.NewProductDomainService(u.productRepository)
+
+	if exist, err := productDomainService.ExistsProductByIDForUpdate(ctx, productIDVo); err != nil {
 		return nil, err
+	} else if !exist {
+		return nil, apperrors.NotFound
 	}
 
 	projectIDVo, err := projectdm.NewProjectID(in.ID)

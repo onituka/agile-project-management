@@ -102,11 +102,16 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				apperr := apperrors.NotFound
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectRepository.EXPECT().UpdateProject(ctx, gomock.Any()).Return(nil)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(oldProjectDm, nil)
+				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil),
+					f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(oldProjectDm, nil),
+				)
+
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndKeyName(ctx, groupIDVo, keyNameVo).Return(nil, apperr)
 				f.projectRepository.EXPECT().FetchProjectByGroupIDAndName(ctx, groupIDVo, nameVo).Return(nil, apperr)
+				f.projectRepository.EXPECT().UpdateProject(ctx, gomock.Any()).Return(nil)
 
 				return nil
 			},
@@ -274,7 +279,8 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, err)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -326,6 +332,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -377,6 +384,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -428,6 +436,7 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -481,7 +490,11 @@ func TestUpdateProjectUsecaseUpdateProject(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
-				f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(nil, apperr)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(projectDm, nil),
+					f.projectRepository.EXPECT().FetchProjectByID(ctx, projectIDVo, productIDVo).Return(nil, apperr),
+				)
 
 				return nil
 			},

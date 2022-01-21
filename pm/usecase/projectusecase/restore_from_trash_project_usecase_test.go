@@ -69,8 +69,13 @@ func TestRestoreFromTrashProjectUsecaseRestoreFromTrashProject(t *testing.T) {
 				}
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err),
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, err),
+				)
+
 				f.projectRepository.EXPECT().UpdateProject(ctx, gomock.Any()).Return(nil)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
 
 				return nil
 			},
@@ -146,8 +151,9 @@ func TestRestoreFromTrashProjectUsecaseRestoreFromTrashProject(t *testing.T) {
 				if err != nil {
 					return err
 				}
+				apperr := apperrors.InvalidParameter
 
-				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo)
+				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, apperr)
 
 				return nil
 			},
@@ -229,7 +235,12 @@ func TestRestoreFromTrashProjectUsecaseRestoreFromTrashProject(t *testing.T) {
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil)
+
+				gomock.InOrder(
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err),
+					f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(projectDm, nil),
+				)
+
 				f.projectRepository.EXPECT().UpdateProject(ctx, projectDm).Return(apperr)
 
 				return nil
