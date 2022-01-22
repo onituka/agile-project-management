@@ -221,7 +221,7 @@ func TestFetchProductNotesUsecaseFetchProductNotes(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "DB不正(CountProductNotesByProductID)",
+			name: "DBエラー(CountProductNotesByProductID)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -249,7 +249,7 @@ func TestFetchProductNotesUsecaseFetchProductNotes(t *testing.T) {
 			wantErr: apperrors.InternalServerError,
 		},
 		{
-			name: "DB不正(FetchProductNotes)",
+			name: "DBエラー(FetchProductNotes)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
