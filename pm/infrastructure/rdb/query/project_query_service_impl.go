@@ -89,7 +89,7 @@ func (r *projectQuery) CountProjectsByProductID(ctx context.Context, productID p
          AND 
            trashed_at IS NULL`
 
-	if err = conn.QueryRowxContext(ctx, query, productID).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID.Value()).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
@@ -259,7 +259,7 @@ func (r *projectQuery) CountTrashedProjectsByProductID(ctx context.Context, prod
          AND 
            trashed_at IS NOT NULL`
 
-	if err = conn.QueryRowxContext(ctx, query, productID).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID.Value()).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
