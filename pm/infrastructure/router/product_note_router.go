@@ -24,6 +24,10 @@ func newProductNoteRouter(router *mux.Router) {
 	updateProductNoteHandler := productnotehandler.NewUpdateProductNoteHandler(updateProductNoteUsecase)
 	router.HandleFunc("/products/{productID}/notes/{productNoteID}", updateProductNoteHandler.UpdateProductNote).Methods(http.MethodPut)
 
+	fetchProductNoteByIDUsecase := productnoteusecase.NewFetchProductNoteByIDUsecase(productNoteRepository, productRepository)
+	fetchProductNoteByIDHandler := productnotehandler.NewFetchProductNoteByIDHandler(fetchProductNoteByIDUsecase)
+	router.HandleFunc("/products/{productID}/notes/{productNoteID}", fetchProductNoteByIDHandler.FetchProductNoteByID).Methods(http.MethodGet)
+
 	fetchProductNotesUsecase := productnoteusecase.NewFetchProductNotesUsecase(productNoteQueryService, productRepository)
 	fetchProductNotesHandler := productnotehandler.NewFetchProductNotesHandler(fetchProductNotesUsecase)
 	router.HandleFunc("/products/{productID}/notes", fetchProductNotesHandler.FetchProductNotes).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
