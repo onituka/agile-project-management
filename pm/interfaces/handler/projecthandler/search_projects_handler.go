@@ -39,7 +39,7 @@ func (h *searchProjectsHandler) SearchProjects(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	keyWord := r.URL.Query().Get("keyWord")
+	keyword := r.URL.Query().Get("keyword")
 
 	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
 	if err != nil {
@@ -57,7 +57,7 @@ func (h *searchProjectsHandler) SearchProjects(w http.ResponseWriter, r *http.Re
 
 	in := projectinput.SearchProjectsInput{
 		ProductID: productID,
-		KeyWord:   keyWord,
+		KeyWord:   keyword,
 		Page:      uint32(page),
 		Limit:     uint32(limit),
 	}

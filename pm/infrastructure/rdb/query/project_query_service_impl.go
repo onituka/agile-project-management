@@ -159,7 +159,7 @@ func (r *projectQuery) SearchProjects(ctx context.Context, productID productdm.P
 	return projectsDto, nil
 }
 
-func (r *projectQuery) CountProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyWord string) (totalCount uint32, err error) {
+func (r *projectQuery) CountProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyword string) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
@@ -179,7 +179,7 @@ func (r *projectQuery) CountProjectsByKeyNameAndName(ctx context.Context, produc
          OR  
            name LIKE ?`
 
-	if err = conn.QueryRowxContext(ctx, query, productID.Value(), fmt.Sprintf("%%%s%%", keyWord), fmt.Sprintf("%%%s%%", keyWord)).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID.Value(), fmt.Sprintf("%%%s%%", keyword), fmt.Sprintf("%%%s%%", keyword)).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
