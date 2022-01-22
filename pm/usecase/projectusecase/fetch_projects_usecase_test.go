@@ -17,7 +17,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectoutput"
 )
 
-func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
+func TestFetchProjectsUsecaseFetchProjects(t *testing.T) {
 	type fields struct {
 		projectQueryService *mockprojectqueryservice.MockProjectQueryService
 		productRepository   *mockproductrepository.MockProductRepository
@@ -48,7 +48,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 				offset := uint32(0)
 				totalCount := uint32(4)
 
-				projectDtos := []*projectoutput.ProjectOutput{
+				projectsDto := []*projectoutput.ProjectOutput{
 					{
 						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
@@ -77,7 +77,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectQueryService.EXPECT().CountProjectsByProductID(ctx, productIDVo).Return(totalCount, nil)
-				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(projectDtos, nil)
+				f.projectQueryService.EXPECT().FetchProjects(ctx, productIDVo, limit, offset).Return(projectsDto, nil)
 
 				return nil
 			},
@@ -224,7 +224,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "DB不正(CountProjectsByProductID)",
+			name: "DBエラー(CountProjectsByProductID)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -252,7 +252,7 @@ func Test_fetchProjectsUsecase_FetchProjects(t *testing.T) {
 			wantErr: apperrors.InternalServerError,
 		},
 		{
-			name: "DB不正(FetchProjects)",
+			name: "DBエラー(FetchProjects)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
