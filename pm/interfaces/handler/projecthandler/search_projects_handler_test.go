@@ -251,7 +251,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 			},
 		},
 		{
-			name:       "usecaseでの500エラー(DBエラー)",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{

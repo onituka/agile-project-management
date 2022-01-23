@@ -41,7 +41,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 				}
 
 				out := &projectoutput.CreateProjectOutput{
@@ -51,7 +51,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 					CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 					UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 				}
@@ -88,7 +88,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "1AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 				}
 
 				err := apperrors.InvalidParameter
@@ -115,7 +115,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-0242ac182002",
 				}
 
 				err := apperrors.NotFound
@@ -142,7 +142,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 				}
 
 				err := apperrors.Conflict
@@ -169,7 +169,7 @@ func TestCreateProjectHandlerCreateProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 				}
 
 				err := apperrors.InternalServerError

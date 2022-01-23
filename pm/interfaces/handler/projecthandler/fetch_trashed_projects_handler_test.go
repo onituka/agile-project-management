@@ -161,7 +161,7 @@ func TestFetchTrashedProjectsHandlerFetchTrashedProjects(t *testing.T) {
 
 				in := &projectinput.FetchTrashedProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      1,
+					Page:      0,
 					Limit:     2,
 				}
 
@@ -175,7 +175,7 @@ func TestFetchTrashedProjectsHandlerFetchTrashedProjects(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 				q := r.URL.Query()
-				q.Set("page", "1")
+				q.Set("page", "0")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
 			},
@@ -210,7 +210,7 @@ func TestFetchTrashedProjectsHandlerFetchTrashedProjects(t *testing.T) {
 			},
 		},
 		{
-			name:       "usecaseでの500エラー(DBエラー)",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{

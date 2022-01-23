@@ -49,7 +49,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 					KeyName:           "AAA",
 					Name:              "管理ツール1",
 					LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+					DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 					TrashedAt:         &trashedAt,
 					CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 					UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -69,12 +69,12 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"projectID": "024d71d6-1d03-11ec-a478-x242ac180002",
 					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.TrashedProjectIDInput{
-					ID:        "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					ID:        "024d71d6-1d03-11ec-a478-x242ac180002",
 					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.InvalidParameter
@@ -83,7 +83,7 @@ func TestTrashedProjectHandlerTrashedProject(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"projectID": "024d71d6-1d03-11ec-a478-x242ac180002",
 					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},

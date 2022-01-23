@@ -52,7 +52,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 							KeyName:           "AAA",
 							Name:              "管理ツール1",
 							LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 							TrashedAt:         &trashedAt,
 							CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 							UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -64,7 +64,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 							KeyName:           "BBB",
 							Name:              "管理ツール2",
 							LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+							DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 							TrashedAt:         &trashedAt,
 							CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 							UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -160,7 +160,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 
 				in := &projectinput.FetchProjectsInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Page:      1,
+					Page:      0,
 					Limit:     2,
 				}
 
@@ -174,7 +174,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 				q := r.URL.Query()
-				q.Set("page", "1")
+				q.Set("page", "0")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
 			},
@@ -209,7 +209,7 @@ func TestFetchProjectsHandlerFetchProjects(t *testing.T) {
 			},
 		},
 		{
-			name:       "usecaseでの500エラー(DBエラー)",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
