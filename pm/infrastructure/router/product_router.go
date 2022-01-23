@@ -21,11 +21,11 @@ func newProductRouter(router *mux.Router) {
 
 	updateProductUsecase := productusecase.NewUpdateProductUsecase(productRepository)
 	updateProductHandler := producthandler.NewUpdateProductHandler(updateProductUsecase)
-	router.HandleFunc("/products/{productID}", updateProductHandler.UpdateProduct).Methods(http.MethodPut)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}", updateProductHandler.UpdateProduct).Methods(http.MethodPut)
 
 	fetchProductByIDUsecase := productusecase.NewFetchProductByIDUsecase(productRepository)
 	fetchProductByIDHandler := producthandler.NewFetchProductByIDHandler(fetchProductByIDUsecase)
-	router.HandleFunc("/products/{productID}", fetchProductByIDHandler.FetchProductByID).Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}", fetchProductByIDHandler.FetchProductByID).Methods(http.MethodGet)
 
 	fetchProductsUsecase := productusecase.NewFetchProductsUsecase(productQueryService)
 	fetchProductsHandler := producthandler.NewFetchProductsHandler(fetchProductsUsecase)
@@ -33,5 +33,5 @@ func newProductRouter(router *mux.Router) {
 
 	searchProductsUsecase := productusecase.NewSearchProductsUsecase(productQueryService)
 	searchProductsHandler := producthandler.NewSearchProductsHandler(searchProductsUsecase)
-	router.HandleFunc("/products/search/", searchProductsHandler.SearchProducts).Queries("name", "{name}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+	router.HandleFunc("/products/search", searchProductsHandler.SearchProducts).Queries("name", "{name}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }

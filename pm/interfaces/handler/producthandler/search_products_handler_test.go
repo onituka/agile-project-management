@@ -180,7 +180,7 @@ func TestSearchProductsHandlerSearchProducts(t *testing.T) {
 
 			h := NewSearchProductsHandler(f.searchProductsUsecase)
 
-			r := httptest.NewRequest(http.MethodGet, "/products/search/", nil)
+			r := httptest.NewRequest(http.MethodGet, "/products/search", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

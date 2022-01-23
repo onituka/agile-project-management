@@ -68,11 +68,11 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productinput.UpdateProductInput{
-					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
+					ID:       "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
@@ -82,7 +82,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxxxxxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
 		},
@@ -171,7 +171,7 @@ func TestUpdateProductHandlerUpdateProduct(t *testing.T) {
 
 			h := NewUpdateProductHandler(f.updateProductUsecase)
 
-			r := httptest.NewRequest(http.MethodPut, "/products/4495c574-34c2-4fb3-9ca4-3a7c79c267a6", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
+			r := httptest.NewRequest(http.MethodPut, "/products/{productID:[a-z0-9-]{36}}", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {
