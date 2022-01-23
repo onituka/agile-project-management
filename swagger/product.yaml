@@ -1,46 +1,87 @@
-openapi: "3.0.3"
+openapi: 3.0.3
 
 servers:
-  - url: "http://localhost:8080"
-    description: "localhost"
+  - url: http://localhost:8080
+    description: localhost
 
 info:
-  title: "プロジェクト管理"
-  version: "1.0.0"
+  title: プロジェクト管理
+  version: 1.0.0
 
 paths:
   /products:
     post:
-      summary: "プロダクト作成"
+      summary: プロダクト作成
       tags: [ Product ]
-      description: ""
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PostProductReq"
+              $ref: "#/components/schemas/postProductReq"
       responses:
         200:
-          description: "OK"
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostProductResp"
+                $ref: "#/components/schemas/postProductResp"
         400:
-          description: "BadRequest"
+          description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
         409:
-          description: "NotFound"
+          description: NotFound
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/409Conflict"
         500:
-          description: "InternalServerError"
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    get:
+      summary: プロダクト一覧取得
+      tags: [ Product ]
+      parameters:
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProductsResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        500:
+          description: InternalServerError
           content:
             application/json:
               schema:
@@ -48,72 +89,136 @@ paths:
 
   /products/{productID}:
     put:
-      summary: "プロダクト更新"
+      summary: プロダクト更新
       tags: [ Product ]
-      description: ""
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PutProductReq"
+              $ref: "#/components/schemas/putProductReq"
       responses:
         200:
-          description: "OK"
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PutProductResp"
+                $ref: "#/components/schemas/putProductResp"
         400:
-          description: "BadRequest"
+          description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
         404:
-          description: "NotFound"
+          description: NotFound
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/404NotFound"
         409:
-          description: "Conflict"
+          description: Conflict
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/409Conflict"
         500:
-          description: "InternalServerError"
+          description: InternalServerError
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/500InternalServerError"
 
     get:
-      summary: "プロダクト詳細取得"
+      summary: プロダクト詳細取得
       tags: [ Product ]
-      description: ""
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
       responses:
         200:
-          description: "OK"
+          description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetProductByIDResp"
+                $ref: "#/components/schemas/getProductByIDResp"
         400:
-          description: "BadRequest"
+          description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
         404:
-          description: "NotFound"
+          description: NotFound
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/404NotFound"
         500:
-          description: "InternalServerError"
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+  /products/search:
+    get:
+      summary: プロダクト検索
+      tags: [ Product ]
+      parameters:
+        - in: query
+          name: name
+          description: 検索キーワード(プロダクト名の部分一致)
+          schema:
+            type: string
+            minLength: 0
+            exclusiveMaximum: true
+            example: プロダクト管理
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/searchProductsResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        500:
+          description: InternalServerError
           content:
             application/json:
               schema:
@@ -122,152 +227,167 @@ paths:
 components:
   schemas:
     # request body schema
-    PostProductReq:
-      title: "PostProductReq"
-      properties:
-        groupID:
-          type: "string"
-          description: 'グループID'
-          example: "024d78d6-1d03-11ec-a478-0242ac180002"
-        name:
-          type: "string"
-          description: 'プロダクト名'
-          example: "プロジェクト管理ツール"
-        leaderID:
-          type: "string"
-          description: 'プロダクトリーダーID'
-          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+    postProductReq:
+      title: postProductReq
+      allOf:
+        - $ref: "#/components/schemas/productReq"
 
-    PutProductReq:
-      title: "PutProductReq"
+    putProductReq:
+      title: putProductReq
+      allOf:
+        - $ref: "#/components/schemas/productReq"
+
+    productReq:
+      title: putProductReq
+      type: object
       properties:
         name:
-          type: "string"
-          description: 'プロダクト名'
-          example: "プロジェクト管理ツール"
+          description: プロダクト名
+          type: string
+          minLength: 2
+          maxLength: 80
+          example: プロジェクト管理ツール
         leaderID:
-          type: "string"
-          description: 'プロダクトリーダーID'
-          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+          description: プロダクトリーダーID
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
 
     # response body schema
-    PostProductResp:
-      title: "PostProductResp"
-      properties:
-        id:
-          type: "string"
-          description: 'プロダクトID'
-          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
-        groupID:
-          type: "string"
-          description: 'グループID'
-          example: "024d78d6-1d03-11ec-a478-0242ac180002"
-        name:
-          type: "string"
-          description: 'プロダクト名'
-          example: "プロジェクト管理ツール"
-        leaderID:
-          type: "string"
-          description: 'プロダクトリーダーID'
-          example: "024d78d6-1d03-11ec-a478-0242ac184402"
-        createdAt:
-          type: "string"
-          description: '作成日'
-          example: "2021-12-24T00:00:00Z"
-        updatedAt:
-          type: "string"
-          description: '更新日'
-          example: '2021-12-24T00:00:00Z'
+    postProductResp:
+      title: postProductResp
+      allOf:
+        - $ref: "#/components/schemas/productResp"
 
-    PutProductResp:
-      title: "PutProductResp"
-      properties:
-        id:
-          type: "string"
-          description: 'プロダクトID'
-          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
-        groupID:
-          type: "string"
-          description: 'グループID'
-          example: "024d78d6-1d03-11ec-a478-0242ac180002"
-        name:
-          type: "string"
-          description: 'プロダクト名'
-          example: "プロジェクト管理ツール"
-        leaderID:
-          type: "string"
-          description: 'プロダクトリーダーID'
-          example: "024d78d6-1d03-11ec-a478-0242ac184402"
-        createdAt:
-          type: "string"
-          description: '作成日'
-          example: "2021-12-24T00:00:00Z"
-        updatedAt:
-          type: "string"
-          description: '更新日'
-          example: '2021-12-24T00:00:00Z'
+    putProductResp:
+      title: putProductResp
+      allOf:
+        - $ref: "#/components/schemas/productResp"
 
-    GetProductByIDResp:
-      title: "PutProductResp"
+    getProductByIDResp:
+      title: getProductByIDResp
+      allOf:
+        - $ref: "#/components/schemas/productResp"
+
+    getProductsResp:
+      title: getProductsResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/productResp"
+          example:
+            - id: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              name: プロジェクト管理ツール1
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-24T00:00:00Z
+              updatedAt: 2021-12-24T00:00:00Z
+            - id: bfb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              name: プロジェクト管理ツール2
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+
+    searchProductsResp:
+      title: searchProductsResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/productResp"
+          example:
+            - id: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              name: プロジェクト管理ツール1
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-24T00:00:00Z
+              updatedAt: 2021-12-24T00:00:00Z
+            - id: bfb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              name: プロジェクト管理ツール2
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+
+    productResp:
+      title: putProductResp
+      type: object
       properties:
         id:
-          type: "string"
-          description: 'プロダクトID'
-          example: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6"
+          description: プロダクトID
+          type: string
+          format: uuid
+          example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
         groupID:
-          type: "string"
-          description: 'グループID'
-          example: "024d78d6-1d03-11ec-a478-0242ac180002"
+          description: グループID
+          type: string
+          format: uuid
+          example: 379064ce-763e-427f-aaab-426f05db116e
         name:
-          type: "string"
-          description: 'プロダクト名'
-          example: "プロジェクト管理ツール"
+          description: プロダクト名
+          type: string
+          example: プロジェクト管理ツール
         leaderID:
-          type: "string"
-          description: 'プロダクトリーダーID'
-          example: "024d78d6-1d03-11ec-a478-0242ac184402"
+          description: プロダクトリーダーID
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
         createdAt:
-          type: "string"
-          description: '作成日'
-          example: "2021-12-24T00:00:00Z"
+          description: 作成日
+          type: string
+          example: 2021-12-24T00:00:00Z
         updatedAt:
-          type: "string"
-          description: '更新日'
-          example: '2021-12-24T00:00:00Z'
+          description: 更新日
+          type: string
+          example: 2021-12-24T00:00:00Z
 
     # error response body schema
     400BadRequest:
-      description: "BadRequest"
-      type: "object"
+      description: BadRequest
+      type: object
       properties:
         error:
-          type: "string"
+          type: string
           enum:
-            - "InvalidParameter"
+            - InvalidParameter
 
     404NotFound:
-      description: "NotFound"
-      type: "object"
+      description: NotFound
+      type: object
       properties:
         error:
-          type: "string"
+          type: string
           enum:
-            - "NotFound"
+            - NotFound
 
     409Conflict:
-      description: "Conflict"
-      type: "object"
+      description: Conflict
+      type: object
       properties:
         error:
-          type: "string"
+          type: string
           enum:
-            - "Conflict"
+            - Conflict
 
     500InternalServerError:
-      description: "InternalServerError"
-      type: "object"
+      description: InternalServerError
+      type: object
       properties:
         error:
-          type: "string"
+          type: string
           enum:
-            - "InternalServerError"
+            - InternalServerError
