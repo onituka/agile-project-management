@@ -70,12 +70,12 @@ func TestRestoreFromTrashProjectHandlerRestoreFromTrashProject(t *testing.T) {
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"projectID": "024d71d6-1d03-11ec-a478-x242ac180002",
 					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				}).Context()
 
 				in := &projectinput.RestoreFromTrashProjectIDInput{
-					ID:        "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					ID:        "024d71d6-1d03-11ec-a478-x242ac180002",
 					ProductID: "024d78d6-1d03-11ec-a478-0242ac180002",
 				}
 				err := apperrors.InvalidParameter
@@ -84,7 +84,7 @@ func TestRestoreFromTrashProjectHandlerRestoreFromTrashProject(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xxx",
+					"projectID": "024d71d6-1d03-11ec-a478-x242ac180002",
 					"productID": "024d78d6-1d03-11ec-a478-0242ac180002",
 				})
 			},

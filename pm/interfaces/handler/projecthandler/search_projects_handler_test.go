@@ -82,7 +82,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
@@ -115,7 +115,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
@@ -148,7 +148,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
@@ -165,7 +165,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "test")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
@@ -182,7 +182,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "test")
 				r.URL.RawQuery = q.Encode()
@@ -213,7 +213,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "0")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
@@ -244,14 +244,14 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()
 			},
 		},
 		{
-			name:       "usecaseでの500エラー(DBエラー)",
+			name:       "DBエラー",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
@@ -276,7 +276,7 @@ func TestSearchProjectsHandlerSearchProjects(t *testing.T) {
 				})
 
 				q := r.URL.Query()
-				q.Set("keyWord", "A")
+				q.Set("keyword", "A")
 				q.Set("page", "1")
 				q.Set("limit", "2")
 				r.URL.RawQuery = q.Encode()

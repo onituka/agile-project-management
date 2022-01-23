@@ -13,19 +13,18 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/projectusecase/projectinput"
 )
 
-type searchProjectsHandler struct {
-	projectUsecase projectusecase.SearchProjectsUsecase
+type fetchTrashedProjectsHandler struct {
+	projectUsecase projectusecase.FetchTrashedProjectsUsecase
 }
 
-func NewSearchProjectsHandler(searchProjectsUsecase projectusecase.SearchProjectsUsecase) *searchProjectsHandler {
-	return &searchProjectsHandler{
-		projectUsecase: searchProjectsUsecase,
+func NewFetchTrashedProjectsHandler(fetchTrashedProjectsUsecase projectusecase.FetchTrashedProjectsUsecase) *fetchTrashedProjectsHandler {
+	return &fetchTrashedProjectsHandler{
+		projectUsecase: fetchTrashedProjectsUsecase,
 	}
 }
 
-func (h *searchProjectsHandler) SearchProjects(w http.ResponseWriter, r *http.Request) {
+func (h *fetchTrashedProjectsHandler) FetchTrashedProjects(w http.ResponseWriter, r *http.Request) {
 	rv := mux.Vars(r)
-
 	if rv == nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
@@ -38,8 +37,6 @@ func (h *searchProjectsHandler) SearchProjects(w http.ResponseWriter, r *http.Re
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 		return
 	}
-
-	keyword := r.URL.Query().Get("keyword")
 
 	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 32)
 	if err != nil {
@@ -55,14 +52,13 @@ func (h *searchProjectsHandler) SearchProjects(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	in := projectinput.SearchProjectsInput{
+	in := projectinput.FetchTrashedProjectsInput{
 		ProductID: productID,
-		KeyWord:   keyword,
 		Page:      uint32(page),
 		Limit:     uint32(limit),
 	}
 
-	out, err := h.projectUsecase.SearchProjects(r.Context(), &in)
+	out, err := h.projectUsecase.FetchTrashedProjects(r.Context(), &in)
 	if err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)

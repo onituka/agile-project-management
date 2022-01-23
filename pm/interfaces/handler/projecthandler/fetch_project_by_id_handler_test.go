@@ -66,12 +66,12 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					"projectID": "2da68d16-b656-11e3-x61e-20c9d07ff9f3",
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &projectinput.FetchProjectByIDInput{
-					ID:        "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					ID:        "2da68d16-b656-11e3-x61e-20c9d07ff9f3",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
@@ -81,7 +81,7 @@ func TestFetchProjectByIDHandlerFetchProjectByID(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"projectID": "024d71d6-1d03-11ec-a478-0242ac180002xx",
+					"projectID": "2da68d16-b656-11e3-x61e-20c9d07ff9f3",
 					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
