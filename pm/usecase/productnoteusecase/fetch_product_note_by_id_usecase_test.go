@@ -8,7 +8,6 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
@@ -84,8 +83,8 @@ func TestFetchProductNoteByIDUsecaseFetchProductNoteByID(t *testing.T) {
 				Content:   "note",
 				CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
 				UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-				CreatedAt: time.Now().UTC(),
-				UpdatedAt: time.Now().UTC(),
+				CreatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
+				UpdatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 			},
 			wantErr: nil,
 		},
@@ -246,7 +245,7 @@ func TestFetchProductNoteByIDUsecaseFetchProductNoteByID(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(productnoteoutput.FetchProductNoteByIDOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
