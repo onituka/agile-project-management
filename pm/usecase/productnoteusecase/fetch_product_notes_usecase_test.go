@@ -155,7 +155,7 @@ func TestFetchProductNotesUsecaseFetchProductNotes(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.FetchProductNotesInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					Page:      1,
 					Limit:     10,
 				},
