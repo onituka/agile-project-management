@@ -57,7 +57,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 						KeyName:           "A",
 						Name:              "管理ツール1",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 						TrashedAt:         &trashedAt,
 						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -69,7 +69,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 						KeyName:           "BBB",
 						Name:              "管理ツールA",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 						TrashedAt:         &trashedAt,
 						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -101,7 +101,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 						KeyName:           "A",
 						Name:              "管理ツール1",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 						TrashedAt:         &trashedAt,
 						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -113,7 +113,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 						KeyName:           "BBB",
 						Name:              "管理ツールA",
 						LeaderID:          "024d78d6-1d03-11ec-a478-0242ac184402",
-						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac180002",
+						DefaultAssigneeID: "024d78d6-1d03-11ec-a478-9242ac182002",
 						TrashedAt:         &trashedAt,
 						CreatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
@@ -197,7 +197,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.SearchProjectsInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "4495c574-34c2-4fb3-xca4-3a7c79c267a6",
 					KeyWord:   "A",
 					Page:      1,
 					Limit:     2,
@@ -267,7 +267,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "DB不正(CountProjectsByKeyNameAndName)",
+			name: "DBエラー(CountProjectsByKeyNameAndName)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 
@@ -298,7 +298,7 @@ func TestSearchProjectsUsecaseSearchProjects(t *testing.T) {
 			wantErr: apperrors.InternalServerError,
 		},
 		{
-			name: "DB不正(SearchProjects)",
+			name: "DBエラー(SearchProjects)",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 

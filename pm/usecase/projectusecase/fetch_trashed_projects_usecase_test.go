@@ -50,7 +50,7 @@ func TestFetchTrashedProjectsUsecaseFetchTrashedProjects(t *testing.T) {
 
 				projectsDto := []*projectoutput.FetchTrashedProjectOutput{
 					{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+						ID:                "024d71d6-1d03-41ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "AAA",
@@ -62,7 +62,7 @@ func TestFetchTrashedProjectsUsecaseFetchTrashedProjects(t *testing.T) {
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 					},
 					{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+						ID:                "024d71d6-1d03-41ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
@@ -93,7 +93,7 @@ func TestFetchTrashedProjectsUsecaseFetchTrashedProjects(t *testing.T) {
 				TotalCount: 4,
 				Projects: []*projectoutput.FetchTrashedProjectOutput{
 					{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+						ID:                "024d71d6-1d03-41ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "AAA",
@@ -105,7 +105,7 @@ func TestFetchTrashedProjectsUsecaseFetchTrashedProjects(t *testing.T) {
 						UpdatedAt:         time.Date(2021, 11, 14, 0, 0, 0, 0, time.UTC),
 					},
 					{
-						ID:                "024d71d6-1d03-11ec-a478-0242ac180002",
+						ID:                "024d71d6-1d03-41ec-a478-0242ac180002",
 						ProductID:         "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 						GroupID:           "024d78d6-1d03-11ec-a478-0242ac180002",
 						KeyName:           "BBB",
@@ -158,7 +158,7 @@ func TestFetchTrashedProjectsUsecaseFetchTrashedProjects(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &projectinput.FetchTrashedProjectsInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "2da68d16-b656-11e3-x61e-20c9d07ff9f3",
 					Page:      1,
 					Limit:     2,
 				},
