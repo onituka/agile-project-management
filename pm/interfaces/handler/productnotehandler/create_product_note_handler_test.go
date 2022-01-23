@@ -79,11 +79,11 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 			fileSuffix: "400-2",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productnoteinput.CreateProductNoteInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
@@ -97,7 +97,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
 		},
@@ -133,11 +133,11 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 			fileSuffix: "404",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				}).Context()
 
 				in := &productnoteinput.CreateProductNoteInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
@@ -151,7 +151,61 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
+				})
+			},
+		},
+		{
+			name:       "グループID不正(Body値不正)",
+			fileSuffix: "400-3",
+			prepareMock: func(f *fields) {
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				}).Context()
+
+				in := &productnoteinput.CreateProductNoteInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002xxx",
+					Title:     "ノート",
+					Content:   "note",
+					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+				}
+
+				err := apperrors.InvalidParameter
+
+				f.createProductNoteUsecase.EXPECT().CreateProductNote(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
+				})
+			},
+		},
+		{
+			name:       "プロダクトが存在しない",
+			fileSuffix: "404",
+			prepareMock: func(f *fields) {
+				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
+				}).Context()
+
+				in := &productnoteinput.CreateProductNoteInput{
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
+					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					Title:     "ノート",
+					Content:   "note",
+					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+				}
+
+				err := apperrors.NotFound
+
+				f.createProductNoteUsecase.EXPECT().CreateProductNote(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				*r = *mux.SetURLVars(r, map[string]string{
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				})
 			},
 		},
@@ -225,7 +279,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 			h := NewCreateProductNoteHandler(f.createProductNoteUsecase)
 
-			r := httptest.NewRequest(http.MethodPost, "/products/{productID}/productnotes", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
+			r := httptest.NewRequest(http.MethodPost, "/products/{productID:[a-z0-9-]{36}}/notes", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

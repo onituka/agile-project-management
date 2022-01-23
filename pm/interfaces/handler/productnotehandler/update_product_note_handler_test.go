@@ -83,12 +83,12 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productnoteinput.UpdateProductNoteInput{
 					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					Title:     "ノート",
 					Content:   "note",
 					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -102,7 +102,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
 		},
@@ -141,12 +141,12 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				}).Context()
 
 				in := &productnoteinput.UpdateProductNoteInput{
 					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 					Title:     "ノート",
 					Content:   "note",
 					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -160,7 +160,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				})
 			},
 		},

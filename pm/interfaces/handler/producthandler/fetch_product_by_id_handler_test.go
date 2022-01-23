@@ -60,11 +60,11 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productinput.FetchProductByIDInput{
-					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxx",
+					ID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}
 
 				err := apperrors.InvalidParameter
@@ -73,7 +73,7 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxxx",
+					"productID": "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
 		},
@@ -137,7 +137,7 @@ func TestFetchProductByIDHandlerFetchProductByID(t *testing.T) {
 
 			h := NewFetchProductByIDHandler(f.fetchProductByIDUsecase)
 
-			r := httptest.NewRequest(http.MethodGet, "/products/{productID}", nil)
+			r := httptest.NewRequest(http.MethodGet, "/products/{productID:[a-z0-9-]{36}}", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

@@ -67,12 +67,12 @@ func TestFetchProductNoteByIDHandlerFetchProductNoteByID(t *testing.T) {
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productnoteinput.FetchProductNoteByIDInput{
 					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}
 
 				err := apperrors.InvalidParameter
@@ -82,7 +82,7 @@ func TestFetchProductNoteByIDHandlerFetchProductNoteByID(t *testing.T) {
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
 					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
-					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6xxx",
+					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
 		},
@@ -91,12 +91,12 @@ func TestFetchProductNoteByIDHandlerFetchProductNoteByID(t *testing.T) {
 			fileSuffix: "404",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde4800112x",
+					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001129",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &productnoteinput.FetchProductNoteByIDInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde4800112x",
+					ID:        "52dfc0d0-748e-11ec-88fd-acde48001129",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
@@ -106,7 +106,7 @@ func TestFetchProductNoteByIDHandlerFetchProductNoteByID(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde4800112x",
+					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001129",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
