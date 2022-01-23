@@ -18,17 +18,17 @@ func newProductNoteRouter(router *mux.Router) {
 
 	createProductNoteUsecase := productnoteusecase.NewCreateProductNoteUsecase(productNoteRepository, productRepository)
 	createProductNoteHandler := productnotehandler.NewCreateProductNoteHandler(createProductNoteUsecase)
-	router.HandleFunc("/products/{productID}/notes", createProductNoteHandler.CreateProductNote).Methods(http.MethodPost)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes", createProductNoteHandler.CreateProductNote).Methods(http.MethodPost)
 
 	updateProductNoteUsecase := productnoteusecase.NewUpdateProductNoteUsecase(productNoteRepository, productRepository)
 	updateProductNoteHandler := productnotehandler.NewUpdateProductNoteHandler(updateProductNoteUsecase)
-	router.HandleFunc("/products/{productID}/notes/{productNoteID}", updateProductNoteHandler.UpdateProductNote).Methods(http.MethodPut)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}", updateProductNoteHandler.UpdateProductNote).Methods(http.MethodPut)
 
 	fetchProductNoteByIDUsecase := productnoteusecase.NewFetchProductNoteByIDUsecase(productNoteRepository, productRepository)
 	fetchProductNoteByIDHandler := productnotehandler.NewFetchProductNoteByIDHandler(fetchProductNoteByIDUsecase)
-	router.HandleFunc("/products/{productID}/notes/{productNoteID}", fetchProductNoteByIDHandler.FetchProductNoteByID).Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}", fetchProductNoteByIDHandler.FetchProductNoteByID).Methods(http.MethodGet)
 
 	fetchProductNotesUsecase := productnoteusecase.NewFetchProductNotesUsecase(productNoteQueryService, productRepository)
 	fetchProductNotesHandler := productnotehandler.NewFetchProductNotesHandler(fetchProductNotesUsecase)
-	router.HandleFunc("/products/{productID}/notes", fetchProductNotesHandler.FetchProductNotes).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes", fetchProductNotesHandler.FetchProductNotes).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }
