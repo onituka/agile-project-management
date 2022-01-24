@@ -15,8 +15,7 @@ func GenProjectNoteForCreate(
 	groupID groupdm.GroupID,
 	title Title,
 	content Content,
-	createdBy userdm.UserID,
-	UpdatedBy userdm.UserID,
+	userID userdm.UserID,
 ) (*ProjectNote, error) {
 	now := time.Now().UTC()
 
@@ -27,8 +26,8 @@ func GenProjectNoteForCreate(
 		groupID,
 		title,
 		content,
-		createdBy,
-		UpdatedBy,
+		userID,
+		userID,
 		now,
 		now,
 	)

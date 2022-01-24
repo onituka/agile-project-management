@@ -73,12 +73,7 @@ func (u *createProjectNoteUsecase) CreateProjectNote(ctx context.Context, in *pr
 		return nil, err
 	}
 
-	createdBy, err := userdm.NewUserID(in.CreatedBy)
-	if err != nil {
-		return nil, err
-	}
-
-	updatedBy, err := userdm.NewUserID(in.UpdatedBy)
+	userID, err := userdm.NewUserID(in.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +84,7 @@ func (u *createProjectNoteUsecase) CreateProjectNote(ctx context.Context, in *pr
 		groupIDVo,
 		titleVo,
 		contentVo,
-		createdBy,
-		updatedBy,
+		userID,
 	)
 	if err != nil {
 		return nil, err
