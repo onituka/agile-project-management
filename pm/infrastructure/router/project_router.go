@@ -50,5 +50,5 @@ func newProjectRouter(router *mux.Router) {
 
 	searchTrashedProjectsUsecase := projectusecase.NewSearchTrashedProjectsUsecase(projectQuery, productRepository)
 	searchTrashedProjectsHandler := projecthandler.NewSearchTrashedProjectsHandler(searchTrashedProjectsUsecase)
-	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/search/trash-box", searchTrashedProjectsHandler.SearchTrashedProjects).Queries("keyword", "{keyword}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/trash-box/search", searchTrashedProjectsHandler.SearchTrashedProjects).Queries("keyword", "{keyword}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
 }
