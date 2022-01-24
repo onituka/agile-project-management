@@ -238,7 +238,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 
 			h := NewUpdateProductNoteHandler(f.updateProductNoteUsecase)
 
-			r := httptest.NewRequest(http.MethodPut, "/products/{productID}/productnotes/{productNoteID}", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
+			r := httptest.NewRequest(http.MethodPut, "/products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {
