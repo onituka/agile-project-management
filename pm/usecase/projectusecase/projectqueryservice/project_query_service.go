@@ -14,4 +14,6 @@ type ProjectQueryService interface {
 	CountProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyword string) (totalCount uint32, err error)
 	FetchTrashedProjects(ctx context.Context, productID productdm.ProductID, limit uint32, offset uint32) ([]*projectoutput.FetchTrashedProjectOutput, error)
 	CountTrashedProjectsByProductID(ctx context.Context, productID productdm.ProductID) (totalCount uint32, err error)
+	SearchTrashedProjects(ctx context.Context, productID productdm.ProductID, keyword string, limit uint32, offset uint32) ([]*projectoutput.SearchTrashedProjectOutput, error)
+	CountTrashedProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyword string) (totalCount uint32, err error)
 }

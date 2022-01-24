@@ -121,9 +121,7 @@ func (r *projectQuery) SearchProjects(ctx context.Context, productID productdm.P
          AND 
            trashed_at IS NULL 
          AND
-           key_name LIKE ?
-         OR
-           name LIKE ?
+           (key_name LIKE ? OR name LIKE ?)
          ORDER BY
            created_at, name
          LIMIT
@@ -175,9 +173,7 @@ func (r *projectQuery) CountProjectsByKeyNameAndName(ctx context.Context, produc
          AND 
            trashed_at IS NULL
          AND 
-           key_name LIKE ?
-         OR  
-           name LIKE ?`
+           (key_name LIKE ? OR name LIKE ?)`
 
 	if err = conn.QueryRowxContext(ctx, query, productID.Value(), fmt.Sprintf("%%%s%%", keyword), fmt.Sprintf("%%%s%%", keyword)).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
@@ -260,6 +256,92 @@ func (r *projectQuery) CountTrashedProjectsByProductID(ctx context.Context, prod
            trashed_at IS NOT NULL`
 
 	if err = conn.QueryRowxContext(ctx, query, productID.Value()).Scan(&totalCount); err != nil {
+		return 0, apperrors.InternalServerError
+	}
+
+	return totalCount, nil
+}
+
+func (r *projectQuery) SearchTrashedProjects(ctx context.Context, productID productdm.ProductID, keyword string, limit uint32, offset uint32) ([]*projectoutput.SearchTrashedProjectOutput, error) {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT 
+           id,
+           product_id,
+           group_id,
+           key_name,
+           name,
+           leader_id,
+           default_assignee_id,
+           trashed_at,
+           created_at,
+           updated_at
+         FROM
+           projects
+         WHERE
+           product_id = ?
+         AND 
+           trashed_at IS NOT NULL 
+         AND
+           (key_name LIKE ? OR name LIKE ?)
+         ORDER BY
+           created_at, name
+         LIMIT
+           ?
+         OFFSET
+           ?`
+
+	rows, err := conn.QueryxContext(
+		ctx,
+		query,
+		productID.Value(),
+		fmt.Sprintf("%%%s%%", keyword),
+		fmt.Sprintf("%%%s%%", keyword),
+		limit,
+		offset,
+	)
+	if err != nil {
+		return nil, apperrors.InternalServerError
+	}
+
+	defer rows.Close()
+
+	var projectsDto []*projectoutput.SearchTrashedProjectOutput
+	for rows.Next() {
+		var projectDto projectoutput.SearchTrashedProjectOutput
+		if err = rows.StructScan(&projectDto); err != nil {
+			return nil, apperrors.InternalServerError
+		}
+
+		projectsDto = append(projectsDto, &projectDto)
+	}
+
+	return projectsDto, nil
+}
+
+func (r *projectQuery) CountTrashedProjectsByKeyNameAndName(ctx context.Context, productID productdm.ProductID, keyword string) (totalCount uint32, err error) {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return 0, err
+	}
+
+	query := `
+         SELECT 
+           COUNT(*)
+         FROM
+           projects
+         WHERE
+           product_id = ?
+         AND 
+           trashed_at IS NOT NULL
+         AND 
+           (key_name LIKE ? OR name LIKE ?)`
+
+	if err = conn.QueryRowxContext(ctx, query, productID.Value(), fmt.Sprintf("%%%s%%", keyword), fmt.Sprintf("%%%s%%", keyword)).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
