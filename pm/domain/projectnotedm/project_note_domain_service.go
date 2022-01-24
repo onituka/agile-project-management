@@ -21,7 +21,7 @@ func (s *projectNoteDomainService) ExistsProjectNoteForCreate(ctx context.Contex
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return false, err
 	} else if existingProjectNoteDm != nil {
-		return true, err
+		return true, nil
 	}
 
 	return false, err
