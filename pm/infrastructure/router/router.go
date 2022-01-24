@@ -31,6 +31,7 @@ func Run() error {
 	newProductRouter(router)
 	newProductNoteRouter(router)
 	newProjectRouter(router)
+	newProjectNoteRouter(router)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%d", config.Env.Server.Port),
