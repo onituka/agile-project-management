@@ -105,7 +105,7 @@ func (u *createProjectNoteUsecase) CreateProjectNote(ctx context.Context, in *pr
 		return nil, apperrors.Conflict
 	}
 
-	if err = u.projectNoteRepository.CreateNoteProject(ctx, projectNoteDm); err != nil {
+	if err = u.projectNoteRepository.CreateProjectNote(ctx, projectNoteDm); err != nil {
 		return nil, err
 	}
 

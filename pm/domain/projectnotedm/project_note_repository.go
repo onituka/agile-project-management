@@ -7,6 +7,6 @@ import (
 )
 
 type ProjectNoteRepository interface {
-	CreateNoteProject(ctx context.Context, projectNote *ProjectNote) error
-	FetchProjectNoteProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title Title) (*ProjectNote, error)
+	CreateProjectNote(ctx context.Context, projectNote *ProjectNote) error
+	FetchProjectNoteByProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title Title) (*ProjectNote, error)
 }

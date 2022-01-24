@@ -16,7 +16,7 @@ type projectNoteRepository struct{}
 func NewProjectNoteRepository() *projectNoteRepository {
 	return &projectNoteRepository{}
 }
-func (r *projectNoteRepository) CreateNoteProject(ctx context.Context, projectNote *projectnotedm.ProjectNote) error {
+func (r *projectNoteRepository) CreateProjectNote(ctx context.Context, projectNote *projectnotedm.ProjectNote) error {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return err
@@ -59,7 +59,7 @@ func (r *projectNoteRepository) CreateNoteProject(ctx context.Context, projectNo
 	return nil
 }
 
-func (r *projectNoteRepository) FetchProjectNoteProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title projectnotedm.Title) (*projectnotedm.ProjectNote, error) {
+func (r *projectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title projectnotedm.Title) (*projectnotedm.ProjectNote, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err

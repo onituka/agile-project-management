@@ -17,7 +17,7 @@ func NewProjectNoteDomainService(projectNoteRepository ProjectNoteRepository) *p
 }
 
 func (s *projectNoteDomainService) ExistsProjectNoteForCreate(ctx context.Context, projectNoteDm *ProjectNote) (bool, error) {
-	existingProjectNoteDm, err := s.projectNoteRepository.FetchProjectNoteProjectIDAndTitle(ctx, projectNoteDm.ProjectID(), projectNoteDm.Title())
+	existingProjectNoteDm, err := s.projectNoteRepository.FetchProjectNoteByProjectIDAndTitle(ctx, projectNoteDm.ProjectID(), projectNoteDm.Title())
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return false, err
 	} else if existingProjectNoteDm != nil {
