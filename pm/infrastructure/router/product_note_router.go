@@ -31,4 +31,8 @@ func newProductNoteRouter(router *mux.Router) {
 	fetchProductNotesUsecase := productnoteusecase.NewFetchProductNotesUsecase(productNoteQueryService, productRepository)
 	fetchProductNotesHandler := productnotehandler.NewFetchProductNotesHandler(fetchProductNotesUsecase)
 	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes", fetchProductNotesHandler.FetchProductNotes).Queries("page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+
+	deleteProductNoteUsecase := productnoteusecase.NewDeleteProductNoteUsecase(productNoteRepository, productRepository)
+	deleteProductNoteHandler := productnotehandler.NewDeleteProductNoteHandler(deleteProductNoteUsecase)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}", deleteProductNoteHandler.DeleteProductNote).Methods(http.MethodDelete)
 }
