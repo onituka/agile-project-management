@@ -12,7 +12,6 @@ import (
 	"github.com/onituka/agile-project-management/project-management/interfaces/handler/productnotehandler/mockproductnoteusecase"
 	"github.com/onituka/agile-project-management/project-management/testutil"
 	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteinput"
-	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteoutput"
 )
 
 func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
@@ -39,11 +38,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
-				out := &productnoteoutput.DeleteProductNoteMsg{
-					Message: "プロダクトノートを削除しました。",
-				}
-
-				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(out, nil)
+				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(nil)
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
@@ -68,7 +63,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 
 				err := apperrors.InvalidParameter
 
-				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(nil, err)
+				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(err)
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
@@ -93,7 +88,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 
 				err := apperrors.NotFound
 
-				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(nil, err)
+				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(err)
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
@@ -118,7 +113,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 
 				err := apperrors.InternalServerError
 
-				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(nil, err)
+				f.deleteProductNoteUsecase.EXPECT().DeleteProductNote(ctx, in).Return(err)
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{

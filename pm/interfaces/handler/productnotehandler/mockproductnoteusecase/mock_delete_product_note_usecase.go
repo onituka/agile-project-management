@@ -10,7 +10,6 @@ import (
 
 	gomock "github.com/golang/mock/gomock"
 	productnoteinput "github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteinput"
-	productnoteoutput "github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteoutput"
 )
 
 // MockDeleteProductNoteUsecase is a mock of DeleteProductNoteUsecase interface.
@@ -37,12 +36,11 @@ func (m *MockDeleteProductNoteUsecase) EXPECT() *MockDeleteProductNoteUsecaseMoc
 }
 
 // DeleteProductNote mocks base method.
-func (m *MockDeleteProductNoteUsecase) DeleteProductNote(ctx context.Context, in *productnoteinput.DeleteProductNoteInput) (*productnoteoutput.DeleteProductNoteMsg, error) {
+func (m *MockDeleteProductNoteUsecase) DeleteProductNote(ctx context.Context, in *productnoteinput.DeleteProductNoteInput) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DeleteProductNote", ctx, in)
-	ret0, _ := ret[0].(*productnoteoutput.DeleteProductNoteMsg)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // DeleteProductNote indicates an expected call of DeleteProductNote.
