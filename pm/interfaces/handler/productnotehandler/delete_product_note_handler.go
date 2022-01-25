@@ -48,12 +48,11 @@ func (h *deleteProductNoteHandler) DeleteProductNote(w http.ResponseWriter, r *h
 		ProductID: productID,
 	}
 
-	out, err := h.productNoteUsecase.DeleteProductNote(r.Context(), &in)
-	if err != nil {
+	if err := h.productNoteUsecase.DeleteProductNote(r.Context(), &in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
 
-	presenter.JSON(w, http.StatusOK, out)
+	presenter.JSON(w, http.StatusOK, nil)
 }
