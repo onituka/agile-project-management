@@ -1,11 +1,15 @@
 package projectnotedm
 
-import "github.com/onituka/agile-project-management/project-management/apperrors"
+import (
+	"unicode/utf8"
+
+	"github.com/onituka/agile-project-management/project-management/apperrors"
+)
 
 type Content string
 
 func NewContent(content string) (Content, error) {
-	if l := len(content); l == 0 || l > 65535 {
+	if l := utf8.RuneCountInString(content); l == 0 || l > 20000 {
 		return "", apperrors.InvalidParameter
 	}
 
