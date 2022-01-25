@@ -6,14 +6,12 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	"github.com/google/go-cmp/cmp"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/productnotedm"
 	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/mockrepository/mockproductnoterepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteinput"
-	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteoutput"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 )
 
@@ -30,7 +28,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 		name        string
 		prepareMock func(f *fields) error
 		args        args
-		want        *productnoteoutput.DeleteProductNoteMsg
 		wantErr     error
 	}{
 		{
@@ -62,9 +59,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want: &productnoteoutput.DeleteProductNoteMsg{
-				Message: "プロダクトノートを削除しました。",
-			},
 			wantErr: nil,
 		},
 		{
@@ -77,7 +71,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "invalid product id",
 				},
 			},
-			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
@@ -104,7 +97,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want:    nil,
 			wantErr: apperrors.NotFound,
 		},
 		{
@@ -129,7 +121,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
@@ -162,7 +153,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want:    nil,
 			wantErr: apperrors.NotFound,
 		},
 		{
@@ -196,7 +186,6 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
-			want:    nil,
 			wantErr: apperrors.InternalServerError,
 		},
 	}
@@ -217,14 +206,10 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 
 			u := NewDeleteProductNoteUsecase(f.productNoteRepository, f.productRepository)
 
-			got, err := u.DeleteProductNote(tt.args.ctx, tt.args.in)
+			err := u.DeleteProductNote(tt.args.ctx, tt.args.in)
 			if hasErr, expectErr := err != nil, tt.wantErr != nil; hasErr != expectErr {
 				t.Errorf("DeleteProductNote() error = %v, wantErr %v", err, tt.wantErr)
 				return
-			}
-
-			if diff := cmp.Diff(tt.want, got); len(diff) != 0 {
-				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
 			if !reflect.DeepEqual(tt.wantErr, err) {
