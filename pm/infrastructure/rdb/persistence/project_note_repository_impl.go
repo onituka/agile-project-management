@@ -94,7 +94,7 @@ func (r *projectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.
 		return nil, apperrors.InternalServerError
 	}
 
-	projectNoteDm, err := projectnotedm.Reconstruct(
+	return projectnotedm.Reconstruct(
 		projectNoteDto.ID,
 		projectNoteDto.ProductID,
 		projectNoteDto.ProjectID,
@@ -106,9 +106,4 @@ func (r *projectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.
 		projectNoteDto.CreatedAt,
 		projectNoteDto.UpdatedAt,
 	)
-	if err != nil {
-		return nil, err
-	}
-
-	return projectNoteDm, nil
 }
