@@ -54,5 +54,5 @@ func (h *deleteProductNoteHandler) DeleteProductNote(w http.ResponseWriter, r *h
 		return
 	}
 
-	presenter.JSON(w, http.StatusOK, nil)
+	presenter.JSON(w, http.StatusNoContent, nil)
 }
