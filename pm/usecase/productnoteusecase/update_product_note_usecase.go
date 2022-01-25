@@ -73,12 +73,12 @@ func (u *updateProductNoteUsecase) UpdateProductNote(ctx context.Context, in *pr
 
 	productNoteDm.ChangeContent(contentVo)
 
-	UserIDVo, err := userdm.NewUserID(in.UserID)
+	userIDVo, err := userdm.NewUserID(in.UserID)
 	if err != nil {
 		return nil, err
 	}
 
-	productNoteDm.ChangeUpdatedBy(UserIDVo)
+	productNoteDm.ChangeUpdatedBy(userIDVo)
 
 	productNoteDm.ChangeUpdateAt()
 

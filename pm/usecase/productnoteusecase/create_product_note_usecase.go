@@ -57,7 +57,7 @@ func (u *createProductNoteUsecase) CreateProductNote(ctx context.Context, in *pr
 		return nil, err
 	}
 
-	UserIDVo, err := userdm.NewUserID(in.UserID)
+	userIDVo, err := userdm.NewUserID(in.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (u *createProductNoteUsecase) CreateProductNote(ctx context.Context, in *pr
 		groupIDVo,
 		titleVo,
 		contentVo,
-		UserIDVo,
+		userIDVo,
 	)
 	if err != nil {
 		return nil, err

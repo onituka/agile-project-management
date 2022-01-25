@@ -13,7 +13,7 @@ func GenProductNoteForCreate(
 	groupID groupdm.GroupID,
 	title Title,
 	content Content,
-	UserID userdm.UserID,
+	userID userdm.UserID,
 ) (*ProductNote, error) {
 	now := time.Now().UTC()
 
@@ -23,8 +23,8 @@ func GenProductNoteForCreate(
 		groupID,
 		title,
 		content,
-		UserID,
-		UserID,
+		userID,
+		userID,
 		now,
 		now,
 	)
