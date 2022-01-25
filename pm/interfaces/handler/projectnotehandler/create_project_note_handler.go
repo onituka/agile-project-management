@@ -53,6 +53,7 @@ func (h *createProjectNoteHandler) CreateProjectNote(w http.ResponseWriter, r *h
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
+		return
 	}
 
 	out, err := h.projectNoteUsecase.CreateProjectNote(r.Context(), &in)
