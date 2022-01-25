@@ -12,4 +12,5 @@ type ProductNoteRepository interface {
 	FetchProductNoteByProductIDAndTitle(ctx context.Context, productID productdm.ProductID, Title Title) (*ProductNote, error)
 	FetchProductNoteByIDForUpdate(ctx context.Context, id ProductNoteID, productID productdm.ProductID) (*ProductNote, error)
 	FetchProductNoteByID(ctx context.Context, id ProductNoteID, productID productdm.ProductID) (*ProductNote, error)
+	DeleteProductNote(ctx context.Context, id ProductNoteID, productID productdm.ProductID) error
 }

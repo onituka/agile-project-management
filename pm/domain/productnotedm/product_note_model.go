@@ -152,10 +152,6 @@ func (p *ProductNote) ChangeContent(content Content) {
 	p.content = content
 }
 
-func (p *ProductNote) ChangeCreatedBy(createdBy userdm.UserID) {
-	p.createdBy = createdBy
-}
-
 func (p *ProductNote) ChangeUpdatedBy(updatedBy userdm.UserID) {
 	p.updatedBy = updatedBy
 }

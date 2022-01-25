@@ -249,7 +249,7 @@ func TestFetchProductNotesHandlerFetchProductNotes(t *testing.T) {
 
 			h := NewFetchProductNotesHandler(f.fetchProductNotesUsecase)
 
-			r := httptest.NewRequest(http.MethodGet, "/products/{productID}/notes", nil)
+			r := httptest.NewRequest(http.MethodGet, "/products/{productID:[a-z0-9-]{36}}/notes", nil)
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

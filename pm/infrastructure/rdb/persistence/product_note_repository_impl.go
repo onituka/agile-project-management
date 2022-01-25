@@ -246,3 +246,30 @@ func (r *productNoteRepository) FetchProductNoteByID(ctx context.Context, id pro
 
 	return productNoteDm, nil
 }
+
+func (r *productNoteRepository) DeleteProductNote(ctx context.Context, id productnotedm.ProductNoteID, productID productdm.ProductID) error {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return err
+	}
+
+	query := `
+        DELETE 
+        FROM 
+          product_notes
+        WHERE
+          id = ?
+         AND
+          product_id = ?`
+
+	if _, err := conn.ExecContext(
+		ctx,
+		query,
+		id.Value(),
+		productID.Value(),
+	); err != nil {
+		return apperrors.InternalServerError
+	}
+
+	return nil
+}

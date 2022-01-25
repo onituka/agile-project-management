@@ -40,8 +40,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				out := &productnoteoutput.CreateProductNoteOutput{
@@ -87,8 +86,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -114,8 +112,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002xxx",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -141,8 +138,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.NotFound
@@ -168,8 +164,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.Conflict
@@ -195,8 +190,7 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InternalServerError

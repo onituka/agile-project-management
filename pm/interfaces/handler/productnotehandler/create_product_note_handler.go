@@ -37,10 +37,11 @@ func (h *createProductNoteHandler) CreateProductNote(w http.ResponseWriter, r *h
 		return
 	}
 
-	// TODO: 今後JWT claimsからGroupIDを取得する為、現時点ではGroupIDを指定のものとする
+	// TODO: 今後JWT claimsからGroupID,UserIDを取得する為、現時点ではGroupID,UserIDを指定のものとする
 	in := productnoteinput.CreateProductNoteInput{
 		ProductID: productID,
 		GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+		UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {

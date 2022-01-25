@@ -1,7 +1,6 @@
 package productnotehandler
 
 import (
-	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -13,22 +12,23 @@ import (
 	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteinput"
 )
 
-type updateProductNoteHandler struct {
-	productNoteUsecase productnoteusecase.UpdateProductNoteUsecase
+type deleteProductNoteHandler struct {
+	productNoteUsecase productnoteusecase.DeleteProductNoteUsecase
 }
 
-func NewUpdateProductNoteHandler(updateProductNoteUsecase productnoteusecase.UpdateProductNoteUsecase) *updateProductNoteHandler {
-	return &updateProductNoteHandler{
-		productNoteUsecase: updateProductNoteUsecase,
+func NewDeleteProductNoteHandler(deleteProductNoteUsecase productnoteusecase.DeleteProductNoteUsecase) *deleteProductNoteHandler {
+	return &deleteProductNoteHandler{
+		productNoteUsecase: deleteProductNoteUsecase,
 	}
 }
 
-func (h *updateProductNoteHandler) UpdateProductNote(w http.ResponseWriter, r *http.Request) {
+func (h *deleteProductNoteHandler) DeleteProductNote(w http.ResponseWriter, r *http.Request) {
 	rv := mux.Vars(r)
 	if rv == nil {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
 		presenter.ErrorJSON(w, apperrors.InternalServerError)
 	}
+
 	productID, ok := rv["productID"]
 	if !ok {
 		handler.SetAppErrorToCtx(r, apperrors.InternalServerError)
@@ -43,25 +43,16 @@ func (h *updateProductNoteHandler) UpdateProductNote(w http.ResponseWriter, r *h
 		return
 	}
 
-	// TODO: 今後JWT claimsからUserIDを取得する為、現時点ではUserIDを指定のものとする
-	in := productnoteinput.UpdateProductNoteInput{
-		ProductID: productID,
+	in := productnoteinput.DeleteProductNoteInput{
 		ID:        productNoteID,
-		UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
+		ProductID: productID,
 	}
 
-	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
-		handler.SetAppErrorToCtx(r, err)
-		presenter.ErrorJSON(w, apperrors.InvalidParameter)
-		return
-	}
-
-	out, err := h.productNoteUsecase.UpdateProductNote(r.Context(), &in)
-	if err != nil {
+	if err := h.productNoteUsecase.DeleteProductNote(r.Context(), &in); err != nil {
 		handler.SetAppErrorToCtx(r, err)
 		presenter.ErrorJSON(w, err)
 		return
 	}
 
-	presenter.JSON(w, http.StatusCreated, out)
+	presenter.JSON(w, http.StatusNoContent, nil)
 }

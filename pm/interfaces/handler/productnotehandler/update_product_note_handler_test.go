@@ -41,8 +41,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				out := &productnoteoutput.UpdateProductNoteOutput{
@@ -91,8 +90,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -120,8 +118,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Title:     "",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -149,8 +146,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.NotFound
@@ -178,8 +174,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.Conflict
@@ -207,8 +202,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InternalServerError
@@ -238,7 +232,7 @@ func TestUpdateProductNoteHandlerUpdateProductNote(t *testing.T) {
 
 			h := NewUpdateProductNoteHandler(f.updateProductNoteUsecase)
 
-			r := httptest.NewRequest(http.MethodPut, "/products/{productID}/productnotes/{productNoteID}", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
+			r := httptest.NewRequest(http.MethodPut, "/products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}", strings.NewReader(testutil.GetRequestJsonFromTestData(t, tt.fileSuffix)))
 			w := httptest.NewRecorder()
 
 			if tt.prepareRequest != nil {

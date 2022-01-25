@@ -50,6 +50,20 @@ func (mr *MockProductNoteRepositoryMockRecorder) CreateProductNote(ctx, productN
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProductNote", reflect.TypeOf((*MockProductNoteRepository)(nil).CreateProductNote), ctx, productNote)
 }
 
+// DeleteProductNote mocks base method.
+func (m *MockProductNoteRepository) DeleteProductNote(ctx context.Context, id productnotedm.ProductNoteID, productID productdm.ProductID) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProductNote", ctx, id, productID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProductNote indicates an expected call of DeleteProductNote.
+func (mr *MockProductNoteRepositoryMockRecorder) DeleteProductNote(ctx, id, productID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProductNote", reflect.TypeOf((*MockProductNoteRepository)(nil).DeleteProductNote), ctx, id, productID)
+}
+
 // FetchProductNoteByID mocks base method.
 func (m *MockProductNoteRepository) FetchProductNoteByID(ctx context.Context, id productnotedm.ProductNoteID, productID productdm.ProductID) (*productnotedm.ProductNote, error) {
 	m.ctrl.T.Helper()

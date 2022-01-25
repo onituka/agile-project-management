@@ -66,8 +66,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want: &productnoteoutput.CreateProductNoteOutput{
@@ -93,8 +92,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -124,8 +122,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -153,8 +150,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "invalid group id",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -182,8 +178,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -211,15 +206,14 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name: "createdBy不正",
+			name: "UserID不正",
 			prepareMock: func(f *fields) error {
 				ctx := context.TODO()
 				var err error
@@ -240,37 +234,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "invalid created by",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-				},
-			},
-			want:    nil,
-			wantErr: apperrors.InvalidParameter,
-		},
-		{
-			name: "updatedBy不正",
-			prepareMock: func(f *fields) error {
-				ctx := context.TODO()
-				var err error
-
-				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
-
-				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-
-				return nil
-			},
-			args: args{
-				ctx: context.TODO(),
-				in: &productnoteinput.CreateProductNoteInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
-					Title:     "ノート",
-					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "invalid update by",
+					UserID:    "invalid user id",
 				},
 			},
 			want:    nil,
@@ -306,8 +270,7 @@ func TestCreateProductNoteUsecaseCreateProductNote(t *testing.T) {
 					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
