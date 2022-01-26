@@ -59,6 +59,36 @@ func (r *projectNoteRepository) CreateProjectNote(ctx context.Context, projectNo
 	return nil
 }
 
+func (r *projectNoteRepository) UpdateProjectNote(ctx context.Context, projectNote *projectnotedm.ProjectNote) error {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return err
+	}
+
+	query := `
+        UPDATE
+          project_notes
+        SET
+          title = ?,
+          content = ?,
+          updated_by = ?
+        WHERE
+          id = ?`
+
+	if _, err := conn.ExecContext(
+		ctx,
+		query,
+		projectNote.Title().Value(),
+		projectNote.Content().Value(),
+		projectNote.UpdatedBy().Value(),
+		projectNote.ID().Value(),
+	); err != nil {
+		return apperrors.InternalServerError
+	}
+
+	return nil
+}
+
 func (r *projectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title projectnotedm.Title) (*projectnotedm.ProjectNote, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
@@ -106,4 +136,105 @@ func (r *projectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.
 		projectNoteDto.CreatedAt,
 		projectNoteDto.UpdatedAt,
 	)
+}
+
+func (r *projectNoteRepository) FetchProjectNoteByIDForUpdate(ctx context.Context, id projectnotedm.ProjectNoteID, projectID projectdm.ProjectID) (*projectnotedm.ProjectNote, error) {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT 
+           id,
+           product_id,
+           project_id,
+           group_id,
+           title,
+           content,
+           created_by,
+           updated_by,
+           created_at,
+           updated_at
+         FROM
+           project_notes
+         WHERE
+           id = ?
+         AND
+           project_id = ?
+         FOR UPDATE`
+
+	var projectNoteDto datasource.ProjectNote
+
+	if err := conn.QueryRowxContext(ctx, query, id.Value(), projectID.Value()).StructScan(&projectNoteDto); err != nil {
+		if apperrors.Is(err, sql.ErrNoRows) {
+			return nil, apperrors.NotFound
+		}
+
+		return nil, apperrors.InternalServerError
+	}
+
+	return projectnotedm.Reconstruct(
+		projectNoteDto.ID,
+		projectNoteDto.ProductID,
+		projectNoteDto.ProjectID,
+		projectNoteDto.GroupID,
+		projectNoteDto.Title,
+		projectNoteDto.Content,
+		projectNoteDto.CreatedBy,
+		projectNoteDto.UpdatedBy,
+		projectNoteDto.CreatedAt,
+		projectNoteDto.UpdatedAt,
+	)
+
+}
+
+func (r *projectNoteRepository) FetchProjectNoteByID(ctx context.Context, id projectnotedm.ProjectNoteID, projectID projectdm.ProjectID) (*projectnotedm.ProjectNote, error) {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	query := `
+         SELECT 
+           id,
+           product_id,
+           project_id,
+           group_id,
+           title,
+           content,
+           created_by,
+           updated_by,
+           created_at,
+           updated_at
+         FROM
+           project_notes
+         WHERE
+           id = ?
+         AND
+           project_id = ?`
+
+	var projectNoteDto datasource.ProjectNote
+
+	if err := conn.QueryRowxContext(ctx, query, id.Value(), projectID.Value()).StructScan(&projectNoteDto); err != nil {
+		if apperrors.Is(err, sql.ErrNoRows) {
+			return nil, apperrors.NotFound
+		}
+
+		return nil, apperrors.InternalServerError
+	}
+
+	return projectnotedm.Reconstruct(
+		projectNoteDto.ID,
+		projectNoteDto.ProductID,
+		projectNoteDto.ProjectID,
+		projectNoteDto.GroupID,
+		projectNoteDto.Title,
+		projectNoteDto.Content,
+		projectNoteDto.CreatedBy,
+		projectNoteDto.UpdatedBy,
+		projectNoteDto.CreatedAt,
+		projectNoteDto.UpdatedAt,
+	)
+
 }

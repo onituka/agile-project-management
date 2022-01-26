@@ -158,3 +158,20 @@ func (p *ProjectNote) CreatedAt() time.Time {
 func (p *ProjectNote) UpdatedAt() time.Time {
 	return p.updatedAt
 }
+
+func (p *ProjectNote) ChangeTitle(title Title) {
+	p.title = title
+}
+
+func (p *ProjectNote) ChangeContent(content Content) {
+	p.content = content
+}
+
+func (p *ProjectNote) ChangeUpdatedBy(updatedBy userdm.UserID) {
+	p.updatedBy = updatedBy
+}
+
+func (p *ProjectNote) ChangeUpdateAt() {
+	now := time.Now().UTC()
+	p.updatedAt = now
+}
