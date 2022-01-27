@@ -10,4 +10,6 @@ import (
 type ProductNoteQueryService interface {
 	FetchProductNotes(ctx context.Context, productID productdm.ProductID, limit uint32, offset uint32) ([]*productnoteoutput.ProductNoteOutput, error)
 	CountProductNotesByProductID(ctx context.Context, productID productdm.ProductID) (totalCount uint32, err error)
+	SearchProductNotes(ctx context.Context, productID productdm.ProductID, title string, limit uint32, offset uint32) ([]*productnoteoutput.SearchProductNoteOutput, error)
+	CountProductNotesByTitle(ctx context.Context, productID productdm.ProductID, title string) (totalCount uint32, err error)
 }
