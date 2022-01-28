@@ -141,6 +141,31 @@ func TestSearchProductsHandlerSearchProducts(t *testing.T) {
 			},
 		},
 		{
+			name:       "プロダクトが存在しない",
+			fileSuffix: "404",
+			prepareMock: func(f *fields) {
+				ctx := context.TODO()
+
+				in := &productinput.SearchProductsInput{
+					GroupID:     "024d78d6-1d03-11ec-a478-0242ac180002",
+					ProductName: "プ",
+					Page:        1,
+					Limit:       10,
+				}
+
+				err := apperrors.NotFound
+
+				f.searchProductsUsecase.EXPECT().SearchProducts(ctx, in).Return(nil, err)
+			},
+			prepareRequest: func(r *http.Request) {
+				q := r.URL.Query()
+				q.Set("name", "プ")
+				q.Set("page", "1")
+				q.Set("limit", "10")
+				r.URL.RawQuery = q.Encode()
+			},
+		},
+		{
 			name:       "usecaseでの500エラー(DBエラー)",
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
