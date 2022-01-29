@@ -37,20 +37,20 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				out := &productnoteoutput.CreateProductNoteOutput{
 					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
+					CreatedBy: "024d78d6-1d03-41ec-a478-0242ac184402",
+					UpdatedBy: "024d78d6-1d03-41ec-a478-0242ac184402",
 					CreatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 					UpdatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 				}
@@ -83,10 +83,10 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -109,10 +109,10 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002xxx",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002xxx",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InvalidParameter
@@ -135,10 +135,10 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				err := apperrors.NotFound
@@ -161,10 +161,10 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				err := apperrors.Conflict
@@ -187,10 +187,10 @@ func TestCreateProductNoteHandlerCreateProductNote(t *testing.T) {
 
 				in := &productnoteinput.CreateProductNoteInput{
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "ノート",
 					Content:   "note",
-					UserID:    "024d78d6-1d03-11ec-a478-0242ac184402",
+					UserID:    "024d78d6-1d03-41ec-a478-0242ac184402",
 				}
 
 				err := apperrors.InternalServerError

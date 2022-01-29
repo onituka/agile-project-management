@@ -29,12 +29,12 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			fileSuffix: "200",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
@@ -42,7 +42,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},
@@ -52,12 +52,12 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			fileSuffix: "400",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}).Context()
 
 				in := &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				}
 
@@ -67,7 +67,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 				})
 			},
@@ -77,12 +77,12 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			fileSuffix: "404",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				}).Context()
 
 				in := &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				}
 
@@ -92,7 +92,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a9",
 				})
 			},
@@ -102,12 +102,12 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			fileSuffix: "500",
 			prepareMock: func(f *fields) {
 				ctx := mux.SetURLVars(&http.Request{}, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}).Context()
 
 				in := &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				}
 
@@ -117,7 +117,7 @@ func TestDeleteProductNoteHandlerDeleteProductNote(t *testing.T) {
 			},
 			prepareRequest: func(r *http.Request) {
 				*r = *mux.SetURLVars(r, map[string]string{
-					"productNoteID": "52dfc0d0-748e-11ec-88fd-acde48001122",
+					"productNoteID": "52dfc0d0-748e-41ec-88fd-acde48001122",
 					"productID":     "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				})
 			},

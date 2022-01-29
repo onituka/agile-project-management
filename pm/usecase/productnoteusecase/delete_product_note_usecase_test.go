@@ -41,7 +41,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					return err
 				}
 
-				productNoteIDVo, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				productNoteIDVo, err := productnotedm.NewProductNoteID("52dfc0d0-748e-41ec-88fd-acde48001122")
 				if err != nil {
 					return err
 				}
@@ -55,7 +55,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
@@ -67,7 +67,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "invalid product id",
 				},
 			},
@@ -93,7 +93,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
@@ -134,7 +134,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					return err
 				}
 
-				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				productNoteID, err := productnotedm.NewProductNoteID("52dfc0d0-748e-41ec-88fd-acde48001122")
 				if err != nil {
 					return err
 				}
@@ -149,7 +149,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
@@ -166,7 +166,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 					return err
 				}
 
-				productNoteIDVo, err := productnotedm.NewProductNoteID("52dfc0d0-748e-11ec-88fd-acde48001122")
+				productNoteIDVo, err := productnotedm.NewProductNoteID("52dfc0d0-748e-41ec-88fd-acde48001122")
 				if err != nil {
 					return err
 				}
@@ -182,7 +182,7 @@ func TestDeleteProductNoteUsecaseDeleteProductNote(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.DeleteProductNoteInput{
-					ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+					ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
 				},
 			},
