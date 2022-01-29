@@ -71,7 +71,8 @@ func (r *projectNoteRepository) UpdateProjectNote(ctx context.Context, projectNo
         SET
           title = ?,
           content = ?,
-          updated_by = ?
+          updated_by = ?,
+          updated_at = ?
         WHERE
           id = ?`
 
@@ -81,6 +82,7 @@ func (r *projectNoteRepository) UpdateProjectNote(ctx context.Context, projectNo
 		projectNote.Title().Value(),
 		projectNote.Content().Value(),
 		projectNote.UpdatedBy().Value(),
+		projectNote.UpdatedAt(),
 		projectNote.ID().Value(),
 	); err != nil {
 		return apperrors.InternalServerError
@@ -236,5 +238,4 @@ func (r *projectNoteRepository) FetchProjectNoteByID(ctx context.Context, id pro
 		projectNoteDto.CreatedAt,
 		projectNoteDto.UpdatedAt,
 	)
-
 }
