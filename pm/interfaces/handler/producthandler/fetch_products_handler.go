@@ -38,7 +38,7 @@ func (h *fetchProductsHandler) FetchProducts(w http.ResponseWriter, r *http.Requ
 
 	// TODO: 今後JWTにてGroupIDを認証する為、現時点ではGroupIDを指定のものとする
 	in := &productinput.FetchProductsInput{
-		GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
+		GroupID: "024d78d6-1d03-41ec-a478-0242ac180002",
 		Page:    uint32(page),
 		Limit:   uint32(limit),
 	}

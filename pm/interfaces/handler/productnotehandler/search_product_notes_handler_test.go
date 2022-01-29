@@ -45,9 +45,9 @@ func TestSearchProductNotesHandlerSearchProductNotes(t *testing.T) {
 					TotalCount: 2,
 					ProductNotes: []*productnoteoutput.SearchProductNoteOutput{
 						{
-							ID:        "52dfc0d0-748e-11ec-88fd-acde48001122",
+							ID:        "52dfc0d0-748e-41ec-88fd-acde48001122",
 							ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-							GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+							GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 							Title:     "ノート",
 							Content:   "note",
 							CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
@@ -56,9 +56,9 @@ func TestSearchProductNotesHandlerSearchProductNotes(t *testing.T) {
 							UpdatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 						},
 						{
-							ID:        "62dfc0d0-748e-11ec-88fd-acde48001122",
+							ID:        "62dfc0d0-748e-41ec-88fd-acde48001122",
 							ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-							GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+							GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 							Title:     "ノート2",
 							Content:   "test",
 							CreatedBy: "024d78d6-1d03-11ec-a478-0242ac184402",
