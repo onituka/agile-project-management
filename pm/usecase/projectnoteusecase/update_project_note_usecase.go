@@ -96,8 +96,6 @@ func (u *updateProjectNoteUsecase) UpdateProjectNote(ctx context.Context, in *pr
 
 	projectNoteDm.ChangeUpdatedBy(userIDVo)
 
-	projectNoteDm.UpdatedAt()
-
 	exist, err := projectNoteDomainService.ExistsProjectNoteForUpdate(ctx, projectNoteDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
 		return nil, err
