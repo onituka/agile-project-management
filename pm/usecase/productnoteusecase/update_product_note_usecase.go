@@ -78,7 +78,7 @@ func (u *updateProductNoteUsecase) UpdateProductNote(ctx context.Context, in *pr
 		return nil, err
 	}
 
-	productNoteDm.ChangeUpdatedByAndUpdateAt(userIDVo)
+	productNoteDm.ChangeUpdatedBy(userIDVo)
 
 	exist, err := productNoteDomainService.ExistsProductNoteForUpdate(ctx, productNoteDm)
 	if err != nil && !apperrors.Is(err, apperrors.NotFound) {
