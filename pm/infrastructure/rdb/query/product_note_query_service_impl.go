@@ -6,6 +6,7 @@ import (
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
+	"github.com/onituka/agile-project-management/project-management/domain/productnotedm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/productnoteusecase/productnoteoutput"
 )
@@ -91,7 +92,7 @@ func (r *productNoteQueryServiceImpl) CountProductNotesByProductID(ctx context.C
 	return totalCount, nil
 }
 
-func (r *productNoteQueryServiceImpl) SearchProductNotes(ctx context.Context, productID productdm.ProductID, title string, limit uint32, offset uint32) ([]*productnoteoutput.SearchProductNoteOutput, error) {
+func (r *productNoteQueryServiceImpl) SearchProductNotes(ctx context.Context, productID productdm.ProductID, title productnotedm.Title, limit uint32, offset uint32) ([]*productnoteoutput.SearchProductNoteOutput, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -147,7 +148,7 @@ func (r *productNoteQueryServiceImpl) SearchProductNotes(ctx context.Context, pr
 	return productNotesDto, nil
 }
 
-func (r *productNoteQueryServiceImpl) CountProductNotesByTitle(ctx context.Context, productID productdm.ProductID, title string) (totalCount uint32, err error) {
+func (r *productNoteQueryServiceImpl) CountProductNotesByTitle(ctx context.Context, productID productdm.ProductID, title productnotedm.Title) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err
