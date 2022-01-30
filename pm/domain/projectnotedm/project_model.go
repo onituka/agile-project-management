@@ -169,6 +169,7 @@ func (p *ProjectNote) ChangeContent(content Content) {
 
 func (p *ProjectNote) ChangeUpdatedBy(updatedBy userdm.UserID) {
 	p.updatedBy = updatedBy
+
 	now := time.Now().UTC()
 	p.updatedAt = now
 }
