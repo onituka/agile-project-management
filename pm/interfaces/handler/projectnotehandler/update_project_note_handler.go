@@ -55,7 +55,7 @@ func (h *updateProjectNoteHandler) UpdateProjectNote(w http.ResponseWriter, r *h
 		ID:        projectNoteID,
 		ProductID: productID,
 		ProjectID: projectID,
-		UserID:    "777d78d6-1d03-11ec-a478-0242ac184402",
+		UserID:    "777d78d6-1d03-41ec-a478-0242ac184402",
 	}
 
 	if err := json.NewDecoder(r.Body).Decode(&in); err != nil {
