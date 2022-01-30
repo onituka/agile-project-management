@@ -64,7 +64,7 @@ func (u *updateProjectNoteUsecase) UpdateProjectNote(ctx context.Context, in *pr
 
 	projectNoteDomainService := projectnotedm.NewProjectNoteDomainService(u.projectNoteRepository)
 
-	if exist, err := projectNoteDomainService.ExistsProjectByIDForUpdate(ctx, projectNoteIDVo, projectIDVo); err != nil {
+	if exist, err := projectNoteDomainService.ExistsProjectNoteByIDForUpdate(ctx, projectNoteIDVo, projectIDVo); err != nil {
 		return nil, err
 	} else if !exist {
 		return nil, apperrors.NotFound

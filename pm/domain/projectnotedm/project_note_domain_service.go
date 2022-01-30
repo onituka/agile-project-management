@@ -28,7 +28,7 @@ func (s *projectNoteDomainService) ExistsProjectNoteForCreate(ctx context.Contex
 	return false, err
 }
 
-func (s *projectNoteDomainService) ExistsProjectByIDForUpdate(ctx context.Context, projectNoteIDVo ProjectNoteID, projectIDVo projectdm.ProjectID) (bool, error) {
+func (s *projectNoteDomainService) ExistsProjectNoteByIDForUpdate(ctx context.Context, projectNoteIDVo ProjectNoteID, projectIDVo projectdm.ProjectID) (bool, error) {
 	if _, err := s.projectNoteRepository.FetchProjectNoteByIDForUpdate(ctx, projectNoteIDVo, projectIDVo); err != nil {
 		return false, err
 	}

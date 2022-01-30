@@ -188,7 +188,6 @@ func (r *projectNoteRepository) FetchProjectNoteByIDForUpdate(ctx context.Contex
 		projectNoteDto.CreatedAt,
 		projectNoteDto.UpdatedAt,
 	)
-
 }
 
 func (r *projectNoteRepository) FetchProjectNoteByID(ctx context.Context, id projectnotedm.ProjectNoteID, projectID projectdm.ProjectID) (*projectnotedm.ProjectNote, error) {
