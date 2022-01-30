@@ -163,44 +163,6 @@ func TestSearchProductNotesUsecaseSearchProductNotes(t *testing.T) {
 			wantErr: nil,
 		},
 		{
-			name: "正常(検索にヒットしなかった場合)",
-			prepareMock: func(f *fields) error {
-				ctx := context.TODO()
-				var err error
-
-				productIDVo, err := productdm.NewProductID("4495c574-34c2-4fb3-9ca4-3a7c79c267a6")
-				if err != nil {
-					return err
-				}
-
-				titleVo, err := productnotedm.NewTitle("ノxx")
-				if err != nil {
-					return err
-				}
-
-				totalCount := uint32(0)
-
-				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
-				f.productnoteService.EXPECT().CountProductNotesByTitle(ctx, productIDVo, titleVo).Return(totalCount, nil)
-
-				return nil
-			},
-			args: args{
-				ctx: context.TODO(),
-				in: &productnoteinput.SearchProductNotesInput{
-					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-					Title:     "ノxx",
-					Page:      1,
-					Limit:     10,
-				},
-			},
-			want: &productnoteoutput.SearchProductNotesOutput{
-				TotalCount:   0,
-				ProductNotes: make([]*productnoteoutput.SearchProductNoteOutput, 0),
-			},
-			wantErr: nil,
-		},
-		{
 			name:        "プロダクトIDの不正",
 			prepareMock: nil,
 			args: args{
