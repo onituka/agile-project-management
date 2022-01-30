@@ -168,7 +168,7 @@ func TestSearchProductNotesUsecaseSearchProductNotes(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productnoteinput.SearchProductNotesInput{
-					ProductID: "invalid product id",
+					ProductID: "4495c574-34c2-4fb3-9ca4-3a7c79c267ax",
 					Title:     "ノ",
 					Page:      1,
 					Limit:     10,
