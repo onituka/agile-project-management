@@ -208,7 +208,7 @@ func TestSearchProductNotesUsecaseSearchProductNotes(t *testing.T) {
 			wantErr: apperrors.NotFound,
 		},
 		{
-			name:        "page値の不正",
+			name:        "クエリパラメータpage値の不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
@@ -223,7 +223,7 @@ func TestSearchProductNotesUsecaseSearchProductNotes(t *testing.T) {
 			wantErr: apperrors.InvalidParameter,
 		},
 		{
-			name:        "limit値の不正",
+			name:        "クエリパラメータlimit値の不正",
 			prepareMock: nil,
 			args: args{
 				ctx: context.TODO(),
