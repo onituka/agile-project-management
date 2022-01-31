@@ -30,6 +30,35 @@ CREATE TABLE product_notes
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+CREATE TABLE product_note_comments
+(
+    id              CHAR(36) NOT NULL,
+    product_id      CHAR(36) NOT NULL,
+    product_note_id CHAR(36) NOT NULL,
+    group_id        CHAR(36) NOT NULL,
+    content         TEXT COLLATE utf8_unicode_ci,
+    user_id         CHAR(36) NOT NULL,
+    created_at      DATETIME NOT NULL,
+    updated_at      DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY fk_product_note_comments_product_note_id(product_note_id)
+        REFERENCES product_notes (id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+CREATE TABLE product_note_comment_paths
+(
+    comment_ancestor_id   CHAR(36) NOT NULL,
+    comment_descendant_id CHAR(36) NOT NULL,
+    PRIMARY KEY (comment_ancestor_id, comment_descendant_id),
+    FOREIGN KEY fk_product_note_comment_paths_comment_ancestor_id(comment_ancestor_id)
+        REFERENCES product_note_comments (id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY fk_product_note_comment_paths_comment_descendant_id(comment_descendant_id)
+        REFERENCES product_note_comments (id)
+        ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
 CREATE TABLE projects
 (
     id                  CHAR(36)    NOT NULL,
