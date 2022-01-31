@@ -39,7 +39,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-41ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
@@ -59,16 +59,16 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productinput.CreateProductInput{
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:  "024d78d6-1d03-41ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
+					LeaderID: "024d78d6-1d03-44ec-a478-0242ac184402",
 				},
 			},
 			want: &productoutput.CreateProductOutput{
 				ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-				GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+				GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 				Name:      "プロジェクト管理ツール",
-				LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
+				LeaderID:  "024d78d6-1d03-44ec-a478-0242ac184402",
 				CreatedAt: time.Now().UTC(),
 				UpdatedAt: time.Now().UTC(),
 			},
@@ -82,7 +82,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				in: &productinput.CreateProductInput{
 					GroupID:  "invalid group id",
 					Name:     "プロジェクト管理ツール",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
+					LeaderID: "024d78d6-1d03-44ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -94,9 +94,9 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productinput.CreateProductInput{
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:  "024d78d6-1d03-41ec-a478-0242ac180002",
 					Name:     "A",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
+					LeaderID: "024d78d6-1d03-44ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,
@@ -108,7 +108,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productinput.CreateProductInput{
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:  "024d78d6-1d03-41ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
 					LeaderID: "invalid leader id",
 				},
@@ -122,7 +122,7 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 				ctx := context.TODO()
 				var err error
 
-				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-11ec-a478-0242ac180002")
+				groupIDVo, err := groupdm.NewGroupID("024d78d6-1d03-41ec-a478-0242ac180002")
 				if err != nil {
 					return err
 				}
@@ -141,9 +141,9 @@ func TestCreateProductUsecaseCreateProduct(t *testing.T) {
 			args: args{
 				ctx: context.TODO(),
 				in: &productinput.CreateProductInput{
-					GroupID:  "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID:  "024d78d6-1d03-41ec-a478-0242ac180002",
 					Name:     "プロジェクト管理ツール",
-					LeaderID: "024d78d6-1d03-11ec-a478-0242ac184402",
+					LeaderID: "024d78d6-1d03-44ec-a478-0242ac184402",
 				},
 			},
 			want:    nil,

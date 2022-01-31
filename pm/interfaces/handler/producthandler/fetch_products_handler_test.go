@@ -33,7 +33,7 @@ func TestFetchProductsHandlerFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				in := &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID: "024d78d6-1d03-41ec-a478-0242ac180002",
 					Page:    1,
 					Limit:   10,
 				}
@@ -43,17 +43,17 @@ func TestFetchProductsHandlerFetchProducts(t *testing.T) {
 					Products: []*productoutput.ProductOutput{
 						{
 							ID:        "4487c574-34c2-4fb3-9ca4-3a7c79c267a6",
-							GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+							GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 							Name:      "test",
-							LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
+							LeaderID:  "024d78d6-1d03-44ec-a478-0242ac184402",
 							CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 							UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 						},
 						{
 							ID:        "4495c574-34c2-4fb3-9ca4-3a7c79c267a6",
-							GroupID:   "024d78d6-1d03-11ec-a478-0242ac180002",
+							GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 							Name:      "プロジェクト管理ツール",
-							LeaderID:  "024d78d6-1d03-11ec-a478-0242ac184402",
+							LeaderID:  "024d78d6-1d03-44ec-a478-0242ac184402",
 							CreatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 							UpdatedAt: time.Date(2021, 11, 5, 0, 0, 0, 0, time.UTC),
 						},
@@ -76,7 +76,7 @@ func TestFetchProductsHandlerFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				in := &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID: "024d78d6-1d03-41ec-a478-0242ac180002",
 					Page:    1,
 					Limit:   10,
 				}
@@ -124,7 +124,7 @@ func TestFetchProductsHandlerFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				in := &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID: "024d78d6-1d03-41ec-a478-0242ac180002",
 					Page:    0,
 					Limit:   10,
 				}
@@ -147,7 +147,7 @@ func TestFetchProductsHandlerFetchProducts(t *testing.T) {
 				ctx := context.TODO()
 
 				in := &productinput.FetchProductsInput{
-					GroupID: "024d78d6-1d03-11ec-a478-0242ac180002",
+					GroupID: "024d78d6-1d03-41ec-a478-0242ac180002",
 					Page:    1,
 					Limit:   10,
 				}

@@ -154,9 +154,7 @@ func (p *ProductNote) ChangeContent(content Content) {
 
 func (p *ProductNote) ChangeUpdatedBy(updatedBy userdm.UserID) {
 	p.updatedBy = updatedBy
-}
 
-func (p *ProductNote) ChangeUpdateAt() {
 	now := time.Now().UTC()
 	p.updatedAt = now
 }
