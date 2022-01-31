@@ -238,7 +238,7 @@ components:
         - $ref: "#/components/schemas/productReq"
 
     productReq:
-      title: putProductReq
+      title: productReq
       type: object
       properties:
         name:
@@ -324,7 +324,7 @@ components:
               updatedAt: 2021-12-25T00:00:00Z
 
     productResp:
-      title: putProductResp
+      title: productResp
       type: object
       properties:
         id:

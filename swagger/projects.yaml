@@ -324,7 +324,7 @@ components:
         - $ref: "#/components/schemas/projectResp"
 
     getProjectByIDResp:
-      title: putProjectResp
+      title: getProjectResp
       allOf:
         - $ref: "#/components/schemas/projectResp"
 
