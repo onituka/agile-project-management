@@ -1,0 +1,509 @@
+openapi: 3.0.3
+
+servers:
+  - url: http://localhost:8080
+    description: localhost
+
+info:
+  title: プロジェクト管理
+  version: 1.0.0
+
+paths:
+  /products/{productID:[a-z0-9-]{36}}/notes:
+    post:
+      summary: プロダクトノート作成
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postProductNoteReq"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/postProductNoteResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        409:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    get:
+      summary: プロダクトノート一覧取得
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProductNotesResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+  /products/{productID:[a-z0-9-]{36}}/notes/{productNoteID:[a-z0-9-]{36}}:
+    put:
+      summary: プロダクトノート更新
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/putProductNoteReq"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/putProductNoteResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    get:
+      summary: プロダクトノート詳細取得
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getProductNoteByIDResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+  /products/{productID:[a-z0-9-]{36}}/notes/search:
+    get:
+      summary: プロダクトノート検索
+      tags: [ ProductNote ]
+      parameters:
+        - in: query
+          name: title
+          description: 検索キーワード(プロダクトノートタイトルの部分一致)
+          schema:
+            type: string
+            minLength: 0
+            exclusiveMaximum: true
+            example: サービス
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/searchProductNotesResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    delete:
+      summary: プロダクトノート削除
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      responses:
+        204:
+          description: NoContent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteProductNoteResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+components:
+  schemas:
+    # request body schema
+    postProductNoteReq:
+      title: postProductNoteReq
+      allOf:
+        - $ref: "#/components/schemas/productNoteReq"
+
+    putProductNoteReq:
+      title: putProductNoteReq
+      allOf:
+        - $ref: "#/components/schemas/productNoteReq"
+
+    productNoteReq:
+      title: productNoteReq
+      type: object
+      properties:
+        title:
+          description: プロダクトノートタイトル
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: ノート
+        content:
+          description: プロダクトノートコンテンツ
+          type: string
+          minLength: 0
+          maxLength: 65535
+          example: note
+
+    # response body schema
+    postProductNoteResp:
+      title: postProductNoteResp
+      allOf:
+        - $ref: "#/components/schemas/productNoteResp"
+
+    putProductNoteResp:
+      title: putProductNoteResp
+      allOf:
+        - $ref: "#/components/schemas/productNoteResp"
+
+    getProductNoteByIDResp:
+      title: getProductNoteResp
+      allOf:
+        - $ref: "#/components/schemas/productNoteResp"
+
+    getProductNotesResp:
+      title: getProductNotesResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        productNotes:
+          type: array
+          items:
+            $ref: "#/components/schemas/productNoteResp"
+          example:
+            - id: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              title: ノート
+              content: note
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+            - id: 11494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              title: テスト
+              content: テストノート
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+
+    searchProductNotesResp:
+      title: searchProductNotesResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/productNoteResp"
+          example:
+            - id: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              title: ノート
+              content: note
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+            - id: 11494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              title: テスト
+              content: テストノート
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+
+    deleteProductNoteResp:
+      title: deleteProductNoteResp
+
+    productNoteResp:
+      title: productNoteResp
+      type: object
+      properties:
+        id:
+          description: プロダクトノートID
+          type: string
+          format: uuid
+          example: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+        productID:
+          description: プロダクトID
+          type: string
+          format: uuid
+          example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        groupID:
+          description: グループID
+          type: string
+          format: uuid
+          example: 379064ce-763e-427f-aaab-426f05db116e
+        title:
+          description: プロダクトノートタイトル
+          type: string
+          example: ノート
+        name:
+          description: プロダクトノートコンテンツ
+          type: string
+          example: note
+        createdBy:
+          description: ノート作成者
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+        updatedBy:
+          description: ノート更新者
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+        createdAt:
+          description: 作成日
+          type: string
+          example: 2021-12-24T00:00:00Z
+        updatedAt:
+          description: 更新日
+          type: string
+          example: 2021-12-24T00:00:00Z
+
+    # error response body schema
+    400BadRequest:
+      description: BadRequest
+      type: object
+      properties:
+        error:
+          type: string
+          enum:
+            - InvalidParameter
+
+    404NotFound:
+      description: NotFound
+      type: object
+      properties:
+        error:
+          type: string
+          enum:
+            - NotFound
+
+    409Conflict:
+      description: Conflict
+      type: object
+      properties:
+        error:
+          type: string
+          enum:
+            - Conflict
+
+    500InternalServerError:
+      description: InternalServerError
+      type: object
+      properties:
+        error:
+          type: string
+          enum:
+            - InternalServerError
