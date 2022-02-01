@@ -49,8 +49,8 @@ func TestFetchProjectNoteByIDHandlerFetchProjectNoteByID(t *testing.T) {
 					GroupID:   "024d78d6-1d03-41ec-a478-0242ac180002",
 					Title:     "プロジェクトまとめ",
 					Content:   "プロジェクトに関する資料まとめ",
-					CreatedBy: "777d78d6-1d03-11ec-a478-0242ac184402",
-					UpdatedBy: "777d78d6-1d03-11ec-a478-0242ac184402",
+					CreatedBy: "777d78d6-1d03-41ec-a478-0242ac184402",
+					UpdatedBy: "777d78d6-1d03-41ec-a478-0242ac184402",
 					CreatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 					UpdatedAt: time.Date(2021, 11, 05, 0, 0, 0, 0, time.UTC),
 				}
