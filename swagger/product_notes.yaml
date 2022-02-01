@@ -448,7 +448,7 @@ components:
           description: プロダクトノートタイトル
           type: string
           example: ノート
-        name:
+        content:
           description: プロダクトノートコンテンツ
           type: string
           example: note
