@@ -50,6 +50,36 @@ func (mr *MockProjectNoteRepositoryMockRecorder) CreateProjectNote(ctx, projectN
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProjectNote", reflect.TypeOf((*MockProjectNoteRepository)(nil).CreateProjectNote), ctx, projectNote)
 }
 
+// FetchProjectNoteByID mocks base method.
+func (m *MockProjectNoteRepository) FetchProjectNoteByID(ctx context.Context, id projectnotedm.ProjectNoteID, projectID projectdm.ProjectID) (*projectnotedm.ProjectNote, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FetchProjectNoteByID", ctx, id, projectID)
+	ret0, _ := ret[0].(*projectnotedm.ProjectNote)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FetchProjectNoteByID indicates an expected call of FetchProjectNoteByID.
+func (mr *MockProjectNoteRepositoryMockRecorder) FetchProjectNoteByID(ctx, id, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectNoteByID", reflect.TypeOf((*MockProjectNoteRepository)(nil).FetchProjectNoteByID), ctx, id, projectID)
+}
+
+// FetchProjectNoteByIDForUpdate mocks base method.
+func (m *MockProjectNoteRepository) FetchProjectNoteByIDForUpdate(ctx context.Context, id projectnotedm.ProjectNoteID, projectID projectdm.ProjectID) (*projectnotedm.ProjectNote, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FetchProjectNoteByIDForUpdate", ctx, id, projectID)
+	ret0, _ := ret[0].(*projectnotedm.ProjectNote)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FetchProjectNoteByIDForUpdate indicates an expected call of FetchProjectNoteByIDForUpdate.
+func (mr *MockProjectNoteRepositoryMockRecorder) FetchProjectNoteByIDForUpdate(ctx, id, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectNoteByIDForUpdate", reflect.TypeOf((*MockProjectNoteRepository)(nil).FetchProjectNoteByIDForUpdate), ctx, id, projectID)
+}
+
 // FetchProjectNoteByProjectIDAndTitle mocks base method.
 func (m *MockProjectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title projectnotedm.Title) (*projectnotedm.ProjectNote, error) {
 	m.ctrl.T.Helper()
@@ -63,4 +93,18 @@ func (m *MockProjectNoteRepository) FetchProjectNoteByProjectIDAndTitle(ctx cont
 func (mr *MockProjectNoteRepositoryMockRecorder) FetchProjectNoteByProjectIDAndTitle(ctx, projectID, title interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectNoteByProjectIDAndTitle", reflect.TypeOf((*MockProjectNoteRepository)(nil).FetchProjectNoteByProjectIDAndTitle), ctx, projectID, title)
+}
+
+// UpdateProjectNote mocks base method.
+func (m *MockProjectNoteRepository) UpdateProjectNote(ctx context.Context, projectNote *projectnotedm.ProjectNote) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateProjectNote", ctx, projectNote)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateProjectNote indicates an expected call of UpdateProjectNote.
+func (mr *MockProjectNoteRepositoryMockRecorder) UpdateProjectNote(ctx, projectNote interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateProjectNote", reflect.TypeOf((*MockProjectNoteRepository)(nil).UpdateProjectNote), ctx, projectNote)
 }

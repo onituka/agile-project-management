@@ -19,3 +19,7 @@ func NewTitle(title string) (Title, error) {
 func (t Title) Value() string {
 	return string(t)
 }
+
+func (t Title) Equals(title Title) bool {
+	return t == title
+}

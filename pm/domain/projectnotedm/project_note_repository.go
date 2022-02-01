@@ -8,5 +8,8 @@ import (
 
 type ProjectNoteRepository interface {
 	CreateProjectNote(ctx context.Context, projectNote *ProjectNote) error
+	UpdateProjectNote(ctx context.Context, projectNote *ProjectNote) error
 	FetchProjectNoteByProjectIDAndTitle(ctx context.Context, projectID projectdm.ProjectID, title Title) (*ProjectNote, error)
+	FetchProjectNoteByIDForUpdate(ctx context.Context, id ProjectNoteID, projectID projectdm.ProjectID) (*ProjectNote, error)
+	FetchProjectNoteByID(ctx context.Context, id ProjectNoteID, projectID projectdm.ProjectID) (*ProjectNote, error)
 }
