@@ -19,7 +19,7 @@ values
 
 -- product_note_comments table test data
 INSERT INTO product_note_comments
-    (id, product_id, product_note_id, group_id, content, user_id, created_at, updated_at)
+    (id, product_id, product_note_id, group_id, content, created_by, created_at, updated_at)
 values
     ("82dfc0d0-748e-41ec-88fd-acde48001122", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "52dfc0d0-748e-41ec-88fd-acde48001122", "024d78d6-1d03-41ec-a478-0242ac180002", "testコメント", "024d78d6-1d03-41ec-a478-0242ac184402", "2021-11-05 00:00:00.000000", "2021-11-05 00:00:00.000000"),
     ("92dfc0d0-748e-41ec-88fd-acde48001122", "4495c574-34c2-4fb3-9ca4-3a7c79c267a6", "52dfc0d0-748e-41ec-88fd-acde48001122", "024d78d6-1d03-41ec-a478-0242ac180002", "testコメント2", "024d78d6-1d03-41ec-a478-0242ac184402", "2021-11-06 00:00:00.000000", "2021-11-06 00:00:00.000000"),

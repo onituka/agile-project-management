@@ -37,7 +37,7 @@ CREATE TABLE product_note_comments
     product_note_id CHAR(36) NOT NULL,
     group_id        CHAR(36) NOT NULL,
     content         TEXT COLLATE utf8_unicode_ci,
-    user_id         CHAR(36) NOT NULL,
+    created_by      CHAR(36) NOT NULL,
     created_at      DATETIME NOT NULL,
     updated_at      DATETIME NOT NULL,
     PRIMARY KEY (id),
