@@ -40,8 +40,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
-        409:
+        404:
           description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        409:
+          description: Conflict
           content:
             application/json:
               schema:
