@@ -16,6 +16,10 @@ func NewContent(content string) (Content, error) {
 	return Content(content), nil
 }
 
-func (t Content) Value() string {
-	return string(t)
+func (c Content) Value() string {
+	return string(c)
+}
+
+func (c Content) Equals(content Content) bool {
+	return c == content
 }
