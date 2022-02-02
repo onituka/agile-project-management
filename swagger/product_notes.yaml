@@ -9,29 +9,43 @@ info:
   version: 1.0.0
 
 paths:
-  /products:
+  /products/{productID}/notes:
     post:
-      summary: プロダクト作成
-      tags: [ Product ]
+      summary: プロダクトノート作成
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/postProductReq"
+              $ref: "#/components/schemas/postProductNoteReq"
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/postProductResp"
+                $ref: "#/components/schemas/postProductNoteResp"
         400:
           description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
         409:
           description: Conflict
           content:
@@ -46,9 +60,16 @@ paths:
                 $ref: "#/components/schemas/500InternalServerError"
 
     get:
-      summary: プロダクト一覧取得
-      tags: [ Product ]
+      summary: プロダクトノート一覧取得
+      tags: [ ProductNote ]
       parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
         - in: query
           name: page
           description: 取得ページ
@@ -73,13 +94,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/getProductsResp"
+                $ref: "#/components/schemas/getProductNotesResp"
         400:
           description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
         500:
           description: InternalServerError
           content:
@@ -87,10 +114,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/500InternalServerError"
 
-  /products/{productID}:
+  /products/{productID}/notes/{productNoteID}:
     put:
-      summary: プロダクト更新
-      tags: [ Product ]
+      summary: プロダクトノート更新
+      tags: [ ProductNote ]
       parameters:
         - in: path
           name: productID
@@ -99,19 +126,26 @@ paths:
             type: string
             format: uuid
             example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/putProductReq"
+              $ref: "#/components/schemas/putProductNoteReq"
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/putProductResp"
+                $ref: "#/components/schemas/putProductNoteResp"
         400:
           description: BadRequest
           content:
@@ -138,8 +172,8 @@ paths:
                 $ref: "#/components/schemas/500InternalServerError"
 
     get:
-      summary: プロダクト詳細取得
-      tags: [ Product ]
+      summary: プロダクトノート詳細取得
+      tags: [ ProductNote ]
       parameters:
         - in: path
           name: productID
@@ -148,13 +182,20 @@ paths:
             type: string
             format: uuid
             example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/getProductByIDResp"
+                $ref: "#/components/schemas/getProductNoteByIDResp"
         400:
           description: BadRequest
           content:
@@ -173,19 +214,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/500InternalServerError"
-  /products/search:
+
+  /products/{productID}/notes/search:
     get:
-      summary: プロダクト検索
-      tags: [ Product ]
+      summary: プロダクトノート検索
+      tags: [ ProductNote ]
       parameters:
         - in: query
-          name: name
-          description: 検索キーワード(プロダクト名の部分一致)
+          name: title
+          description: 検索キーワード(プロダクトノートタイトルの部分一致)
           schema:
             type: string
             minLength: 0
             exclusiveMaximum: true
-            example: プロダクト管理
+            example: サービス
         - in: query
           name: page
           description: 取得ページ
@@ -210,13 +252,59 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/searchProductsResp"
+                $ref: "#/components/schemas/searchProductNotesResp"
         400:
           description: BadRequest
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    delete:
+      summary: プロダクトノート削除
+      tags: [ ProductNote ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: productNoteID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      responses:
+        204:
+          description: NoContent
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
         500:
           description: InternalServerError
           content:
@@ -227,50 +315,51 @@ paths:
 components:
   schemas:
     # request body schema
-    postProductReq:
-      title: postProductReq
+    postProductNoteReq:
+      title: postProductNoteReq
       allOf:
-        - $ref: "#/components/schemas/productReq"
+        - $ref: "#/components/schemas/productNoteReq"
 
-    putProductReq:
-      title: putProductReq
+    putProductNoteReq:
+      title: putProductNoteReq
       allOf:
-        - $ref: "#/components/schemas/productReq"
+        - $ref: "#/components/schemas/productNoteReq"
 
-    productReq:
-      title: productReq
+    productNoteReq:
+      title: productNoteReq
       type: object
       properties:
-        name:
-          description: プロダクト名
+        title:
+          description: プロダクトノートタイトル
           type: string
-          minLength: 2
-          maxLength: 80
-          example: プロジェクト管理ツール
-        leaderID:
-          description: プロダクトリーダーID
+          minLength: 1
+          maxLength: 255
+          example: ノート
+        content:
+          description: プロダクトノートコンテンツ
           type: string
-          format: uuid
-          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+          minLength: 0
+          maxLength: 65535
+          example: note
 
     # response body schema
-    postProductResp:
-      title: postProductResp
+    postProductNoteResp:
+      title: postProductNoteResp
       allOf:
-        - $ref: "#/components/schemas/productResp"
+        - $ref: "#/components/schemas/productNoteResp"
 
-    putProductResp:
-      title: putProductResp
+    putProductNoteResp:
+      title: putProductNoteResp
       allOf:
-        - $ref: "#/components/schemas/productResp"
+        - $ref: "#/components/schemas/productNoteResp"
 
-    getProductByIDResp:
-      title: getProductByIDResp
+    getProductNoteByIDResp:
+      title: getProductNoteResp
       allOf:
-        - $ref: "#/components/schemas/productResp"
+        - $ref: "#/components/schemas/productNoteResp"
 
-    getProductsResp:
-      title: getProductsResp
+    getProductNotesResp:
+      title: getProductNotesResp
       type: object
       properties:
         totalCount:
@@ -278,26 +367,32 @@ components:
           minimum: 0
           exclusiveMaximum: true
           example: 2
-        products:
+        productNotes:
           type: array
           items:
-            $ref: "#/components/schemas/productResp"
+            $ref: "#/components/schemas/productNoteResp"
           example:
-            - id: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+            - id: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
               groupID: 379064ce-763e-427f-aaab-426f05db116e
-              name: プロジェクト管理ツール1
-              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
-              createdAt: 2021-12-24T00:00:00Z
-              updatedAt: 2021-12-24T00:00:00Z
-            - id: bfb71541-0b71-4e03-9fdd-2a64f49e14d2
+              title: ノート
+              content: note
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+            - id: 11494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
               groupID: 379064ce-763e-427f-aaab-426f05db116e
-              name: プロジェクト管理ツール2
-              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              title: テスト
+              content: テストノート
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
               createdAt: 2021-12-25T00:00:00Z
               updatedAt: 2021-12-25T00:00:00Z
 
-    searchProductsResp:
-      title: searchProductsResp
+    searchProductNotesResp:
+      title: searchProductNotesResp
       type: object
       properties:
         totalCount:
@@ -305,29 +400,40 @@ components:
           minimum: 0
           exclusiveMaximum: true
           example: 2
-        products:
+        projects:
           type: array
           items:
-            $ref: "#/components/schemas/productResp"
+            $ref: "#/components/schemas/productNoteResp"
           example:
-            - id: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+            - id: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
               groupID: 379064ce-763e-427f-aaab-426f05db116e
-              name: プロジェクト管理ツール1
-              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
-              createdAt: 2021-12-24T00:00:00Z
-              updatedAt: 2021-12-24T00:00:00Z
-            - id: bfb71541-0b71-4e03-9fdd-2a64f49e14d2
+              title: ノート
+              content: note
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+            - id: 11494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
               groupID: 379064ce-763e-427f-aaab-426f05db116e
-              name: プロジェクト管理ツール2
-              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              title: テスト
+              content: テストノート
+              createdBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              updatedBy: 764f14b0-8152-45a1-959c-1ff7ea2e517c
               createdAt: 2021-12-25T00:00:00Z
               updatedAt: 2021-12-25T00:00:00Z
 
-    productResp:
-      title: productResp
+    productNoteResp:
+      title: productNoteResp
       type: object
       properties:
         id:
+          description: プロダクトノートID
+          type: string
+          format: uuid
+          example: 00494ebc-ef1b-46b5-9c7f-35059feff8b
+        productID:
           description: プロダクトID
           type: string
           format: uuid
@@ -337,12 +443,21 @@ components:
           type: string
           format: uuid
           example: 379064ce-763e-427f-aaab-426f05db116e
-        name:
-          description: プロダクト名
+        title:
+          description: プロダクトノートタイトル
           type: string
-          example: プロジェクト管理ツール
-        leaderID:
-          description: プロダクトリーダーID
+          example: ノート
+        content:
+          description: プロダクトノートコンテンツ
+          type: string
+          example: note
+        createdBy:
+          description: ノート作成者
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+        updatedBy:
+          description: ノート更新者
           type: string
           format: uuid
           example: 764f14b0-8152-45a1-959c-1ff7ea2e517c

@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/404NotFound"
         409:
-          description: NotFound
+          description: Conflict
           content:
             application/json:
               schema:
@@ -324,7 +324,7 @@ components:
         - $ref: "#/components/schemas/projectResp"
 
     getProjectByIDResp:
-      title: putProjectResp
+      title: getProjectResp
       allOf:
         - $ref: "#/components/schemas/projectResp"
 
