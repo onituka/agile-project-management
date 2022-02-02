@@ -424,9 +424,6 @@ components:
               createdAt: 2021-12-25T00:00:00Z
               updatedAt: 2021-12-25T00:00:00Z
 
-    deleteProductNoteResp:
-      title: deleteProductNoteResp
-
     productNoteResp:
       title: productNoteResp
       type: object
