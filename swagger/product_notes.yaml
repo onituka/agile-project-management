@@ -293,10 +293,6 @@ paths:
       responses:
         204:
           description: NoContent
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/deleteProductNoteResp"
         400:
           description: BadRequest
           content:
