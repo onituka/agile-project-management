@@ -23,3 +23,7 @@ func NewProductNoteCommentID(productNoteCommentID string) (ProductNoteCommentID,
 func (i ProductNoteCommentID) Value() string {
 	return string(i)
 }
+
+func (i ProductNoteCommentID) Equals(productNoteCommentID ProductNoteCommentID) bool {
+	return i == productNoteCommentID
+}
