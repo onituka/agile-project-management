@@ -61,17 +61,17 @@ func (r *projectNoteQueryServiceImpl) FetchProjectNotes(ctx context.Context, pro
 
 	defer rows.Close()
 
-	var projectnotesDto []*projectnoteoutput.ProjectNoteOutput
+	var projectNotesDto []*projectnoteoutput.ProjectNoteOutput
 	for rows.Next() {
 		var projectnoteDto projectnoteoutput.ProjectNoteOutput
 		if err = rows.StructScan(&projectnoteDto); err != nil {
 			return nil, apperrors.InternalServerError
 		}
 
-		projectnotesDto = append(projectnotesDto, &projectnoteDto)
+		projectNotesDto = append(projectNotesDto, &projectnoteDto)
 	}
 
-	return projectnotesDto, nil
+	return projectNotesDto, nil
 }
 
 func (r *projectNoteQueryServiceImpl) CountProjectNotesByProductIDAndProjectID(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID) (totalCount uint32, err error) {

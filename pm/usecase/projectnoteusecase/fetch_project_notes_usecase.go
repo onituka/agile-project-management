@@ -73,13 +73,13 @@ func (u *fetchProjectNotesUsecase) FetchProjectNotes(ctx context.Context, in *pr
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectNoteDto, err := u.projectNoteQueryService.FetchProjectNotes(ctx, productIDVo, projectIDVo, in.Limit, offset)
+	projectNotesDto, err := u.projectNoteQueryService.FetchProjectNotes(ctx, productIDVo, projectIDVo, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}
 
 	return &projectnoteoutput.FetchProjectNotesOutput{
 		TotalCount:   totalCount,
-		ProjectNotes: projectNoteDto,
+		ProjectNotes: projectNotesDto,
 	}, nil
 }
