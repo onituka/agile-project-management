@@ -272,6 +272,221 @@ paths:
               schema:
                 $ref: "#/components/schemas/500InternalServerError"
 
+  /products/{productID}/projects/{projectID}/trash-box:
+    put:
+      summary: プロジェクトゴミ箱に移動
+      tags: [ Project ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: projectID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/putTrashedProjectResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        409:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+    get:
+      summary: プロジェクトゴミ箱一覧取得
+      tags: [ Project ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getTrashedProjectsResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+
+  /products/{productID}/projects/{projectID}/restre/trash-box:
+    put:
+      summary: プロジェクトゴミ箱から復元
+      tags: [ Project ]
+      parameters:
+        - in: path
+          name: productID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        - in: path
+          name: projectID
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/putProjectResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        409:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/409Conflict"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
+  /products/{productID}/projects/trash-box/search:
+    get:
+      summary: プロジェクトゴミ箱検索
+      tags: [ Project ]
+      parameters:
+        - in: query
+          name: keyword
+          description: 検索キーワード(プロジェクト名 or プロジェクトキー名の部分一致)
+          schema:
+            type: string
+            minLength: 0
+            exclusiveMaximum: true
+            example: サービス
+        - in: query
+          name: page
+          description: 取得ページ
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            exclusiveMaximum: true
+            example: 1
+        - in: query
+          name: limit
+          description: 1ページあたりの取得数
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            example: 50
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/searchTrashedProjectsResp"
+        400:
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400BadRequest"
+        404:
+          description: NotFound
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/404NotFound"
+        500:
+          description: InternalServerError
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500InternalServerError"
+
 components:
   schemas:
     # request body schema
@@ -323,6 +538,12 @@ components:
       allOf:
         - $ref: "#/components/schemas/projectResp"
 
+    putTrashedProjectResp:
+      title: putProjectResp
+      allOf:
+        - $ref: "#/components/schemas/TrashedProjectResp"
+
+
     getProjectByIDResp:
       title: getProjectResp
       allOf:
@@ -363,6 +584,41 @@ components:
               createdAt: 2021-12-25T00:00:00Z
               updatedAt: 2021-12-25T00:00:00Z
 
+    getTrashedProjectsResp:
+      title: getTrashedProjectsResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrashedProjectResp"
+          example:
+            - id: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              keyName: AJA
+              name: プロジェクトサービス
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              defaultAssigneeID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              trashedAt: 2021-12-24T00:00:00Z
+              createdAt: 2021-12-24T00:00:00Z
+              updatedAt: 2021-12-24T00:00:00Z
+            - id: 45494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              keyName: USER
+              name: ユーザーサービス
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              defaultAssigneeID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              trashedAt: 2021-12-24T00:00:00Z
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-25T00:00:00Z
+
     searchProjectsResp:
       title: searchProjectsResp
       type: object
@@ -397,6 +653,41 @@ components:
               trashedAt: null
               createdAt: 2021-12-25T00:00:00Z
               updatedAt: 2021-12-25T00:00:00Z
+
+    searchTrashedProjectsResp:
+      title: searchTrashedProjectsResp
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          minimum: 0
+          exclusiveMaximum: true
+          example: 2
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrashedProjectResp"
+          example:
+            - id: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              keyName: AJA
+              name: プロジェクトサービス
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              defaultAssigneeID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              trashedAt: 2021-12-25T00:00:00Z
+              createdAt: 2021-12-24T00:00:00Z
+              updatedAt: 2021-12-24T00:00:00Z
+            - id: 45494ebc-ef1b-46b5-9c7f-35059feff8b8
+              productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+              groupID: 379064ce-763e-427f-aaab-426f05db116e
+              keyName: USER
+              name: ユーザーサービス
+              leaderID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              defaultAssigneeID: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+              trashedAt: 2021-12-25T00:00:00Z
+              createdAt: 2021-12-25T00:00:00Z
+              updatedAt: 2021-12-24T00:00:00Z
 
     projectResp:
       title: projectResp
@@ -436,10 +727,61 @@ components:
           format: uuid
           example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
         trashedAt:
-          description: 作成日
+          description: ゴミ箱に移動された日
           type: string
           nullable: true
           example: null
+        createdAt:
+          description: 作成日
+          type: string
+          example: 2021-12-24T00:00:00Z
+        updatedAt:
+          description: 更新日
+          type: string
+          example: 2021-12-24T00:00:00Z
+
+    TrashedProjectResp:
+      title: TrashedprojectResp
+      type: object
+      properties:
+        id:
+          description: プロジェクトID
+          type: string
+          format: uuid
+          example: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
+        productID:
+          description: プロダクトID
+          type: string
+          format: uuid
+          example: afb71541-0b71-4e03-9fdd-2a64f49e14d2
+        groupID:
+          description: グループID
+          type: string
+          format: uuid
+          example: 379064ce-763e-427f-aaab-426f05db116e
+        keyName:
+          description: プロジェクトキー名
+          type: string
+          example: AJA
+        name:
+          description: プロジェクト名
+          type: string
+          example: プロジェクトサービス
+        leaderID:
+          description: プロジェクトリーダーID
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+        defaultAssigneeID:
+          description: デフォルトタスク担当者ID
+          type: string
+          format: uuid
+          example: 764f14b0-8152-45a1-959c-1ff7ea2e517c
+        trashedAt:
+          description: ゴミ箱に移動された日
+          type: string
+          nullable: true
+          example: 2021-12-24T00:00:00Z
         createdAt:
           description: 作成日
           type: string
