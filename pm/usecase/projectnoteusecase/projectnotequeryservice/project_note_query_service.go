@@ -11,4 +11,6 @@ import (
 type ProjectNoteQueryService interface {
 	FetchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, limit uint32, offset uint32) ([]*projectnoteoutput.ProjectNoteOutput, error)
 	CountProjectNotesByProductIDAndProjectID(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID) (totalCount uint32, err error)
+	SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string, limit uint32, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error)
+	CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string) (totalCount uint32, err error)
 }
