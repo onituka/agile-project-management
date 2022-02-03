@@ -90,7 +90,7 @@ func (r *projectNoteQueryServiceImpl) CountProjectNotesByProductIDAndProjectID(c
          AND 
           project_id = ?`
 
-	if err = conn.QueryRowxContext(ctx, query, productID, projectID).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID.Value(), projectID.Value()).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
