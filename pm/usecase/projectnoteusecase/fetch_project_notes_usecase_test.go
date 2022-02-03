@@ -392,7 +392,7 @@ func Test_fetchProjectNotesUsecase_FetchProjectNotes(t *testing.T) {
 				return
 			}
 
-			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(projectnoteoutput.UpdateProjectNoteOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
+			if diff := cmp.Diff(tt.want, got, cmpopts.IgnoreFields(projectnoteoutput.ProjectNoteOutput{}, "ID", "CreatedAt", "UpdatedAt")); len(diff) != 0 {
 				t.Errorf("differs: (-want +got)\n%s", diff)
 			}
 
