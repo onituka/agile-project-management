@@ -7,6 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/config"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteinput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteoutput"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnotequeryservice"
@@ -61,7 +62,12 @@ func (u *searchProjectNotesUsecase) SearchProjectNotes(ctx context.Context, in *
 		return nil, apperrors.NotFound
 	}
 
-	totalCount, err := u.projectNoteQueryService.CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, in.Title)
+	titleVo, err := projectnotedm.NewTitle(in.Title)
+	if err != nil {
+		return nil, err
+	}
+
+	totalCount, err := u.projectNoteQueryService.CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, titleVo)
 	if err != nil {
 		return nil, err
 	} else if totalCount == 0 {
@@ -73,7 +79,7 @@ func (u *searchProjectNotesUsecase) SearchProjectNotes(ctx context.Context, in *
 
 	offset := in.Page*in.Limit - in.Limit
 
-	projectNotesDto, err := u.projectNoteQueryService.SearchProjectNotes(ctx, productIDVo, projectIDVo, in.Title, in.Limit, offset)
+	projectNotesDto, err := u.projectNoteQueryService.SearchProjectNotes(ctx, productIDVo, projectIDVo, titleVo, in.Limit, offset)
 	if err != nil {
 		return nil, err
 	}

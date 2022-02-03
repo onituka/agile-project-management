@@ -11,6 +11,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectdm "github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	projectnotedm "github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	projectnoteoutput "github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteoutput"
 )
 
@@ -53,7 +54,7 @@ func (mr *MockProjectNoteQueryServiceMockRecorder) CountProjectNotesByProductIDA
 }
 
 // CountProjectNotesByTitle mocks base method.
-func (m *MockProjectNoteQueryService) CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string) (uint32, error) {
+func (m *MockProjectNoteQueryService) CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title) (uint32, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CountProjectNotesByTitle", ctx, productID, projectID, title)
 	ret0, _ := ret[0].(uint32)
@@ -83,7 +84,7 @@ func (mr *MockProjectNoteQueryServiceMockRecorder) FetchProjectNotes(ctx, produc
 }
 
 // SearchProjectNotes mocks base method.
-func (m *MockProjectNoteQueryService) SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string, limit, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error) {
+func (m *MockProjectNoteQueryService) SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title, limit, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "SearchProjectNotes", ctx, productID, projectID, title, limit, offset)
 	ret0, _ := ret[0].([]*projectnoteoutput.SearchProjectNoteOutPut)

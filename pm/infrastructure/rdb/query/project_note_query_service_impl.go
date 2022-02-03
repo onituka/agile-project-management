@@ -7,6 +7,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteoutput"
 )
@@ -98,7 +99,7 @@ func (r *projectNoteQueryServiceImpl) CountProjectNotesByProductIDAndProjectID(c
 	return totalCount, nil
 }
 
-func (r *projectNoteQueryServiceImpl) SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string, limit uint32, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error) {
+func (r *projectNoteQueryServiceImpl) SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title, limit uint32, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return nil, err
@@ -159,7 +160,7 @@ func (r *projectNoteQueryServiceImpl) SearchProjectNotes(ctx context.Context, pr
 	return projectNotesDto, nil
 }
 
-func (r *projectNoteQueryServiceImpl) CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title string) (totalCount uint32, err error) {
+func (r *projectNoteQueryServiceImpl) CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title) (totalCount uint32, err error) {
 	conn, err := rdb.ExecFromCtx(ctx)
 	if err != nil {
 		return 0, err

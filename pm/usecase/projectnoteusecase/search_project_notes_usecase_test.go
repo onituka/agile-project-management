@@ -13,6 +13,7 @@ import (
 	"github.com/onituka/agile-project-management/project-management/apperrors"
 	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	"github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	"github.com/onituka/agile-project-management/project-management/usecase/productusecase/mockrepository/mockproductrepository"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/mockprojectnotequeryservice"
 	"github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteinput"
@@ -52,10 +53,15 @@ func Test_searchProjectNotesUsecase_SearchProjectNotes(t *testing.T) {
 				if err != nil {
 					return err
 				}
+
+				titleVo, err := projectnotedm.NewTitle("プロジェクト")
+				if err != nil {
+					return err
+				}
+
 				limit := uint32(50)
 				offset := uint32(0)
 				totalCount := uint32(2)
-				title := "プロジェクト"
 
 				projectNotesDto := []*projectnoteoutput.SearchProjectNoteOutPut{
 					{
@@ -86,8 +92,8 @@ func Test_searchProjectNotesUsecase_SearchProjectNotes(t *testing.T) {
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err)
-				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, title).Return(totalCount, nil)
-				f.projectNoteQueryService.EXPECT().SearchProjectNotes(ctx, productIDVo, projectIDVo, title, limit, offset).Return(projectNotesDto, nil)
+				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, titleVo).Return(totalCount, nil)
+				f.projectNoteQueryService.EXPECT().SearchProjectNotes(ctx, productIDVo, projectIDVo, titleVo, limit, offset).Return(projectNotesDto, nil)
 
 				return nil
 			},
@@ -148,12 +154,16 @@ func Test_searchProjectNotesUsecase_SearchProjectNotes(t *testing.T) {
 					return err
 				}
 
+				titleVo, err := projectnotedm.NewTitle("プロジェクト")
+				if err != nil {
+					return err
+				}
+
 				totalCount := uint32(0)
-				title := "プロジェクト"
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err)
-				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, title).Return(totalCount, nil)
+				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, titleVo).Return(totalCount, nil)
 
 				return nil
 			},
@@ -316,13 +326,16 @@ func Test_searchProjectNotesUsecase_SearchProjectNotes(t *testing.T) {
 					return err
 				}
 
-				title := "プロジェクト"
+				titleVo, err := projectnotedm.NewTitle("プロジェクト")
+				if err != nil {
+					return err
+				}
 
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err)
-				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, title).Return(uint32(0), apperr)
+				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, titleVo).Return(uint32(0), apperr)
 
 				return nil
 			},
@@ -355,17 +368,21 @@ func Test_searchProjectNotesUsecase_SearchProjectNotes(t *testing.T) {
 					return err
 				}
 
+				titleVo, err := projectnotedm.NewTitle("プロジェクト")
+				if err != nil {
+					return err
+				}
+
 				totalCount := uint32(2)
 				limit := uint32(50)
 				offset := uint32(0)
-				title := "プロジェクト"
 
 				apperr := apperrors.InternalServerError
 
 				f.productRepository.EXPECT().FetchProductByIDForUpdate(ctx, productIDVo).Return(nil, err)
 				f.projectRepository.EXPECT().FetchProjectByIDForUpdate(ctx, projectIDVo, productIDVo).Return(nil, err)
-				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, title).Return(totalCount, nil)
-				f.projectNoteQueryService.EXPECT().SearchProjectNotes(ctx, productIDVo, projectIDVo, title, limit, offset).Return(nil, apperr)
+				f.projectNoteQueryService.EXPECT().CountProjectNotesByTitle(ctx, productIDVo, projectIDVo, titleVo).Return(totalCount, nil)
+				f.projectNoteQueryService.EXPECT().SearchProjectNotes(ctx, productIDVo, projectIDVo, titleVo, limit, offset).Return(nil, apperr)
 
 				return nil
 			},
