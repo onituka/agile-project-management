@@ -311,7 +311,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/404NotFound"
         409:
-          description: NotFound
+          description: Conflict
           content:
             application/json:
               schema:
@@ -418,7 +418,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/404NotFound"
         409:
-          description: NotFound
+          description: Conflict
           content:
             application/json:
               schema:
