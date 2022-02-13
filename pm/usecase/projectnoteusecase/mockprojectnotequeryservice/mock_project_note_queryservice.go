@@ -11,6 +11,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectdm "github.com/onituka/agile-project-management/project-management/domain/projectdm"
+	projectnotedm "github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	projectnoteoutput "github.com/onituka/agile-project-management/project-management/usecase/projectnoteusecase/projectnoteoutput"
 )
 
@@ -52,6 +53,21 @@ func (mr *MockProjectNoteQueryServiceMockRecorder) CountProjectNotesByProductIDA
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountProjectNotesByProductIDAndProjectID", reflect.TypeOf((*MockProjectNoteQueryService)(nil).CountProjectNotesByProductIDAndProjectID), ctx, productID, projectID)
 }
 
+// CountProjectNotesByTitle mocks base method.
+func (m *MockProjectNoteQueryService) CountProjectNotesByTitle(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title) (uint32, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountProjectNotesByTitle", ctx, productID, projectID, title)
+	ret0, _ := ret[0].(uint32)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountProjectNotesByTitle indicates an expected call of CountProjectNotesByTitle.
+func (mr *MockProjectNoteQueryServiceMockRecorder) CountProjectNotesByTitle(ctx, productID, projectID, title interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountProjectNotesByTitle", reflect.TypeOf((*MockProjectNoteQueryService)(nil).CountProjectNotesByTitle), ctx, productID, projectID, title)
+}
+
 // FetchProjectNotes mocks base method.
 func (m *MockProjectNoteQueryService) FetchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, limit, offset uint32) ([]*projectnoteoutput.ProjectNoteOutput, error) {
 	m.ctrl.T.Helper()
@@ -65,4 +81,19 @@ func (m *MockProjectNoteQueryService) FetchProjectNotes(ctx context.Context, pro
 func (mr *MockProjectNoteQueryServiceMockRecorder) FetchProjectNotes(ctx, productID, projectID, limit, offset interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FetchProjectNotes", reflect.TypeOf((*MockProjectNoteQueryService)(nil).FetchProjectNotes), ctx, productID, projectID, limit, offset)
+}
+
+// SearchProjectNotes mocks base method.
+func (m *MockProjectNoteQueryService) SearchProjectNotes(ctx context.Context, productID productdm.ProductID, projectID projectdm.ProjectID, title projectnotedm.Title, limit, offset uint32) ([]*projectnoteoutput.SearchProjectNoteOutPut, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchProjectNotes", ctx, productID, projectID, title, limit, offset)
+	ret0, _ := ret[0].([]*projectnoteoutput.SearchProjectNoteOutPut)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchProjectNotes indicates an expected call of SearchProjectNotes.
+func (mr *MockProjectNoteQueryServiceMockRecorder) SearchProjectNotes(ctx, productID, projectID, title, limit, offset interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchProjectNotes", reflect.TypeOf((*MockProjectNoteQueryService)(nil).SearchProjectNotes), ctx, productID, projectID, title, limit, offset)
 }
