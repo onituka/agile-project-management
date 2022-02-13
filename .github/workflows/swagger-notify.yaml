@@ -1,8 +1,7 @@
 name: Swagger change notification
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [ closed ]
     paths:
       - swagger/**
       - .github/workflows/swagger-notify.yaml
