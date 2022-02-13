@@ -137,7 +137,7 @@ func (r *projectNoteQueryServiceImpl) SearchProjectNotes(ctx context.Context, pr
 		query,
 		productID.Value(),
 		projectID.Value(),
-		fmt.Sprintf("%%%s%%", title),
+		fmt.Sprintf("%%%s%%", title.Value()),
 		limit,
 		offset,
 	)
@@ -178,7 +178,7 @@ func (r *projectNoteQueryServiceImpl) CountProjectNotesByTitle(ctx context.Conte
          AND 
           title LIKE ?`
 
-	if err = conn.QueryRowxContext(ctx, query, productID.Value(), projectID.Value(), fmt.Sprintf("%%%s%%", title)).Scan(&totalCount); err != nil {
+	if err = conn.QueryRowxContext(ctx, query, productID.Value(), projectID.Value(), fmt.Sprintf("%%%s%%", title.Value())).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError
 	}
 
