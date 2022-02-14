@@ -36,4 +36,8 @@ func newProjectNoteRouter(router *mux.Router) {
 	searchProjectNotesUsecase := projectnoteusecase.NewSearchProjectNotesUsecase(projectNoteQueryService, productRepository, projectRepository)
 	searchProjectNotesHandler := projectnotehandler.NewSearchProjectNotesHandler(searchProjectNotesUsecase)
 	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/{projectID:[a-z0-9-]{36}}/notes/search", searchProjectNotesHandler.SearchProjectNotes).Queries("title", "{title}", "page", "{page}", "limit", "{limit}").Methods(http.MethodGet)
+
+	deleteProjectNoteUsecase := projectnoteusecase.NewDeleteProjectNoteUsecase(projectNoteRepository, productRepository, projectRepository)
+	deleteProjectNoteHandler := projectnotehandler.NewDeleteProjectNoteHandler(deleteProjectNoteUsecase)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/{projectID:[a-z0-9-]{36}}/notes/{projectNoteID:[a-z-0-9-]{36}}/delete", deleteProjectNoteHandler.DeleteProjectNote).Methods(http.MethodDelete)
 }

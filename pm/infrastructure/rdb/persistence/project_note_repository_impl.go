@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	"github.com/onituka/agile-project-management/project-management/apperrors"
+	"github.com/onituka/agile-project-management/project-management/domain/productdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	"github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 	"github.com/onituka/agile-project-management/project-management/infrastructure/rdb"
@@ -237,4 +238,34 @@ func (r *projectNoteRepository) FetchProjectNoteByID(ctx context.Context, id pro
 		projectNoteDto.CreatedAt,
 		projectNoteDto.UpdatedAt,
 	)
+}
+
+func (r *projectNoteRepository) DeleteProjectNote(ctx context.Context, id projectnotedm.ProjectNoteID, productID productdm.ProductID, projectID projectdm.ProjectID) error {
+	conn, err := rdb.ExecFromCtx(ctx)
+	if err != nil {
+		return err
+	}
+
+	query := `
+        DELETE 
+        FROM 
+          project_notes
+        WHERE
+          id = ?
+         AND
+          product_id = ?
+         AND 
+          project_id = ?`
+
+	if _, err := conn.ExecContext(
+		ctx,
+		query,
+		id.Value(),
+		productID.Value(),
+		projectID.Value(),
+	); err != nil {
+		return apperrors.InternalServerError
+	}
+
+	return nil
 }
