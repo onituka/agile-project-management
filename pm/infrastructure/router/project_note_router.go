@@ -39,5 +39,5 @@ func newProjectNoteRouter(router *mux.Router) {
 
 	deleteProjectNoteUsecase := projectnoteusecase.NewDeleteProjectNoteUsecase(projectNoteRepository, productRepository, projectRepository)
 	deleteProjectNoteHandler := projectnotehandler.NewDeleteProjectNoteHandler(deleteProjectNoteUsecase)
-	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/{projectID:[a-z0-9-]{36}}/notes/{projectNoteID:[a-z-0-9-]{36}}/delete", deleteProjectNoteHandler.DeleteProjectNote).Methods(http.MethodDelete)
+	router.HandleFunc("/products/{productID:[a-z0-9-]{36}}/projects/{projectID:[a-z0-9-]{36}}/notes/{projectNoteID:[a-z-0-9-]{36}}", deleteProjectNoteHandler.DeleteProjectNote).Methods(http.MethodDelete)
 }
