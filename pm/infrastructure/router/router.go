@@ -30,6 +30,7 @@ func Run() error {
 
 	newProductRouter(router)
 	newProductNoteRouter(router)
+	newProductNoteCommentRouter(router)
 	newProjectRouter(router)
 	newProjectNoteRouter(router)
 
