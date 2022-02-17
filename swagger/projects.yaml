@@ -379,7 +379,7 @@ paths:
                 $ref: "#/components/schemas/500InternalServerError"
 
 
-  /products/{productID}/projects/{projectID}/restre/trash-box:
+  /products/{productID}/projects/{projectID}/restore/trash-box:
     put:
       summary: プロジェクトゴミ箱から復元
       tags: [ Project ]
@@ -541,7 +541,7 @@ components:
     putTrashedProjectResp:
       title: putProjectResp
       allOf:
-        - $ref: "#/components/schemas/TrashedProjectResp"
+        - $ref: "#/components/schemas/trashedProjectResp"
 
 
     getProjectByIDResp:
@@ -596,7 +596,7 @@ components:
         projects:
           type: array
           items:
-            $ref: "#/components/schemas/TrashedProjectResp"
+            $ref: "#/components/schemas/trashedProjectResp"
           example:
             - id: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
               productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
@@ -666,7 +666,7 @@ components:
         projects:
           type: array
           items:
-            $ref: "#/components/schemas/TrashedProjectResp"
+            $ref: "#/components/schemas/trashedProjectResp"
           example:
             - id: 35494ebc-ef1b-46b5-9c7f-35059feff8b8
               productID: afb71541-0b71-4e03-9fdd-2a64f49e14d2
@@ -740,7 +740,7 @@ components:
           type: string
           example: 2021-12-24T00:00:00Z
 
-    TrashedProjectResp:
+    trashedProjectResp:
       title: TrashedprojectResp
       type: object
       properties:
