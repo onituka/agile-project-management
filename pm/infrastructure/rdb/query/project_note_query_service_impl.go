@@ -170,13 +170,13 @@ func (r *projectNoteQueryServiceImpl) CountProjectNotesByTitle(ctx context.Conte
          SELECT 
            COUNT(*)
          FROM
-          project_notes
+           project_notes
          WHERE
-          product_id = ?
+           product_id = ?
          AND 
-          project_id = ?
+           project_id = ?
          AND 
-          title LIKE ?`
+           title LIKE ?`
 
 	if err = conn.QueryRowxContext(ctx, query, productID.Value(), projectID.Value(), fmt.Sprintf("%%%s%%", title.Value())).Scan(&totalCount); err != nil {
 		return 0, apperrors.InternalServerError

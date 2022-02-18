@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	productdm "github.com/onituka/agile-project-management/project-management/domain/productdm"
 	projectdm "github.com/onituka/agile-project-management/project-management/domain/projectdm"
 	projectnotedm "github.com/onituka/agile-project-management/project-management/domain/projectnotedm"
 )
@@ -48,6 +49,20 @@ func (m *MockProjectNoteRepository) CreateProjectNote(ctx context.Context, proje
 func (mr *MockProjectNoteRepositoryMockRecorder) CreateProjectNote(ctx, projectNote interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateProjectNote", reflect.TypeOf((*MockProjectNoteRepository)(nil).CreateProjectNote), ctx, projectNote)
+}
+
+// DeleteProjectNote mocks base method.
+func (m *MockProjectNoteRepository) DeleteProjectNote(ctx context.Context, id projectnotedm.ProjectNoteID, productID productdm.ProductID, projectID projectdm.ProjectID) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteProjectNote", ctx, id, productID, projectID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteProjectNote indicates an expected call of DeleteProjectNote.
+func (mr *MockProjectNoteRepositoryMockRecorder) DeleteProjectNote(ctx, id, productID, projectID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteProjectNote", reflect.TypeOf((*MockProjectNoteRepository)(nil).DeleteProjectNote), ctx, id, productID, projectID)
 }
 
 // FetchProjectNoteByID mocks base method.
