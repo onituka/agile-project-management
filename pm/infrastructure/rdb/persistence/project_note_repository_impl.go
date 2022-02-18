@@ -247,15 +247,15 @@ func (r *projectNoteRepository) DeleteProjectNote(ctx context.Context, id projec
 	}
 
 	query := `
-        DELETE 
-        FROM 
-          project_notes
-        WHERE
-          id = ?
+         DELETE 
+         FROM 
+           project_notes
+         WHERE
+           id = ?
          AND
-          product_id = ?
+           product_id = ?
          AND 
-          project_id = ?`
+           project_id = ?`
 
 	if _, err := conn.ExecContext(
 		ctx,
